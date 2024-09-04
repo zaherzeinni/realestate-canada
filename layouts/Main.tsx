@@ -3,7 +3,7 @@ import Head from "next/head";
 import { Container } from "semantic-ui-react";
 import Footer from "./partials/Footer";
 // import GoTop from './GoTop';
-import Header from "../components/SiteComponents/navbar/Header";
+// import Header from "./partials/";
 
 
 const Layout = ({ children }) => {
@@ -21,7 +21,7 @@ const Layout = ({ children }) => {
             {/* <meta property="og:image" content="https://res.cloudinary.com/dev-empty/image/upload/v1590078952/qlm6qb1hzxd6iccmaf82.jpg" /> */}
         </Head>
         
-        <Header  />
+        {/* <Header  /> */}
             {/* <Container fluid> */}
             <div className='    !w-[100%]'>
 
