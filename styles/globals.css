@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("./siteStyle.css");
+
+body {
+  margin: 0;
+  padding: 0;
+  /* border: 0; */
+  outline: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  /* background-color: white !important; */
+  /* overflow-x: hidden !important; */
+  /* font-family: '"Cairo", sans-serif' !important; */
+}
+
+
+
+
+:root {
+  --primary-color: #29221f;
+  --secondary-color: #575757;
+  --tertiary-color: #c45e4c;
+  /* --quaternary-color: #a38579; */
+  --quaternary-color:#29221f ;
+
+  --quinary-color: #dad7ce;
+  --paper-color: #a3857934;
+  --background-color: #dad7ce;
+}
+
+
+
+
