@@ -27,8 +27,8 @@ import {
 } from "firebase/firestore";
 import { Form, Upload, Input, Select, Switch, InputNumber } from "antd";
 import { useTranslation } from "@/context/useTranslation";
-import TextList from "@/components/SiteComponents/form/textList";
-import MultiTextList from "@/components/SiteComponents/form/MultiTextList";
+// import TextList from "@/components/SiteComponents/form/textList";
+// import MultiTextList from "@/components/SiteComponents/form/MultiTextList";
 
 import { Rating as ReactRating } from "@smastrom/react-rating";
 
@@ -293,13 +293,13 @@ export default function BookCreatePage() {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            {/* <Grid item xs={12} md={6}>
               <TextList type="sizes" form={form} setForm={setForm} />
             </Grid>
 
             <Grid item xs={12} md={12}>
               <MultiTextList type="features" form={form} setForm={setForm} />
-            </Grid>
+            </Grid> */}
 
             <Grid item xs={12} md={12}>
               <TextInput

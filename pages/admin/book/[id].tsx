@@ -24,8 +24,8 @@ import {
 import { Form, Upload, Input, Select, Switch, InputNumber } from "antd";
 import useProducts from "@/hooks/useProducts";
 import useProductDetails from "@/hooks/useProductDetails";
-import TextList from "@/components/SiteComponents/form/textList";
-import MultiTextList from "@/components/SiteComponents/form/MultiTextList";
+// import TextList from "@/components/SiteComponents/form/textList";
+// import MultiTextList from "@/components/SiteComponents/form/MultiTextList";
 
 import { ImageEndpoint, defaultImage, uploadApi } from "@/utils/global";
 export default function BookUpdatePage() {
@@ -295,13 +295,13 @@ export default function BookUpdatePage() {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            {/* <Grid item xs={12} md={6}>
               <TextList type="sizes" form={form} setForm={setForm} />
             </Grid>
 
             <Grid item xs={12} md={12}>
               <MultiTextList type="features" form={form} setForm={setForm} />
-            </Grid>
+            </Grid> */}
 
             <Grid item xs={12} md={12}>
               <TextInput
