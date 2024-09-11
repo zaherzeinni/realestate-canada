@@ -3,7 +3,7 @@
  import React, { useEffect, useMemo, useRef, useState } from "react";
  import { Swiper, SwiperSlide } from "swiper/react";
  import SwiperCore, { Autoplay, EffectFade, Navigation, Pagination } from "swiper";
-import QuantityCounter from "@/uitils/QuantityCounter";
+// import QuantityCounter from "@/uitils/QuantityCounter";
 import DestinationSearch from "./DestinationSearch";
 import TourCategoryDropdown from "./TourCategoryDropdown";
 import GuestDropdown from "./GuestDropdown";
@@ -310,7 +310,7 @@ const Home2Banner = () => {
                           </div>
                           <div className="searchbox-input">
                             <label>Room</label>
-                            <QuantityCounter/>
+                            4
                           </div>
                         </div>
                       </div>
@@ -390,7 +390,7 @@ const Home2Banner = () => {
                           </div>
                           <div className="searchbox-input">
                             <label>Traveler</label>
-                            <QuantityCounter/>
+                            4
                           </div>
                         </div>
                       </div>
@@ -456,7 +456,7 @@ const Home2Banner = () => {
                           </div>
                           <div className="searchbox-input">
                             <label>Traveler</label>
-                            <QuantityCounter/>
+                            4
                           </div>
                         </div>
                       </div>

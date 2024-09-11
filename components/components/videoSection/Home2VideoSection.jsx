@@ -8,7 +8,7 @@ import SwiperCore, {
   Pagination,
 } from "swiper";
 import Link from "next/link";
-import { useCountdownTimer } from "@/hooks/useCountdownTimer";
+import { useCountdownTimer } from "../../../hooks/useCountDownTimer";
 SwiperCore.use([Autoplay, EffectFade, Navigation, Pagination]);
 
 const Home2VideoSection = () => {

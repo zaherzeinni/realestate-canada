@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import destinations from "../../data/destinationData";
+import destinations from "../../../data/destinationData.json";
 const DestinationSearch = ({ destination, style, }) => {
   const [isActive, setIsActive] = useState(false);
   const [filteredDestination, setFilteredDestination] = useState("");

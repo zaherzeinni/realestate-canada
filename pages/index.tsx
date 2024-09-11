@@ -1,18 +1,21 @@
-import Home5About from "../components/components/about/Home5About";
-import Home5Activities from "../components/components/activities/Home5Activities";
-import Home5Banner from "../components/components/banner/Home5Banner";
-import Home5Banner2 from "../components/components/banner/Home5Banner2";
-import Home5Banner3 from "../components/components/banner/Home5Banner3";
-import Home5Blog from "../components/components/blog/Home5Blog";
-import Home5DestinationSlider from "../components/components/destinationSlider/Home5DestinationSlider";
-import Home5Facilities from "../components/components/facilites/Home5Facilities";
+
+
+import Home2About from "../components/components/about/Home2About";
+import Home2Activities from "../components/components/activities/Home2Activities";
+import Home2Banner from "../components/components/banner/Home2Banner";
+import Home2Banner2 from "../components/components/banner/Home2Banner2";
+import Home2Blog from "../components/components/blog/Home2Blog";
+import Home2Destinationslide from "../components/components/destinationSlider/Home2Destinationslide";
 import Footer from "../components/components/footer/Footer";
-import Header5 from "../components/components/header/Header5";
-import Home5Team from "../components/components/team/Home5Team";
-import Home5Testimonial from "../components/components/testimonial/Home5Testimonial";
-import Topbar6 from "../components/components/topbar/Topbar6";
-import Home5Visa from "../components/components/visaComponents/Home5Visa";
-import Home5WhyChoose from "../components/components/whyChoose/Home5WhyChoose";
+import Header2 from "../components/components/header/Header2";
+import Home2Team from "../components/components/team/Home2Team";
+import Home2Testimonial from "../components/components/testimonial/Home2Testimonial";
+import Home2ThrillingTour from "../components/components/tourPackage/Home2ThrillingTour";
+import Home2VideoSection from "../components/components/videoSection/Home2VideoSection";
+import Home2WhyChoose from "../components/components/whyChoose/Home2WhyChoose";
+
+
+
 import React from "react";
 export const metadata = {
   title: "TripRex - Tour & Travel Agency  NextJs Template",
@@ -25,20 +28,18 @@ export const metadata = {
 const page = () => {
   return (
     <div dir="ltr">
-      <Topbar6 />
-      <Header5 />
-      <Home5Banner />
-      <Home5Activities />
-      <Home5About />
-      <Home5DestinationSlider />
-      <Home5Facilities />
-      <Home5WhyChoose />
-      <Home5Banner2 />
-      <Home5Testimonial />
-      <Home5Visa />
-      <Home5Team />
-      <Home5Blog />
-      <Home5Banner3 />
+    <Header2 />
+      <Home2Banner />
+      <Home2Destinationslide />
+      <Home2ThrillingTour />
+      <Home2About />
+      <Home2Activities />
+      <Home2WhyChoose />
+      <Home2Testimonial />
+      <Home2Team />
+      <Home2VideoSection />
+      <Home2Blog />
+      <Home2Banner2 />
       <Footer style="style-2" />
     </div>
   );

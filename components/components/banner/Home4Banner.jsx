@@ -1,6 +1,6 @@
 "use client";
 import React, { useMemo } from "react";
-import QuantityCounter from "@/uitils/QuantityCounter";
+// import QuantityCounter from "@/uitils/QuantityCounter";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, {

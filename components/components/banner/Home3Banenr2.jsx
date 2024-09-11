@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import QuantityCounter from "@/uitils/QuantityCounter";
+// import QuantityCounter from "@/uitils/QuantityCounter";
 import DestinationSearch from "./DestinationSearch";
 import TourCategoryDropdown from "./TourCategoryDropdown";
 import GuestDropdown from "./GuestDropdown";

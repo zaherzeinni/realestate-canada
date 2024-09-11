@@ -65,7 +65,7 @@
     "sass": "^1.77.8",
     "semantic-ui-react": "^2.1.4",
     "styled-components": "^6.0.8",
-    "swiper": "^11.0.5",
+    "swiper": "^8.4.5",
     "swr": "^2.2.2",
     "typescript": "5.2.2",
     "uuid": "^9.0.1",

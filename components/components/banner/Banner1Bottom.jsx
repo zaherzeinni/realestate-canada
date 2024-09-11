@@ -1,5 +1,5 @@
 "use client"
-import QuantityCounter from '@/uitils/QuantityCounter'
+// import QuantityCounter from '@/uitils/QuantityCounter'
 import React from 'react'
 import DestinationSearch from './DestinationSearch'
 import TourTypeDropdown from './TourTypeDropdown'
@@ -183,7 +183,8 @@ const Banner1Bottom = () => {
                         </div>
                         <div className="searchbox-input">
                           <label>Room</label>
-                          <QuantityCounter />
+                          33
+                          {/* <QuantityCounter /> */}
                         </div>
                       </div>
                     </div>
@@ -263,7 +264,8 @@ const Banner1Bottom = () => {
                         </div>
                         <div className="searchbox-input">
                           <label>Traveler</label>
-                          <QuantityCounter/>
+                          4
+                          {/* <QuantityCounter/> */}
                         </div>
                       </div>
                     </div>
@@ -333,7 +335,8 @@ const Banner1Bottom = () => {
                         </div>
                         <div className="searchbox-input">
                           <label>Traveler</label>
-                          <QuantityCounter/>
+                          5
+                          {/* <QuantityCounter/> */}
                         </div>
                       </div>
                     </div>

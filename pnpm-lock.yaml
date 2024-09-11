@@ -70,7 +70,7 @@ specifiers:
   sass: ^1.77.8
   semantic-ui-react: ^2.1.4
   styled-components: ^6.0.8
-  swiper: ^11.0.5
+  swiper: ^8.4.5
   swr: ^2.2.2
   tailwindcss: ^3.3.5
   typescript: 5.2.2
@@ -138,7 +138,7 @@ dependencies:
   sass: 1.77.8
   semantic-ui-react: 2.1.5_biqbaboplfbrettd7655fr4n2y
   styled-components: 6.1.11_biqbaboplfbrettd7655fr4n2y
-  swiper: 11.1.7
+  swiper: 8.4.7
   swr: 2.2.5_react@18.2.0
   typescript: 5.2.2
   uuid: 9.0.1
@@ -5915,6 +5915,12 @@ packages:
       csstype: 3.1.3
     dev: false
 
+  /dom7/4.0.6:
+    resolution: {integrity: sha512-emjdpPLhpNubapLFdjNL9tP06Sr+GZkrIHEXLWvOGsytACUrkbeIdjO5g77m00BrHTznnlcNqgmn7pCN192TBA==}
+    dependencies:
+      ssr-window: 4.0.2
+    dev: false
+
   /dotignore/0.1.2:
     resolution: {integrity: sha512-UGGGWfSauusaVJC+8fgV+NVvBXkCTmVv7sk6nojDZZvuOUNGUy0Zk4UpHQD6EDjS0jpBwcACvH4eofvyzBcRDw==}
     hasBin: true
@@ -10247,6 +10253,10 @@ packages:
     resolution: {integrity: sha512-Oo+0REFV59/rz3gfJNKQiBlwfHaSESl1pcGyABQsnnIfWOFt6JNj5gCog2U6MLZ//IGYD+nA8nI+mTShREReaA==}
     dev: false
 
+  /ssr-window/4.0.2:
+    resolution: {integrity: sha512-ISv/Ch+ig7SOtw7G2+qkwfVASzazUnvlDTwypdLoPoySv+6MqlOV10VwPSE6EWkGjhW50lUmghPmpYZXMu/+AQ==}
+    dev: false
+
   /stack-generator/2.0.10:
     resolution: {integrity: sha512-mwnua/hkqM6pF4k8SnmZ2zfETsRUpWXREfA/goT8SLCV4iOFa4bzOX2nDipWAZFPTjLvQB82f5yaodMVhK0yJQ==}
     dependencies:
@@ -10494,9 +10504,13 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /swiper/11.1.7:
-    resolution: {integrity: sha512-2EpQvhgKb+DNbi8/i9uRXhddivcMZQxca341t2NZYV1xroCR2p4YtYd3azuqRQ4OEBGcG4nv3aN24O80bMipow==}
+  /swiper/8.4.7:
+    resolution: {integrity: sha512-VwO/KU3i9IV2Sf+W2NqyzwWob4yX9Qdedq6vBtS0rFqJ6Fa5iLUJwxQkuD4I38w0WDJwmFl8ojkdcRFPHWD+2g==}
     engines: {node: '>= 4.7.0'}
+    requiresBuild: true
+    dependencies:
+      dom7: 4.0.6
+      ssr-window: 4.0.2
     dev: false
 
   /swr/2.2.5_react@18.2.0:
