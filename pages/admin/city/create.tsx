@@ -11,6 +11,7 @@ import { message, Upload } from "antd";
 import { uploadImages, deleteImage } from "@/utils/getData";
 import AdminMainLayout from "@/components/Site/dashboardLayout";
 import useCountries from "@/hooks/useCountries";
+import useCities from "@/hooks/useCities";
 
 export default function CreateCountry() {
   const { user } = useAuth({
@@ -22,7 +23,8 @@ export default function CreateCountry() {
   const [selectedCountry, setSelectedCountry] = useState({});
 
 
-  const { data, isLoading, error, mutate } = useCountries();
+  const { data, isLoading, error} = useCountries();
+  const { mutate } = useCities();
 
   const Countries = data?.map(country => ({
     label: country.title,
@@ -42,6 +44,7 @@ export default function CreateCountry() {
         country :selectedCountry?.value
       })
       .then((res) => {
+        mutate()
         message.success("Category added successfully")
         //       window.location.href = `/admin/category`;
       })

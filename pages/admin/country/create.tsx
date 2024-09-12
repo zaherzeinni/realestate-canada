@@ -10,7 +10,7 @@ import axios from "axios";
 import { message, Upload } from "antd";
 import { uploadImages, deleteImage } from "@/utils/getData";
 import AdminMainLayout from "@/components/Site/dashboardLayout";
-import useCities from "@/hooks/useCountries";
+import useCountries from "@/hooks/useCountries";
 
 export default function CreateCountry() {
   const { user } = useAuth({
@@ -23,9 +23,11 @@ export default function CreateCountry() {
 
   const [image, setImage] = useState("");
   const [file, setFile] = useState("");
+  const {mutate} = useCountries()
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
 
     // let image: string | any = "";
 
@@ -44,6 +46,7 @@ export default function CreateCountry() {
         titlefr,
       })
       .then((res) => {
+        mutate()
         message.success("Category added successfully")
         //       window.location.href = `/admin/category`;
       })

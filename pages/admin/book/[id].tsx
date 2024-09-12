@@ -486,7 +486,7 @@ const cities = CitiesData?.filter(city => city.country === selectedCountry.value
            
               <Grid item xs={12} md={12}>
                 <h3>Features</h3>
-                <div className=" flex gap-12">
+                <div className="flex gap-4 md:gap-12 w-full flex-wrap">
                   {Object.keys(propertyDetails?.features).map((feature) => (
                     <label
                       className="flex gap-2 hover:cursor-pointer select-none text-sm md:text-base"
@@ -508,7 +508,7 @@ const cities = CitiesData?.filter(city => city.country === selectedCountry.value
 
                 <Grid className="!mt-6" item xs={12} md={12}>
                   <h3>Services</h3>
-                  <div className=" flex gap-12">
+                  <div className="flex gap-4 md:gap-12 w-full flex-wrap">
                     {Object.keys(propertyDetails.services).map((service) => (
                       <label className="" key={service}>
                         <input
