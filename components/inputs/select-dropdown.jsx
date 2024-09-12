@@ -24,6 +24,7 @@ const Select = (props) => {
 
     return (
         <div className="w-full relative select-none hover:cursor-pointer">
+            
             <div
                 className="flex items-center justify-between p-2 w-full rounded-md border border-gray-300 shadow-sm md:text-base"
                 onClick={(e) => {
@@ -47,9 +48,9 @@ const Select = (props) => {
                             onClick={(e) => {
                                 handleClick(e, option);
                             }}
-                            className={`py-2 px-4 hover:bg-primary hover:text-white transition-all ${
+                            className={`py-2 px-4 hover:bg-gray-200 hover:text-black transition-all ${
                                 selected.value === option.value &&
-                                "bg-primary text-white"
+                                "bg-green-600 text-black"
                             }`}
                         >
                             {option.label}

@@ -12,28 +12,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const { id } = req.query;
         let book = await Book.findOne({
           _id: id,
-        }).populate({
-          path: "category",
-          select: "name nametr _id",
-          model: Category,
         });
 
 
 
 
 
-        const related = await Book.find({
-          category: book?.category?._id,
-          _id: { $ne: book._id }, // Exclude the current book from the related products
-      }).sort({viewCount: 'desc'}).limit(4);
-
 
 
 // const bookwithrelated = {...book , related}
-console.log("RELATED AS:ALS" , related)
+console.log("RELATED AS:ALS" ,book)
 
 
-        res.status(200).json({book ,related});
+        res.status(200).json({book});
       } catch (error) {
         console.log(error);
         res.status(400).json({ success: false, error });

@@ -3,7 +3,7 @@ import useAuth from "@/hooks/useAuth";
 import NotFound from "@/pages/404";
 import { PageLayout } from "@/layouts";
 import { Grid } from "@mui/material";
-import { TextInput } from "@/components/inputs";
+import { TextInput ,SelectInput } from "@/components/inputs";
 import { Button } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -28,6 +28,23 @@ import useProductDetails from "@/hooks/useProductDetails";
 // import MultiTextList from "@/components/SiteComponents/form/MultiTextList";
 
 import { ImageEndpoint, defaultImage, uploadApi } from "@/utils/global";
+import AdminMainLayout from "@/components/Site/dashboardLayout";
+
+
+
+const countries = [
+  { label: "House", value: "House" },
+  { label: "Town House", value: "Town House" },
+  { label: "Condo", value: "Condo" },
+  { label: "Land", value: "Land" },
+];
+
+const cities = [
+  { label: "Sale", value: "Sale" },
+  { label: "Rent", value: "Rent" },
+];
+
+
 export default function BookUpdatePage() {
   const { user } = useAuth({
     redirectTo: "/auth/login",
@@ -60,42 +77,128 @@ export default function BookUpdatePage() {
     features: [],
   });
 
+  const [propertyDetails, setPropertyDetails] = useState({
+    propertyId: "",
+    title: "",
+    titlefr: "",
+    story: "",
+    storyfr: "",
+    country: "",
+    city: "",
+    price: "",
+    rating: 0,
+    cover: "",
+    image: [],
+    sizes: [],
+    featuresPlus: [],
+    author: "",
+    details: {
+      areaSqM: 0,
+      beds: 0,
+      baths: 0,
+    },
+    features: {
+      ac: false,
+      balcony: false,
+      tv: false,
+      internet: false,
+      pet: false,
+      bathtub: false,
+    },
+    services: {
+      security: false,
+      cctv: false,
+      elevator: false,
+      pool: false,
+      gym: false,
+      parking: false,
+      garden: false,
+    },
+    coordinate: {
+      lat: "",
+      lng: "",
+    },
+    address: "",
+    addBy: "Admin",
+  });
+
+  const [selectedCountry, setSelectedCountry] = useState({});
+  const [selectedCity, setSelectedCity] = useState({});
+
+
+
+
   useEffect(() => {
     if (!id) return;
     axios.get(`/api/book/${id}`).then((res) => {
       const {
-        data: { book },
+        data:{book}
       } = res;
-      setTitle(book?.title);
-      setPrice(book?.price);
-      setStory(book?.story);
-      setStorytr(book?.storytr);
-      setRating(book?.rating);
-      setOmanPrice(book?.omanprice);
-      setQatarPrice(book?.qatarprice);
-      setSaudiPrice(book?.saudiprice);
-      setEmiratesPrice(book?.emiratesprice);
-      setTPrice(book?.tprice);
-
-      setEgyptPrice(book?.egyptprice);
-
-      setImage(book?.cover);
-
-      setTitletr(book?.titletr);
-      setForm((prevForm) => ({
-        ...prevForm,
-        sizes: book?.sizes,
-      }));
-
-      setForm((prevForm) => ({
-        ...prevForm,
-        features: book?.features,
-      }));
-
+      console.log("??>>" , book)
+   setPropertyDetails(book)
+setImage(book?.cover)
       setImages(book?.image);
       setRootImages(book?.image);
     });
   }, [id]);
+
+
+
+    // Handle input changes for the form
+    const handleInputChange = (name, value) => {
+      // Handle nested properties
+      const parsedValue = name.includes('details.') ? parseInt(value, 10) : value;
+      if (name.includes(".")) {
+  
+       
+  
+        const [parent, child] = name.split(".");
+        setPropertyDetails((prev) => ({
+          ...prev,
+          [parent]: {
+            ...prev[parent],
+            [child]: parsedValue,
+          },
+        }));
+      } else {
+        setPropertyDetails((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
+      }
+    };
+  
+    const handleCheckboxChange = (name) => {
+      const [parent, child] = name.split('.');
+  
+      // Log the checkbox name and current state
+      console.log('Checkbox name:', name);
+      console.log('Current parent state:', propertyDetails[parent]);
+      
+      // Update the state
+      setPropertyDetails((prev) => ({
+        ...prev,
+        [parent]: {
+          ...prev[parent],
+          [child]: !prev[parent]?.[child], // Use optional chaining to avoid errors
+        },
+      }));
+    };
+    useEffect(() => {
+      if (selectedCountry.value) {
+        setPropertyDetails((prev) => ({
+          ...prev,
+          country: selectedCountry.value,
+          city: selectedCity.value,
+        }));
+      }
+    }, [selectedCountry, selectedCity]);
+  
+  
+
+
+
+
 
   const handleUploadImages = async (filesarray: any) => {
     try {
@@ -208,29 +311,19 @@ export default function BookUpdatePage() {
   console.log("ITEREABLE" ,newImagesUploaded)
     imagesData =newImagesUploaded?.length > 0 ?  [...images , ...newImagesUploaded]  : images;
 
-    if (form?.sizes?.length < 1) {
-      message.error("اضف مقاس واحد على الاقل");
-    }
+    // if (form?.sizes?.length < 1) {
+    //   message.error("اضف مقاس واحد على الاقل");
+    // }
+
+    const updatedDetails = {
+      ...propertyDetails,
+      cover:newimage,
+      image:imagesData, // Include images in the submission
+    };
 
     await axios
-      .put(`/api/book/${id}/handler`, {
-        title,
-        price,
-        saudiprice,
-        tprice,
-        omanprice,
-        qatarprice,
-        egyptprice,
-        emiratesprice,
-        story,
-        storytr,
-        titletr,
-        cover: newimage,
-        rating: rating,
-        sizes: form?.sizes,
-        features: form?.features,
-        image: imagesData,
-      })
+      .put(`/api/book/${id}/handler`, updatedDetails
+       )
 
       //   await mutate()
       // Revalidate the products data
@@ -249,84 +342,192 @@ export default function BookUpdatePage() {
       <Head>
         <title>تعديل المنتج - Outlet Turkey</title>
       </Head>
+      <AdminMainLayout>
+
+    
       <PageLayout title="تعديل المنتج">
         <form className=" p-20 !bg-white" onSubmit={handleUpdate}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <TextInput
-                name="title"
-                label="عنوان المنتج"
-                required
-                focused
-                value={title}
-                onChange={setTitle}
-              />
-            </Grid>
+        
 
-            <Grid item xs={12} md={6}>
-              <TextInput
-                name="title"
-                label="عنوان المنتج باللغة الانكليزية"
-                required
-                value={titletr}
-                onChange={setTitletr}
-              />
-            </Grid>
+          <Grid item xs={12} md={6}>
+                <TextInput
+                  name="propertyId"
+                  label="Property ID"
+                  required
+                  value={propertyDetails?.propertyId}
+                  onChange={(value) => handleInputChange("propertyId", value)}
+                />
+              </Grid>
 
-            <Grid item xs={12} md={4}>
-              <TextInput
-                name="price"
-                label="سعر المنتج"
-                type="number"
-                required
-                value={price}
-                onChange={setPrice}
-              />
-            </Grid>
+              <Grid item xs={12} md={6}>
+                <TextInput
+                  name="title"
+                  label="Title"
+                  required
+                  value={propertyDetails?.title}
+                  onChange={(value) => handleInputChange("title", value)}
+                />
+              </Grid>
 
-            <Grid item xs={12} md={12}>
-              <TextInput
-                type="number"
-                name="star"
-                label="تقييم المنتج"
-                required
-                value={rating}
-                onChange={setRating}
-              />
-            </Grid>
+              <Grid item xs={12} md={6}>
+                <TextInput
+                  name="titlefr"
+                  label="Titlefr"
+                  required
+                  value={propertyDetails?.titlefr}
+                  onChange={(value) => handleInputChange("titlefr", value)}
+                />
+              </Grid>
 
-            {/* <Grid item xs={12} md={6}>
-              <TextList type="sizes" form={form} setForm={setForm} />
-            </Grid>
+              <Grid item xs={12} md={6}>
+                <SelectInput
+                  placeholder="Select Country"
+                  options={countries}
+                  selected={selectedCountry}
+                  setSelected={setSelectedCountry}
+                />
+              </Grid>
 
-            <Grid item xs={12} md={12}>
-              <MultiTextList type="features" form={form} setForm={setForm} />
-            </Grid> */}
 
-            <Grid item xs={12} md={12}>
-              <TextInput
-                multiline
-                focused
-                rows={4}
-                name="story"
-                label="تفاصيل المنتج"
-                required
-                value={story}
-                onChange={setStory}
-              />
-            </Grid>
+              <Grid item xs={12} md={6}>
+                <SelectInput
+                  placeholder="Select City"
+                  options={cities}
+                  selected={selectedCity}
+                  setSelected={setSelectedCity}
+                />
+              </Grid>
 
-            <Grid item xs={12} md={12}>
-              <TextInput
-                multiline
-                rows={4}
-                name="story"
-                label="تفاصيل المنتج باللغة الانكليزية"
-                required
-                value={storytr}
-                onChange={setStorytr}
-              />
-            </Grid>
+              <Grid item xs={12} md={6}>
+                <TextInput
+                  name="price"
+                  label="Price"
+                  required
+                  type="number"
+                  value={propertyDetails?.price}
+                  onChange={(value) => handleInputChange("price", value)}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={12}>
+                <TextInput
+                  name="rating"
+                  label="Rating"
+                  type="number"
+                  value={propertyDetails?.rating}
+                  onChange={(value) => handleInputChange("rating", value)}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextInput
+                  name="address"
+                  label="Address"
+                  required
+                  value={propertyDetails.address}
+                  onChange={(value) => handleInputChange("address", value)}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextInput
+                  name="details.beds"
+                  label="Number of Beds"
+                  required
+                  type="number"
+                  value={propertyDetails.details.beds}
+                  onChange={(value) => handleInputChange("details.beds", value)}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextInput
+                  name="details.baths"
+                  label="Number of Baths"
+                  required
+                  type="number"
+                  value={propertyDetails.details.baths}
+                  onChange={(value) =>
+                    handleInputChange("details.baths", value)
+                  }
+                />
+              </Grid>
+
+          
+           
+              <Grid item xs={12} md={12}>
+                <h3>Features</h3>
+                <div className=" flex gap-12">
+                  {Object.keys(propertyDetails?.features).map((feature) => (
+                    <label
+                      className="flex gap-2 hover:cursor-pointer select-none text-sm md:text-base"
+                      key={feature}
+                    >
+                      {feature === 'true' ? 'checked' : 'NOOT'}
+                      <input
+                        className="p-2 block rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm text-sm md:text-base hover:cursor-pointer"
+                        type="checkbox"
+                      
+                        checked={propertyDetails.features[feature]}
+                        onChange={(e) => handleCheckboxChange(`features.${feature}`)}
+                        
+                      />
+                      {feature.charAt(0).toUpperCase() + feature.slice(1)}
+                    </label>
+                  ))}
+                </div>
+
+                <Grid className="!mt-6" item xs={12} md={12}>
+                  <h3>Services</h3>
+                  <div className=" flex gap-12">
+                    {Object.keys(propertyDetails.services).map((service) => (
+                      <label className="" key={service}>
+                        <input
+                          className="p-2 block rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm text-sm md:text-base hover:cursor-pointer"
+                          type="checkbox"
+                          checked={propertyDetails.services[service]}
+                          onChange={() =>
+                            handleInputChange(
+                              `services.${service}`,
+                              !propertyDetails.services[service]
+                            )
+                          }
+                        />
+                        {service.charAt(0).toUpperCase() + service.slice(1)}
+                      </label>
+                    ))}
+                  </div>
+                </Grid>
+              </Grid>
+
+              <Grid item xs={12} md={12}>
+                <TextInput
+                  name="story"
+                  label="Story"
+                  required
+                  multiline
+                  rows={4}
+                  value={propertyDetails.story}
+                  onChange={(value) => handleInputChange("story", value)}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={12}>
+                <TextInput
+                  name="storyfr"
+                  label="Storyfr"
+                  required
+                  multiline
+                  rows={4}
+                  value={propertyDetails.storyfr}
+                  onChange={(value) => handleInputChange("storyfr", value)}
+                />
+              </Grid>
+
+       
+         
+            
 
             <Grid item xs={12} md={12}>
               <div>
@@ -432,6 +633,7 @@ export default function BookUpdatePage() {
           </Grid>
         </form>
       </PageLayout>
+      </AdminMainLayout>
     </div>
   );
 }

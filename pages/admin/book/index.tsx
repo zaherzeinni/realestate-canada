@@ -1,4 +1,4 @@
-import { useState, useEffect ,useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { DropDownCategories } from "@/components/category";
 import { TextInput } from "@/components/inputs";
 import { PageLayout } from "@/layouts";
@@ -14,17 +14,11 @@ import { Typography, Button, IconButton } from "@material-ui/core";
 import axios from "axios";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import {  deleteImage } from "@/utils/getData";
-
-
+import { deleteImage } from "@/utils/getData";
 
 import { useLanguageContext } from "@/context/languageContext";
 
 import { useTranslation } from "@/context/useTranslation";
-
-
-
-
 
 import {
   Table,
@@ -43,6 +37,7 @@ import { message } from "antd";
 import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
 import useProducts from "@/hooks/useProducts";
+import AdminMainLayout from "@/components/Site/dashboardLayout";
 
 interface Book {
   _id: string | number;
@@ -95,7 +90,11 @@ export default function AllBooks() {
 
   // ----------
 
-  const {data ,isLoading ,error, mutate} = useProducts({page ,category ,search})
+  const { data, isLoading, error, mutate } = useProducts({
+    page,
+    category,
+    search,
+  });
 
   console.log("DATA-->", data);
 
@@ -132,12 +131,12 @@ export default function AllBooks() {
 
   if (error) return <div>failed to load</div>;
 
-  const handleDelete = (id: number ,image:string) => {
+  const handleDelete = (id: number, image: string) => {
     if (!id) return;
     if (!confirm("هل انت متأكد من حذف المنتج ؟")) return;
     axios
       .delete(`/api/book/${id}/handler`)
-      .then(async(res) => {
+      .then(async (res) => {
         await deleteImage(image);
         message.success("تم حذف المنتج بنجاح");
         mutate();
@@ -150,201 +149,172 @@ export default function AllBooks() {
       });
   };
 
+  const { language, changeLanguage } = useLanguageContext();
 
-  
- const { language, changeLanguage } = useLanguageContext();
+  const { translation } = useTranslation();
 
- const { translation } = useTranslation();
-
- const t = useMemo(() => translation ?? {}, [translation]);
-
-
-
+  const t = useMemo(() => translation ?? {}, [translation]);
 
   return (
     <>
       <Head>
         <title>Outlet Turkey</title>
-        <meta
-          name="description"
-           content="متجر لبيع كافة ماتحتاجه"
-        />
+        <meta name="description" content="متجر لبيع كافة ماتحتاجه" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="" />
       </Head>
+      <AdminMainLayout>
+
+   
       <PageLayout title="المنتجات">
         <div className=" !p-20">
-
-      
-        <AnimatedTypography
-          align="center"
-          style={{
-            marginBottom: "40px",
-          }}
-          gutterBottom
-        >
-          قائمة المنتجات
-        </AnimatedTypography>
-        {isPreview && (
-          <Alert severity="warning" style={{ marginBottom: "2rem" }}>
-            <AlertTitle>
-              <strong>تنبيه</strong>
-            </AlertTitle>
-            الصور للعرض فقط ولن يحصل عليها العميل مع الملفات.
-          </Alert>
-        )}
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={9}>
-            <TextInput label="البحث عن منتج" onChange={handleSearch} />
-          </Grid>
-          <Grid className="top-45" item xs={12} md={3}>
-            <DropDownCategories
-            dir={'rtl'}
-              getAllCategories={true}
-              setCategory={(value: string) => handleChangeCategory(value)}
-              selectedCategory={category}
-            />
-          </Grid>
-          {!data?.books || isLoading || !data ? (
-            <Loading />
-          ) : data?.books.length > 0 ? (
-            <>
-              {data?.books?.length > 0 ? (
-                <TableContainer
-                  sx={{
-                    marginTop: "20px",
-                  }}
-                  component={Paper}
-                >
-                  <Table
-                    aria-label="Orders table"
-                    sx={{
-                      minWidth: "100%",
-                      direction: "rtl",
-                      ":lang": {
-                        direction: "rtl",
-                      },
-                    }}
-                  >
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>
-                          <Typography>عنوان المنتج</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography>السعر الجملي</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography>تاريخ الانشاء</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography>العمليات</Typography>
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {map(data?.books, (book: any, index: number) => {
-                        return (
-                          <TableRow key={index}>
-                            <TableCell>
-                              <Typography>{book?.title}</Typography>
-                            </TableCell>
-                            <TableCell>
-                              <Typography>{book.price}</Typography>
-                            </TableCell>
-                            <TableCell>
-                              <Typography>
-                                {new Date(book.createdAt).toLocaleDateString()}
-                              </Typography>
-                            </TableCell>
-                            <TableCell className="btn-icons">
-                              <IconButton onClick={() => {}}>
-                                <Link href={`/admin/book/${book?._id}`}>
-                                  <EyeIcon size={20} fill="#29221f" />
-                                </Link>
-                              </IconButton>
-                              <IconButton
-                                className="btn-spacing"
-                                //   onClick={() => (window.location.href = `/admin/book/${book._id}`)}
-                              >
-                                <Link href={`/admin/book/${book._id}`}>
-                                  <EditIcon size={20} fill="#c45e4c" />
-                                </Link>
-                              </IconButton>
-
-                              <IconButton
-                                onClick={() => {
-                                  handleDelete(book._id ,book?.cover);
-                                }}
-                              >
-                                <DeleteIcon size={20} fill="#c45e4c" />
-                              </IconButton>
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    </TableBody>
-                  </Table>
-
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      marginTop: "2rem",
-                      marginBottom: "2rem",
-                    }}
-                  >
-                    <Pagination
-                      onChange={(e, i) => {
-                        handlePageChange(e, i);
-                      }}
-                      count={data?.pages}
-                      defaultPage={page}
-                      page={page}
-                      siblingCount={0}
-                      shape="rounded"
-                      color="primary"
-                      showFirstButton
-                      showLastButton
-                    />
-                  </Box>
-                </TableContainer>
-              ) : (
-                <NoData description="لا توجد طلبات بعد" />
-              )}
-            </>
-          ) : (
-            <NoData />
+          <AnimatedTypography
+            align="center"
+            style={{
+              marginBottom: "40px",
+            }}
+            gutterBottom
+          >
+            قائمة المنتجات
+          </AnimatedTypography>
+          {isPreview && (
+            <Alert severity="warning" style={{ marginBottom: "2rem" }}>
+              <AlertTitle>
+                <strong>تنبيه</strong>
+              </AlertTitle>
+              الصور للعرض فقط ولن يحصل عليها العميل مع الملفات.
+            </Alert>
           )}
-        </Grid>
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={9}>
+              <TextInput label="البحث عن منتج" onChange={handleSearch} />
+            </Grid>
+            <Grid className="top-45" item xs={12} md={3}>
+              <DropDownCategories
+                dir={"rtl"}
+                getAllCategories={true}
+                setCategory={(value: string) => handleChangeCategory(value)}
+                selectedCategory={category}
+              />
+            </Grid>
+            {!data?.books || isLoading || !data ? (
+              <Loading />
+            ) : data?.books.length > 0 ? (
+              <>
+                {data?.books?.length > 0 ? (
+                  <TableContainer
+                    sx={{
+                      marginTop: "20px",
+                    }}
+                    component={Paper}
+                  >
+                    <Table
+                      aria-label="Orders table"
+                      sx={{
+                        minWidth: "100%",
+                        direction: "rtl",
+                        ":lang": {
+                          direction: "rtl",
+                        },
+                      }}
+                    >
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>
+                            <Typography>عنوان المنتج</Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography>السعر الجملي</Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography>تاريخ الانشاء</Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography>العمليات</Typography>
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {map(data?.books, (book: any, index: number) => {
+                          return (
+                            <TableRow key={index}>
+                              <TableCell>
+                                <Typography>{book?.title}</Typography>
+                              </TableCell>
+                              <TableCell>
+                                <Typography>{book?.price}</Typography>
+                              </TableCell>
+                              <TableCell>
+                                <Typography>
+                                  {new Date(
+                                    book.createdAt
+                                  ).toLocaleDateString()}
+                                </Typography>
+                              </TableCell>
+                              <TableCell className="btn-icons">
+                                <IconButton onClick={() => {}}>
+                                  <Link href={`/admin/book/${book?._id}`}>
+                                    <EyeIcon size={20} fill="#29221f" />
+                                  </Link>
+                                </IconButton>
+                                <IconButton
+                                  className="btn-spacing"
+                                  //   onClick={() => (window.location.href = `/admin/book/${book._id}`)}
+                                >
+                                  <Link href={`/admin/book/${book._id}`}>
+                                    <EditIcon size={20} fill="#c45e4c" />
+                                  </Link>
+                                </IconButton>
 
+                                <IconButton
+                                  onClick={() => {
+                                    handleDelete(book._id, book?.cover);
+                                  }}
+                                >
+                                  <DeleteIcon size={20} fill="#c45e4c" />
+                                </IconButton>
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: "2rem",
+                        marginBottom: "2rem",
+                      }}
+                    >
+                      <Pagination
+                        onChange={(e, i) => {
+                          handlePageChange(e, i);
+                        }}
+                        count={data?.pages}
+                        defaultPage={page}
+                        page={page}
+                        siblingCount={0}
+                        shape="rounded"
+                        color="primary"
+                        showFirstButton
+                        showLastButton
+                      />
+                    </Box>
+                  </TableContainer>
+                ) : (
+                  <NoData description="لا توجد طلبات بعد" />
+                )}
+              </>
+            ) : (
+              <NoData />
+            )}
+          </Grid>
         </div>
-
-
-
       </PageLayout>
 
-      {/* <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "2rem",
-        }}
-      >
-        <Pagination
-          onChange={(e, i) => {
-            handlePageChange(e, i);
-          }}
-          count={pages}
-          defaultPage={page}
-          page={page}
-          siblingCount={0}
-          shape="rounded"
-          color="primary"
-          showFirstButton
-          showLastButton
-        />
-      </Box> */}
+      </AdminMainLayout>
 
       <CartButton user={localUser} />
     </>

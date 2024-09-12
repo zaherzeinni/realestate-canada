@@ -4,13 +4,18 @@ import Category from "./category";
 
 const schema = new mongoose.Schema(
   {
+    propertyId: {
+      type: String,
+      required: [true, "Please Enter Property ID"],
+    },
+
     title: {
       type: String,
       required: true,
       trim: true,
     },
 
-    titletr: {
+    titlefr: {
       type: String,
       required: true,
       trim: true,
@@ -24,11 +29,23 @@ const schema = new mongoose.Schema(
       default: "",
     },
 
-    storytr: {
+    storyfr: {
       type: String,
       required: true,
       trim: true,
       default: "",
+    },
+
+    country: {
+      type: String,
+      required: true,
+      default: 0,
+      min: 0,
+    },
+
+    city: {
+      type: String,
+      required: true,
     },
 
     price: {
@@ -38,51 +55,9 @@ const schema = new mongoose.Schema(
       min: 0,
     },
 
-    tprice: {
-      type: Number,
-      required: true,
-      default: 0,
-      min: 0,
-    },
-
-    saudiprice: {
-      type: Number,
-      required: true,
-      default: 0,
-      min: 0,
-    },
-
-    emiratesprice: {
-      type: Number,
-      required: true,
-      default: 0,
-      min: 0,
-    },
-
-    egyptprice: {
-      type: Number,
-      required: true,
-      default: 0,
-      min: 0,
-    },
-
-    omanprice: {
-      type: Number,
-      required: true,
-      default: 0,
-      min: 0,
-    },
-
-    qatarprice: {
-      type: Number,
-      required: true,
-      default: 0,
-      min: 0,
-    },
-
     rating: {
       type: Number,
-      required: true,
+      required: false,
       default: 0,
       min: 0,
     },
@@ -90,16 +65,56 @@ const schema = new mongoose.Schema(
     cover: String,
     image: { type: [String], default: [] },
     sizes: { type: [String], default: [] },
-    features: { type: [], default: [] },
+    featuresPlus: { type: [], default: [] },
     author: String,
-    category: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: "Category",
+
+    details: {
+      areaSqM: {
+        type: Number,
+        default: 0,
+      },
+      beds: {
+        type: Number,
+        required: true,
+      },
+      baths: {
+        type: Number,
+        required: true,
+      },
     },
-    addBy: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: "User",
+
+    features: {
+      ac: { type: Boolean, default: false },
+      balcony: { type: Boolean, default: false },
+      tv: { type: Boolean, default: false },
+      internet: { type: Boolean, default: false },
+      pet: { type: Boolean, default: false },
+      bathtub: { type: Boolean, default: false },
     },
+    services: {
+      security: { type: Boolean, default: false },
+      cctv: { type: Boolean, default: false },
+      elevator: { type: Boolean, default: false },
+      pool: { type: Boolean, default: false },
+      gym: { type: Boolean, default: false },
+      parking: { type: Boolean, default: false },
+      garden: { type: Boolean, default: false },
+    },
+
+    coordinate: {
+      lat: { type: String },
+      lng: { type: String },
+    },
+
+    address: {
+      type: String,
+      required: true,
+    },
+
+    // addBy: {
+    //   type: mongoose.SchemaTypes.ObjectId,
+    //   ref: "User",
+    // },
   },
   {
     timestamps: true,
@@ -121,11 +136,11 @@ schema.statics.paginate = async function ({
     .limit(limit)
     .skip(skip)
     .sort({ createdAt: sort })
-    .populate({
-      path: "category",
-      select: "name nametr",
-      model: Category,
-    })
+    // .populate({
+    //   path: "category",
+    //   select: "name nametr",
+    //   model: Category,
+    // })
     .exec();
 
   const pages = Math.ceil((await this.count({ ...where }).exec()) / limit);

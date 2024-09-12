@@ -16,32 +16,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case "POST":
       try {
-        const { title, story,titletr ,storytr,price, category, author, cover ,rating ,sizes ,image ,     saudiprice,
-          omanprice,
-          qatarprice,
-          egyptprice,
-          tprice,
-          emiratesprice,features } = req.body;
-        const newBook = await Book.create({
-          title,
-          titletr,
-          story,
-          storytr,
-          price,
-          category,
-          author,
-          cover,
-          addBy: user._id,
-          rating,sizes ,
-          features,
-          image,
-          saudiprice,
-          omanprice,
-          qatarprice,
-          egyptprice,
-          emiratesprice,
-          tprice
-        });
+   const data = req.body
+   console.log("DAYA" , data)
+        const newBook = await Book.create(
+          data
+        );
         res.status(201).json(newBook._id);
       } catch (error) {
         res.status(400).json({ success: false, error });

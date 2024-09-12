@@ -29,6 +29,10 @@ export default function DashboardPage({
     redirectIfFound: false,
   });
   if (user && user.role !== "admin") return <NotFound />;
+
+
+
+  
   return (
     <div className="about-area">
       <Head>

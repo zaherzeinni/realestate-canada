@@ -26,47 +26,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     case "PUT":
       try {
         const { id } = req.query;
-        const {
-          title,
-          price,
-          story,
-          cover,
-          titletr,
-          storytr,
-          rating,
-          sizes,
-          image,
-          features,
-          saudiprice,
-          omanprice,
-          qatarprice,
-          egyptprice,
-          emiratesprice,
-          tprice
-        } = req.body;
+        const data   = req.body;
         await Book.updateOne(
           {
             _id: id,
           },
-          {
-            title,
-
-            titletr,
-            price,
-            story,
-            storytr,
-            cover,
-            rating,
-            features,
-            sizes,
-            image,
-            saudiprice,
-            omanprice,
-            qatarprice,
-            egyptprice,
-            emiratesprice,
-            tprice
-          }
+         data
         );
         res.status(201).json({ success: true, message: "Book updated" });
       } catch (error) {
@@ -79,13 +44,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const { id } = req.query;
         const books = await Book.find({
           category: id,
-        })
-          .populate({
-            path: "category",
-            select: "name nametr _id",
-            model: Category,
-          })
-          .sort({
+        }).sort({
             createdAt: -1,
           });
 
