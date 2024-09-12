@@ -2,7 +2,7 @@ import auth from "@/utils/auth";
 import type { NextApiRequest, NextApiResponse } from "next";
 import Blog from "@/models/blog";
 import dbConnect from "@/utils/dbConnect";
-import Category from "@/models/category";
+
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();

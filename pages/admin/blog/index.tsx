@@ -36,9 +36,8 @@ import useAuth from "@/hooks/useAuth";
 import { message } from "antd";
 import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
-import useProducts from "@/hooks/useProducts";
-import useCities from "@/hooks/useCities";
-import useCountries from "@/hooks/useCountries";
+import useBlogs from "@/hooks/useBlogs";
+
 import AdminMainLayout from "@/components/Site/dashboardLayout";
 
 interface Book {
@@ -81,9 +80,7 @@ export default function AllBooks() {
     redirectIfFound: false,
   });
 
-  //const [books, setBooks] = useState<Book[]>();
-  const [country, setCountry] = useState<any>({});
-  const [city, setCity] = useState<any>({});
+
   //const [pages, setPages] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
@@ -92,10 +89,9 @@ export default function AllBooks() {
 
   // ----------
 
-  const { data, isLoading, error, mutate } = useProducts({
+  const { data, isLoading, error, mutate } = useBlogs({
     page,
-    country: country.value,
-    city: city.value,
+    
     search,
   });
 
@@ -125,9 +121,7 @@ export default function AllBooks() {
     setLocalUser(localUserFromStorage);
   }, []);
 
-  useEffect(() => {
-    mutate();
-  }, [city, country]);
+
 
   if (error) return <div>failed to load</div>;
 
@@ -135,7 +129,7 @@ export default function AllBooks() {
     if (!id) return;
     if (!confirm("هل انت متأكد من حذف المنتج ؟")) return;
     axios
-      .delete(`/api/book/${id}/handler`)
+      .delete(`/api/blog/${id}/handler`)
       .then(async (res) => {
         await deleteImage(image);
         message.success("تم حذف المنتج بنجاح");
@@ -155,29 +149,8 @@ export default function AllBooks() {
 
   const t = useMemo(() => translation ?? {}, [translation]);
 
-  const {
-    data: citiesData,
-    isLoading: isLoadingCountries,
-    error: errorcount,
-  } = useCountries();
-  const countries = citiesData?.map((country) => ({
-    label: country.title,
-    value: country.title,
-  }));
 
-  const {
-    data: CitiesData,
-    isLoading: loadCities,
-    error: errorCities,
-  } = useCities();
 
-  // console.log("CITIES" , CitiesData)
-  const cities = CitiesData?.filter(
-    (city) => city.country === country.value
-  ).map((city) => ({
-    label: city.title,
-    value: city.title,
-  }));
 
   return (
     <>
@@ -197,30 +170,15 @@ export default function AllBooks() {
               }}
               gutterBottom
             >
-              All Properties {country?.value}
+              All Blogs 
             </AnimatedTypography>
 
             <Grid container spacing={4}>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={8}>
                 <TextInput label="Serach..." onChange={handleSearch} />
               </Grid>
-              <Grid className="top-45" item xs={12} md={3}>
-                <SelectInput
-                  placeholder="Select Country"
-                  options={countries}
-                  selected={country}
-                  setSelected={setCountry}
-                />
-              </Grid>
-
-              <Grid className="top-45" item xs={12} md={3}>
-                <SelectInput
-                  placeholder="Select City"
-                  options={cities}
-                  selected={city}
-                  setSelected={setCity}
-                />
-              </Grid>
+             
+           
 
               {!data?.books || isLoading || !data ? (
                 <Loading />
@@ -286,7 +244,7 @@ export default function AllBooks() {
                                     className="btn-spacing"
                                     //   onClick={() => (window.location.href = `/admin/book/${book._id}`)}
                                   >
-                                    <Link href={`/admin/book/${book._id}`}>
+                                    <Link href={`/admin/blog/${book._id}`}>
                                       <EditIcon size={20} fill="#c45e4c" />
                                     </Link>
                                   </IconButton>

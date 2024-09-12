@@ -17,7 +17,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         // const Blogwithrelated = {...Blog , related}
         console.log("RELATED AS:ALS", blog);
 
-        res.status(200).json({ Blog });
+        res.status(200).json({ book:blog });
       } catch (error) {
         console.log(error);
         res.status(400).json({ success: false, error });
