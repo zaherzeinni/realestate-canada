@@ -1,6 +1,6 @@
 //@ts-nocheck
 import type { NextApiRequest, NextApiResponse } from "next";
-import Book from "@/models/book";
+import Blog from "@/models/Blog";
 import dbConnect from "@/utils/dbConnect";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -12,8 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const {
           page = 1,
           sort,
-          country = "",
-          city="",
+        
           limit = 4,
           search = "",
         } = req.query;
@@ -25,21 +24,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           where["title"] = { $regex: search, $options: "i" };
         }
 
-        // if (category && category !== "") {
-        //   where["category"] = category;
-        // }
+      
 
-        if (city && city !== "") {
-          where["city"] = city;
-        }
-
-        const { books, pages } = await Book.paginate({
+        const { Blogs, pages } = await Blog.paginate({
           page,
           limit,
           sort,
           where,
         });
-        res.status(200).json({ books, pages });
+        res.status(200).json({ Blogs, pages });
       } catch (error) {
         console.error(error?.message);
         res.status(400).json({ success: false, error });

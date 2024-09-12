@@ -6,7 +6,7 @@ import Router from "next/router";
 
 interface Query {
   page?: string | number;
-  category?: string;
+
   search?: string;
 }
 
@@ -14,19 +14,26 @@ interface BookDetails {
   id: string;
   title: string;
   author: string;
-  description: string;
+  story: string;
   price: number;
   image: string;
 }
 
 const fetcher = (url: string) => axios.get(url).then(({ data }: any) => data);
 
-export default function useCategories({
-    
-} = {}) {
+export default function useBlogs({
+  page = 1,
+  search="",
+
+}: Query = {}) {
+  // console.log(">C<>" , category)
   const { data, isLoading, error, mutate } = useSWR(
-    `/api/category/handler`,
-    fetcher,
+
+    `/api/blog/main/?page=${page}&search=${search}`,
+    fetcher
+    
+    ,
+
     {
       dedupingInterval: 3600000,
       revalidateOnFocus: false,

@@ -29,20 +29,22 @@ import useProductDetails from "@/hooks/useProductDetails";
 
 import { ImageEndpoint, defaultImage, uploadApi } from "@/utils/global";
 import AdminMainLayout from "@/components/Site/dashboardLayout";
+import useCountries from "@/hooks/useCountries";
+
+import useCities from "@/hooks/useCities";
 
 
+// const countries = [
+//   { label: "House", value: "House" },
+//   { label: "Town House", value: "Town House" },
+//   { label: "Condo", value: "Condo" },
+//   { label: "Land", value: "Land" },
+// ];
 
-const countries = [
-  { label: "House", value: "House" },
-  { label: "Town House", value: "Town House" },
-  { label: "Condo", value: "Condo" },
-  { label: "Land", value: "Land" },
-];
-
-const cities = [
-  { label: "Sale", value: "Sale" },
-  { label: "Rent", value: "Rent" },
-];
+// const cities = [
+//   { label: "Sale", value: "Sale" },
+//   { label: "Rent", value: "Rent" },
+// ];
 
 
 export default function BookUpdatePage() {
@@ -53,20 +55,10 @@ export default function BookUpdatePage() {
   const router = useRouter();
   const { id } = router.query;
 
-  const [title, setTitle] = useState("");
-  const [rating, setRating] = useState(0);
-  const [story, setStory] = useState("");
-  const [price, setPrice] = useState(0);
-  const [omanprice, setOmanPrice] = useState(0);
-  const [saudiprice, setSaudiPrice] = useState(0);
-  const [tprice, setTPrice] = useState(0);
-  const [emiratesprice, setEmiratesPrice] = useState(0);
-  const [qatarprice, setQatarPrice] = useState(0);
-  const [egyptprice, setEgyptPrice] = useState(0);
+
   const [file, setFile] = useState("");
   const [image, setImage] = useState("");
-  const [storytr, setStorytr] = useState("");
-  const [titletr, setTitletr] = useState("");
+
   const [files, setFiles] = useState([]);
   const [images, setImages] = useState([]);
   const [rootImages, setRootImages] = useState([]);
@@ -139,8 +131,42 @@ export default function BookUpdatePage() {
 setImage(book?.cover)
       setImages(book?.image);
       setRootImages(book?.image);
+      
+    setSelectedCountry({label:book?.country , value:book?.country})
+    setSelectedCity({label:book?.city , value:book?.city})
     });
+
+
+
   }, [id]);
+
+
+
+
+
+  const { data:CountriesData, isLoading, error } = useCountries();
+
+
+  const countries = CountriesData?.map(country => ({
+    label: country.title,
+    value: country.title,
+}));
+
+
+
+
+const { data:CitiesData, isLoading:loadCities, error:errorCities } = useCities();
+  
+
+
+
+// console.log("CITIES" , CitiesData)
+const cities = CitiesData?.filter(city => city.country === selectedCountry.value).map(city => ({
+  label: city.title,
+  value: city.title,
+}));
+
+
 
 
 
@@ -228,6 +254,7 @@ setImage(book?.cover)
         filesToDelete,
       });
       console.log("Files deleted successfully", res);
+      message.success("image deleted success")
     } catch (error) {
       console.error("Error deleting files:", error);
     }
@@ -243,6 +270,7 @@ setImage(book?.cover)
           `${uploadApi}/file/delete?fileName=${fileToDelete}`
         );
         console.log("File deleted successfully", res);
+        message.success("single image deleted success")
       } catch (error) {
         console.error("Error deleting files:", error);
       }
@@ -266,7 +294,7 @@ setImage(book?.cover)
         },
       });
       console.log("File Uplaoded successfully", response.data);
-
+      message.success("single cover image uploaded success")
       return response?.data?.file;
     } catch (error) {
       console.error("Error deleting files:", error);
@@ -331,10 +359,10 @@ setImage(book?.cover)
       .then((res) => {
         mutate();
         mutatesingle();
-        message.success("تم تعديل المنتج بنجاح");
+        message.success("Propert updated success")
         //    router.push(`/~/product/${id}`);
       })
-      .catch((err) => message.error("حدث خطأ"));
+      .catch((err) => message.error(err?.message));
   };
   if (user && user.role !== "admin") return <NotFound />;
   return (

@@ -22,6 +22,10 @@ import useProducts from "@/hooks/useProducts";
 
 import { Form, Upload, Input, Select, Switch, InputNumber } from "antd";
 import { useTranslation } from "@/context/useTranslation";
+
+import useCountries from "@/hooks/useCountries";
+
+import useCities from "@/hooks/useCities";
 // import TextList from "@/components/SiteComponents/form/textList";
 // import MultiTextList from "@/components/SiteComponents/form/MultiTextList";
 
@@ -39,17 +43,17 @@ const customeStyles = {
   inactiveStrokeColor: "#F4B740",
 };
 
-const countries = [
-  { label: "House", value: "House" },
-  { label: "Town House", value: "Town House" },
-  { label: "Condo", value: "Condo" },
-  { label: "Land", value: "Land" },
-];
+// const countries = [
+//   { label: "House", value: "House" },
+//   { label: "Town House", value: "Town House" },
+//   { label: "Condo", value: "Condo" },
+//   { label: "Land", value: "Land" },
+// ];
 
-const cities = [
-  { label: "Sale", value: "Sale" },
-  { label: "Rent", value: "Rent" },
-];
+// const cities = [
+//   { label: "Sale", value: "Sale" },
+//   { label: "Rent", value: "Rent" },
+// ];
 
 export default function BookCreatePage() {
   const { user } = useAuth({
@@ -58,6 +62,29 @@ export default function BookCreatePage() {
   });
 
   const { mutate } = useProducts();
+
+  const { data, isLoading, error } = useCountries();
+
+
+  const countries = data?.map(country => ({
+    label: country.title,
+    value: country.title,
+}));
+
+
+
+
+const { data:CitiesData, isLoading:loadCities, error:errorCities } = useCities();
+  
+
+const cities = CitiesData?.map(city => ({
+  label: city.title,
+  value: city.title,
+}));
+
+
+
+
 
   const router = useRouter();
   const { translation } = useTranslation();

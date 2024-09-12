@@ -57,7 +57,7 @@ const Page = () => {
 
   return (
     <>
-      <Header />
+      
       <AdminMainLayout>
 
      

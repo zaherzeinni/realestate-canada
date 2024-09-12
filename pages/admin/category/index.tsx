@@ -27,7 +27,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import { DeleteIcon, EditIcon } from "@/components/icons";
 import { uploadImages ,deleteImage } from "@/utils/getData";
 
-import useCategories from "@/hooks/useCategories";
+import useCategories from "@/hooks/useCities";
 
 import { Form, Upload, Input, Select, Switch, InputNumber ,message } from "antd";
 

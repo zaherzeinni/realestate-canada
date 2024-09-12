@@ -59,7 +59,7 @@ export default function TextInput({
         type={type || "text"}
         value={value}
         minRows={rows || 1}
-        focused={focused}
+        focused={false}
         multiline={multiline || false}
         fullWidth
         defaultValue={defaultValue}

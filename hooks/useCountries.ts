@@ -6,8 +6,7 @@ import Router from "next/router";
 
 interface Query {
   page?: string | number;
-  city?: string;
-  country?:string
+  category?: string;
   search?: string;
 }
 
@@ -15,27 +14,19 @@ interface BookDetails {
   id: string;
   title: string;
   author: string;
-  story: string;
+  description: string;
   price: number;
   image: string;
 }
 
 const fetcher = (url: string) => axios.get(url).then(({ data }: any) => data);
 
-export default function useProducts({
-  page = 1,
-  country = "",
-  city="",
-  search = "",
-}: Query = {}) {
-  // console.log(">C<>" , category)
-  const { data, isLoading, error, mutate } = useSWR(
-
-    `/api/book/main/?page=${page}&country=${country}&city=${city}&search=${search}`,
-    fetcher
+export default function useCountries({
     
-    ,
-
+} = {}) {
+  const { data, isLoading, error, mutate } = useSWR(
+    `/api/country/handler`,
+    fetcher,
     {
       dedupingInterval: 3600000,
       revalidateOnFocus: false,

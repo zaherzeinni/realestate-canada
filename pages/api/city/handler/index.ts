@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import Book from "@/models/book";
+import City from "@/models/city";
 import dbConnect from "@/utils/dbConnect";
-
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
@@ -9,23 +8,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case "GET":
       try {
-        const { id } = req.query;
-        let book = await Book.findOne({
-          _id: id,
-        });
-
-        // const bookwithrelated = {...book , related}
-        console.log("RELATED AS:ALS", book);
-
-        res.status(200).json({ book });
+        const categories = await City.find({}).sort({ createdAt: -1 });
+        res.status(201).json(categories);
       } catch (error) {
-        console.log(error);
         res.status(400).json({ success: false, error });
       }
       break;
 
     default:
-      res.status(405).json({ success: false, message: "Method not allowed" });
+      res.status(400).json({ success: false, error: "Invalid method" });
       break;
   }
 };

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import Book from "@/models/book";
+import Blog from "@/models/blog";
 import dbConnect from "@/utils/dbConnect";
 
 
@@ -10,14 +10,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     case "GET":
       try {
         const { id } = req.query;
-        let book = await Book.findOne({
+        let blog = await Blog.findOne({
           _id: id,
         });
 
-        // const bookwithrelated = {...book , related}
-        console.log("RELATED AS:ALS", book);
+        // const Blogwithrelated = {...Blog , related}
+        console.log("RELATED AS:ALS", blog);
 
-        res.status(200).json({ book });
+        res.status(200).json({ Blog });
       } catch (error) {
         console.log(error);
         res.status(400).json({ success: false, error });

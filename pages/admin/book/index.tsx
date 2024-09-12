@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { DropDownCategories } from "@/components/category";
-import { TextInput } from "@/components/inputs";
+import { TextInput, SelectInput } from "@/components/inputs";
 import { PageLayout } from "@/layouts";
 import { Grid, Box } from "@mui/material";
 import Head from "next/head";
@@ -37,6 +37,8 @@ import { message } from "antd";
 import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
 import useProducts from "@/hooks/useProducts";
+import useCities from "@/hooks/useCities";
+import useCountries from "@/hooks/useCountries";
 import AdminMainLayout from "@/components/Site/dashboardLayout";
 
 interface Book {
@@ -73,15 +75,20 @@ const AnimatedTypography = styled(Typography)`
   }
 `;
 
+
+
+
+
 export default function AllBooks() {
   const { user } = useAuth({
     redirectTo: "/auth/login",
     redirectIfFound: false,
   });
 
-  const isPreview = process.env.NEXT_PUBLIC_ISPREVIEW === "true";
+
   //const [books, setBooks] = useState<Book[]>();
-  const [category, setCategory] = useState<string>("");
+  const [country, setCountry] = useState<any>({});
+  const [city, setCity] = useState<any>({});
   //const [pages, setPages] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
@@ -92,7 +99,8 @@ export default function AllBooks() {
 
   const { data, isLoading, error, mutate } = useProducts({
     page,
-    category,
+    country:country.value,
+    city:city.value,
     search,
   });
 
@@ -109,12 +117,7 @@ export default function AllBooks() {
     return () => clearTimeout(delaySearchFn);
   };
 
-  const handleChangeCategory = (value: string) => {
-    if (value === category) return;
-    if (value === "all") value = "";
-    setPage(1);
-    setCategory(value);
-  };
+  
 
   const handlePageChange = (event: any, value: number) => {
     if (value === page) return;
@@ -128,6 +131,14 @@ export default function AllBooks() {
       : (localUserFromStorage = null);
     setLocalUser(localUserFromStorage);
   }, []);
+
+
+
+  useEffect(() => {
+ mutate()
+  }, [city ,country]);
+
+
 
   if (error) return <div>failed to load</div>;
 
@@ -155,6 +166,33 @@ export default function AllBooks() {
 
   const t = useMemo(() => translation ?? {}, [translation]);
 
+
+
+  const { data:citiesData, isLoading:isLoadingCountries, error:errorcount } = useCountries();
+  const countries = citiesData?.map(country => ({
+    label: country.title,
+    value: country.title,
+}));
+
+
+
+
+const { data:CitiesData, isLoading:loadCities, error:errorCities } = useCities();
+  
+
+// console.log("CITIES" , CitiesData)
+const cities = CitiesData?.filter(city => city.country === country.value).map(city => ({
+  label: city.title,
+  value: city.title,
+}));
+
+
+
+
+
+
+
+
   return (
     <>
       <Head>
@@ -175,28 +213,34 @@ export default function AllBooks() {
             }}
             gutterBottom
           >
-            قائمة المنتجات
+          All Properties  {country?.value}
           </AnimatedTypography>
-          {isPreview && (
-            <Alert severity="warning" style={{ marginBottom: "2rem" }}>
-              <AlertTitle>
-                <strong>تنبيه</strong>
-              </AlertTitle>
-              الصور للعرض فقط ولن يحصل عليها العميل مع الملفات.
-            </Alert>
-          )}
+        
           <Grid container spacing={4}>
-            <Grid item xs={12} md={9}>
-              <TextInput label="البحث عن منتج" onChange={handleSearch} />
+            <Grid item xs={12} md={3}>
+              <TextInput label="Serach..." onChange={handleSearch} />
             </Grid>
             <Grid className="top-45" item xs={12} md={3}>
-              <DropDownCategories
-                dir={"rtl"}
-                getAllCategories={true}
-                setCategory={(value: string) => handleChangeCategory(value)}
-                selectedCategory={category}
-              />
+            <SelectInput
+                  placeholder="Select Country"
+                  options={countries}
+                  selected={country}
+                  setSelected={setCountry}
+                />
+
             </Grid>
+
+
+            <Grid className="top-45" item xs={12} md={3}>
+            <SelectInput
+                  placeholder="Select City"
+                  options={cities}
+                  selected={city}
+                  setSelected={setCity}
+                />
+
+            </Grid>
+
             {!data?.books || isLoading || !data ? (
               <Loading />
             ) : data?.books.length > 0 ? (
