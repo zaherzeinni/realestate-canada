@@ -4,11 +4,11 @@ const withPWA = require("next-pwa");
 const nextConfig = {
   reactStrictMode: true,
   optimizeFonts: true,
-  experimental: {
-    nextScriptWorkers: false,
-    appDir: true,
-    typedRoutes: true,
-  },
+  // experimental: {
+  //   nextScriptWorkers: false,
+  //   appDir: true,
+  //   typedRoutes: true,
+  // },
   images: {
     domains: ["example.s3.us-west-2.amazonaws.com" ,"https://tarkhineh-chi.vercel.app"],
     unoptimized: true,

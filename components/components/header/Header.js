@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import navData from "../../../data/nav.json";
-import destinaiton_sidebar_data from "../../data/destination-_idebar.json";
+import destinaiton_sidebar_data from "../../../data/destination-_idebar.json";
 import { useEffect, useMemo, useReducer, useRef } from "react";
 import LoginModal from "../common/LoginModal";
 import { Swiper, SwiperSlide } from "swiper/react";
