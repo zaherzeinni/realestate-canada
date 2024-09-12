@@ -26,13 +26,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       
 
-        const { Blogs, pages } = await Blog.paginate({
+        const { books, pages } = await Blog.paginate({
           page,
           limit,
           sort,
           where,
         });
-        res.status(200).json({ Blogs, pages });
+        res.status(200).json({ books, pages });
       } catch (error) {
         console.error(error?.message);
         res.status(400).json({ success: false, error });

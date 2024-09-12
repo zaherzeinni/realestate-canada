@@ -128,7 +128,7 @@ export default function SidebarAdmin() {
 
 
         <li className="">
-          <Link href="/admin/blogs">
+          <Link href="/admin/blog">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={18}

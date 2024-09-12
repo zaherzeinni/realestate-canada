@@ -515,7 +515,7 @@ const cities = CitiesData?.map(city => ({
                     listType="picture-card"
                     onRemove={() => setFile("")}
                   >
-                    تحميل الصورة الرئيسية
+                    Add cover image
                   </Upload>
                 </div>
 
@@ -542,13 +542,13 @@ const cities = CitiesData?.map(city => ({
                       console.log("files", files);
                     }}
                   >
-                    تحميل الصور الفرعية
+                    Add images
                   </Upload>
                 </div>
               </Grid>
               <Grid item xs={12} md={12}>
                 <Button type="submit" variant="contained" color="primary">
-                  إضافة المنتج
+                 Add
                 </Button>
               </Grid>
             </Grid>
