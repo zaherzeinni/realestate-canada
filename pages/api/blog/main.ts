@@ -1,6 +1,6 @@
 //@ts-nocheck
 import type { NextApiRequest, NextApiResponse } from "next";
-import Blog from "@/models/Blog";
+import Blog from "@/models/blog";
 import dbConnect from "@/utils/dbConnect";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {

@@ -23,10 +23,10 @@ const Select = (props) => {
     }, []);
 
     return (
-        <div className="w-full relative select-none hover:cursor-pointer">
+        <div className="w-full !h-full relative select-none hover:cursor-pointer">
             
             <div
-                className="flex items-center justify-between p-2 w-full rounded-md border border-gray-300 shadow-sm md:text-base"
+                className="flex !h-[80%] items-cente justify-between p-2 w-full rounded-md border border-gray-300 shadow-sm md:text-base"
                 onClick={(e) => {
                     e.stopPropagation();
                     setIsOpen((prev) => !prev);
