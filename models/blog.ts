@@ -4,11 +4,7 @@ import Category from "./category";
 
 const schema = new mongoose.Schema(
   {
-    propertyId: {
-      type: String,
-      required: [true, "Please Enter Property ID"],
-    },
-
+  
     title: {
       type: String,
       required: true,
@@ -37,9 +33,9 @@ const schema = new mongoose.Schema(
     },
 
     image: { type: [String], default: [] },
-    sizes: { type: [String], default: [] },
-    featuresPlus: { type: [], default: [] },
+    
     author: String,
+    category:String,
 
     // addBy: {
     //   type: mongoose.SchemaTypes.ObjectId,

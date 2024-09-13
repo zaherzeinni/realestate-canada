@@ -23,11 +23,17 @@ import useBlogs from "@/hooks/useBlogs";
 import { Form, Upload, Input, Select, Switch, InputNumber } from "antd";
 import { useTranslation } from "@/context/useTranslation";
 
-import useCountries from "@/hooks/useCountries";
 
-import useCities from "@/hooks/useCities";
 // import TextList from "@/components/SiteComponents/form/textList";
 // import MultiTextList from "@/components/SiteComponents/form/MultiTextList";
+
+
+import dynamic from "next/dynamic";
+import "react-quill/dist/quill.snow.css";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+
+
 
 import { Rating as ReactRating } from "@smastrom/react-rating";
 
@@ -43,17 +49,6 @@ const customeStyles = {
   inactiveStrokeColor: "#F4B740",
 };
 
-// const countries = [
-//   { label: "House", value: "House" },
-//   { label: "Town House", value: "Town House" },
-//   { label: "Condo", value: "Condo" },
-//   { label: "Land", value: "Land" },
-// ];
-
-// const cities = [
-//   { label: "Sale", value: "Sale" },
-//   { label: "Rent", value: "Rent" },
-// ];
 
 export default function BookCreatePage() {
   const { user } = useAuth({
@@ -70,16 +65,14 @@ export default function BookCreatePage() {
 
   const [files, setFiles] = useState([]);
 
-  const [form, setForm] = useState({
-    sizes: [],
-    features: [],
-  });
+
 
   const [propertyDetails, setPropertyDetails] = useState({
     title: "",
     titlefr: "",
     story: "",
     storyfr: "",
+    category:"",
 
     image: [],
 
@@ -158,7 +151,7 @@ export default function BookCreatePage() {
       const updatedDetails = {
         ...propertyDetails,
       
-        image, // Include images in the submission
+        image:images
       };
 
       await axios
@@ -181,7 +174,7 @@ export default function BookCreatePage() {
 
   if (user && user.role !== "admin") return <NotFound />;
   return (
-    <div className="cart-are !bg-[#ffff]  product-area">
+    <div dir="ltr" className="cart-are !bg-[#ffff]  product-area">
       <Head>
         <title>إضافة منتج جديد - Outlet Turkey</title>
       </Head>
@@ -209,29 +202,80 @@ export default function BookCreatePage() {
                 />
               </Grid>
 
-              <Grid item xs={12} md={12}>
+
+              
+              <Grid item xs={12} md={6}>
                 <TextInput
-                  name="story"
-                  label="Story"
+                  name="category"
+                  label="Category"
                   required
-                  multiline
-                  rows={4}
-                  value={propertyDetails.story}
-                  onChange={(value) => handleInputChange("story", value)}
+                  value={propertyDetails.category}
+                  onChange={(value) => handleInputChange("category", value)}
                 />
               </Grid>
 
-              <Grid item xs={12} md={12}>
-                <TextInput
-                  name="storyfr"
-                  label="Storyfr"
-                  required
-                  multiline
-                  rows={4}
-                  value={propertyDetails.storyfr}
-                  onChange={(value) => handleInputChange("storyfr", value)}
-                />
+              <Grid  item xs={12} md={12}>
+           
+English Description
+
+<ReactQuill
+
+
+                                    value={propertyDetails.story}
+                                    onChange={(value) => setPropertyDetails(prevState => ({
+                                      ...prevState,
+                                      story: value
+                                  }))}
+                                    className="mt-1"
+                                />
               </Grid>
+
+              <Grid item xs={12} md={12}>
+                French Description
+              
+<ReactQuill
+                                    value={propertyDetails.storyfr}
+                                    onChange={(value) => setPropertyDetails(prevState => ({
+                                      ...prevState,
+                                      storyfr: value
+                                  }))}
+                                    className="mt-1"
+                                />
+
+
+              </Grid>
+
+
+
+              <div className=" my-6">
+                  <Upload
+                    className=" !font-estedad"
+                    accept="image/*"
+                    multiple
+                    // files is data of images will be uploaded to firebase/storage
+                    beforeUpload={(file) => {
+                      setFiles((prev) => [...prev, file]);
+                      return false;
+                    }}
+                    listType="picture-card"
+                    onRemove={(file) => {
+                      console.log("fileDATA", file);
+                      setFiles((prev) => {
+                        const index = prev.indexOf(file);
+                        const newFileList = prev.slice();
+                        newFileList.splice(index, 1);
+                        return newFileList;
+                      });
+
+                      console.log("files", files);
+                    }}
+                  >
+                    Add images
+                  </Upload>
+                </div>
+
+
+
 
               <Grid item xs={12} md={12}>
                 <Button type="submit" variant="contained" color="primary">

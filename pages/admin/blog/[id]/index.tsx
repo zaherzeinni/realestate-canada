@@ -1,3 +1,5 @@
+
+
 import Head from "next/head";
 import useAuth from "@/hooks/useAuth";
 import NotFound from "@/pages/404";
@@ -29,9 +31,7 @@ import useProductDetails from "@/hooks/useProductDetails";
 
 import { ImageEndpoint, defaultImage, uploadApi } from "@/utils/global";
 import AdminMainLayout from "@/components/Site/dashboardLayout";
-import useCountries from "@/hooks/useCountries";
 
-import useCities from "@/hooks/useCities";
 
 // const countries = [
 //   { label: "House", value: "House" },
@@ -60,7 +60,7 @@ export default function BookUpdatePage() {
   const [images, setImages] = useState([]);
   const [rootImages, setRootImages] = useState([]);
   const { mutate, data } = useProducts();
-  const { mutate: mutatesingle } = useProductDetails({ id });
+  const { mutate: mutatesingle } = useProductDetails({ id  });
   const [form, setForm] = useState({
     sizes: [],
     features: [],

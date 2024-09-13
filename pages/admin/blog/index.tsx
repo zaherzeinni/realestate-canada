@@ -80,7 +80,6 @@ export default function AllBooks() {
     redirectIfFound: false,
   });
 
-
   //const [pages, setPages] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
@@ -91,13 +90,11 @@ export default function AllBooks() {
 
   const { data, isLoading, error, mutate } = useBlogs({
     page,
-    
+
     search,
   });
 
   console.log("DATA-->", data);
-
-  const router = useRouter();
 
   const handleSearch = (value: string) => {
     const delaySearchFn = setTimeout(() => {
@@ -120,8 +117,6 @@ export default function AllBooks() {
       : (localUserFromStorage = null);
     setLocalUser(localUserFromStorage);
   }, []);
-
-
 
   if (error) return <div>failed to load</div>;
 
@@ -149,9 +144,6 @@ export default function AllBooks() {
 
   const t = useMemo(() => translation ?? {}, [translation]);
 
-
-
-
   return (
     <>
       <Head>
@@ -170,15 +162,13 @@ export default function AllBooks() {
               }}
               gutterBottom
             >
-              All Blogs 
+              All Blogs
             </AnimatedTypography>
 
             <Grid container spacing={4}>
               <Grid item xs={12} md={8}>
                 <TextInput label="Serach..." onChange={handleSearch} />
               </Grid>
-             
-           
 
               {!data?.books || isLoading || !data ? (
                 <Loading />
