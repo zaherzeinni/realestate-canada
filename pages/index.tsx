@@ -18,7 +18,7 @@ import Home2WhyChoose from "../components/components/whyChoose/Home2WhyChoose";
 
 import React from "react";
 export const metadata = {
-  title: "TripRex - Tour & Travel Agency  NextJs Template",
+  title: "TripRex - Tour & Travel Agency  NextJs Template ",
   description:
     "TripRex is a NextJs Template for Tour and Travel Agency purpose",
   icons: {
