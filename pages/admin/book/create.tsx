@@ -28,6 +28,12 @@ import useCities from "@/hooks/useCities";
 import useAreas from "@/hooks/useAreas";
 
 
+import dynamic from "next/dynamic";
+import "react-quill/dist/quill.snow.css";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+
+
 
 const uploadApi = "https://file-uploader-red.vercel.app";
 
@@ -540,26 +546,30 @@ export default function BookCreatePage() {
               </Grid>
 
               <Grid item xs={12} md={12}>
-                <TextInput
-                  name="story"
-                  label="Story"
-                  required
-                  multiline
-                  rows={4}
+                English Description
+                <ReactQuill
                   value={propertyDetails.story}
-                  onChange={(value) => handleInputChange("story", value)}
+                  onChange={(value) =>
+                    setPropertyDetails((prevState) => ({
+                      ...prevState,
+                      story: value,
+                    }))
+                  }
+                  className="mt-1"
                 />
               </Grid>
 
               <Grid item xs={12} md={12}>
-                <TextInput
-                  name="storyfr"
-                  label="Storyfr"
-                  required
-                  multiline
-                  rows={4}
+                French Description
+                <ReactQuill
                   value={propertyDetails.storyfr}
-                  onChange={(value) => handleInputChange("storyfr", value)}
+                  onChange={(value) =>
+                    setPropertyDetails((prevState) => ({
+                      ...prevState,
+                      storyfr: value,
+                    }))
+                  }
+                  className="mt-1"
                 />
               </Grid>
 
