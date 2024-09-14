@@ -404,6 +404,18 @@ export default function BookCreatePage() {
                 />
               </Grid>
 
+
+              <Grid item xs={12} md={6}>
+                <TextInput
+                  name="constructionYear"
+                  label="ConstructionYear"
+                  // required
+                  
+                  value={propertyDetails.constructionYear}
+                  onChange={(value) => handleInputChange("constructionYear", value)}
+                />
+              </Grid>
+
               <Grid item xs={12} md={12}>
                 <TextInput
                   name="rating"

@@ -1212,7 +1212,7 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
   };
   if (user && user.role !== "admin") return <NotFound />;
   return (
-    <div className="cart-area !bg-whit about-area">
+    <div dir="ltr" className="cart-area !bg-whit about-area">
       <Head>
         <title>تعديل المنتج - Outlet Turkey</title>
       </Head>
@@ -1286,6 +1286,17 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
                   type="number"
                   value={propertyDetails.reference}
                   onChange={(value) => handleInputChange("reference", value)}
+                />
+              </Grid>
+              
+              <Grid item xs={12} md={6}>
+                <TextInput
+                  name="constructionYear"
+                  label="ConstructionYear"
+                  // required
+                  
+                  value={propertyDetails.constructionYear}
+                  onChange={(value) => handleInputChange("constructionYear", value)}
                 />
               </Grid>
 
