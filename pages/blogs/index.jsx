@@ -7,6 +7,11 @@ import Topbar from "@/components/components/topbar/Topbar";
 import Header from "@/components/components/header/Header";
 import useBlogs from "@/hooks/useBlogs";
 import {ImageEndpoint} from '../../utils/global'
+import { useState } from "react";
+import {  Pagination } from "@material-ui/lab";
+
+
+
 export const metadata = {
   title: "TripRex - Tour & Travel Agency  NextJs Template",
   description:
@@ -18,13 +23,23 @@ export const metadata = {
 
 const BlogsMainpage = () => {
 
+
+  const [page, setPage] = useState(1);
+
+
+
     const { data, isLoading, error, mutate } = useBlogs({
-        page:1,
+        page,
     
         search:"",
       });
 
 
+
+      const handlePageChange = (event, value) => {
+        if (value === page) return;
+        setPage(value);
+      };
 
   return (
     <div dir="ltr" className="">
@@ -122,38 +137,22 @@ const BlogsMainpage = () => {
 
           <div className="row">
             <div className="col-lg-12">
-              <nav className="inner-pagination-area">
-                <ul className="pagination-list">
-                  <li>
-                    <a href="#" className="shop-pagi-btn">
-                      <i className="bi bi-chevron-left" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">1</a>
-                  </li>
-                  <li>
-                    <a href="#" className="active">
-                      2
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">3</a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="bi bi-three-dots" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">6</a>
-                  </li>
-                  <li>
-                    <a href="#" className="shop-pagi-btn">
-                      <i className="bi bi-chevron-right" />
-                    </a>
-                  </li>
-                </ul>
+              <nav className="inner-pagination-area !text-center  !flex !justify-center">
+              <Pagination
+              dir="rtl"
+              className=""
+                          onChange={(e, i) => {
+                            handlePageChange(e, i);
+                          }}
+                          count={data?.pages}
+                          defaultPage={page}
+                          page={page}
+                          siblingCount={0}
+                          shape="rounded"
+                          color="primary"
+                          showFirstButton
+                          showLastButton
+                        />
               </nav>
             </div>
           </div>
