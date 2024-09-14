@@ -48,6 +48,40 @@ const schema = new mongoose.Schema(
       required: true,
     },
 
+    area: {
+      type: String,
+      required: true,
+    },
+
+    type: {
+      type: String,
+      required: true,
+    },
+
+    category: {
+      type: String,
+      required: false,
+      default:'',
+    },
+
+
+    constructionYear: {
+      type: String,
+      
+    },
+
+
+    condition:{
+      type:String
+    },
+
+    reference:{
+      type:Number
+    }
+,
+
+
+
     price: {
       type: Number,
       required: true,
@@ -80,7 +114,22 @@ const schema = new mongoose.Schema(
       baths: {
         type: Number,
         required: true,
+        default: 0,
       },
+
+      rooms: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+
+      parkings: {
+        type: Number,
+        required: true,
+        default: 0
+      },
+
+
     },
 
     features: {
@@ -99,6 +148,22 @@ const schema = new mongoose.Schema(
       gym: { type: Boolean, default: false },
       parking: { type: Boolean, default: false },
       garden: { type: Boolean, default: false },
+      Furnished:{ type: Boolean, default: false },
+      airBn:{ type: Boolean, default: false },
+      balcon:{ type: Boolean, default: false },
+      golf:{ type: Boolean, default: false },
+      malls:{ type: Boolean, default: false },
+      roomservice:{ type: Boolean, default: false },
+      gezepo:{ type: Boolean, default: false },
+      animalsallow:{ type: Boolean, default: false },
+      aircondition:{ type: Boolean, default: false },
+      beachaccess:{ type: Boolean, default: false },
+      cock:{ type: Boolean, default: false },
+      electric:{ type: Boolean, default: false },
+
+
+
+
     },
 
     coordinate: {

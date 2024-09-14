@@ -23,7 +23,7 @@ const Select = (props) => {
     }, []);
 
     return (
-        <div className="w-full relative select-none hover:cursor-pointer">
+        <div className="w-full relative select-none hover:cursor-pointer ">
             
             <div
                 className="flex  items-cente justify-between p-2 w-full rounded-md border border-gray-300 shadow-sm md:text-base"
@@ -41,16 +41,16 @@ const Select = (props) => {
                 />
             </div>
             {isOpen && (
-                <ul className="absolute bg-white mt-2 py-2 w-full overflow-y-hidden max-h-60 text-base rounded-md border border-gray-300 z-10">
-                    {options.map((option, i) => (
+                <ul className="absolute  bg-white mt-2 py-2 w-full overflow-y-hidden max-h-60 text-base rounded-md border border-gray-300 z-10">
+                    {options?.map((option, i) => (
                         <li
                             key={i}
                             onClick={(e) => {
                                 handleClick(e, option);
                             }}
-                            className={`py-2 px-4 hover:bg-gray-200 hover:text-black transition-all ${
+                            className={`py-2 px-4 !z-10 hover:bg-gray-200 hover:text-black transition-all ${
                                 selected.value === option.value &&
-                                "bg-green-600 text-black"
+                                "bg-white text-blac"
                             }`}
                         >
                             {option.label}

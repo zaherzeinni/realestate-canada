@@ -180,7 +180,7 @@ export default function AllBooks() {
   }));
 
   return (
-    <>
+    <div dir="ltr">
       <Head>
         <title>Outlet Turkey</title>
         <meta name="description" content="متجر لبيع كافة ماتحتاجه" />
@@ -341,6 +341,6 @@ export default function AllBooks() {
       </AdminMainLayout>
 
       <CartButton user={localUser} />
-    </>
+    </div>
   );
 }

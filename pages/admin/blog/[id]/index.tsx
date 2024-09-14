@@ -1,5 +1,3 @@
-
-
 import Head from "next/head";
 import useAuth from "@/hooks/useAuth";
 import NotFound from "@/pages/404";
@@ -37,7 +35,6 @@ import "react-quill/dist/quill.snow.css";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-
 // const countries = [
 //   { label: "House", value: "House" },
 //   { label: "Town House", value: "Town House" },
@@ -65,7 +62,7 @@ export default function BookUpdatePage() {
   const [images, setImages] = useState([]);
   const [rootImages, setRootImages] = useState([]);
   const { mutate, data } = useProducts();
-  const { mutate: mutatesingle } = useProductDetails({ id  });
+  const { mutate: mutatesingle } = useProductDetails({ id });
   const [form, setForm] = useState({
     sizes: [],
     features: [],
@@ -77,7 +74,6 @@ export default function BookUpdatePage() {
     story: "",
     storyfr: "",
 
-  
     image: [],
     sizes: [],
     featuresPlus: [],
@@ -92,7 +88,7 @@ export default function BookUpdatePage() {
       } = res;
       console.log("??>>", book);
       setPropertyDetails(book);
-     
+
       setImages(book?.image);
       setRootImages(book?.image);
     });
@@ -155,14 +151,10 @@ export default function BookUpdatePage() {
 
   // ------------ SINGLE IMAGE ADD DELETE
 
-
-
   const handleUpdate = async (event: React.FormEvent) => {
     event.preventDefault();
 
     let newimage: string | any = "";
-
- 
 
     console.log("NEWIMAGE", newimage);
 
@@ -186,7 +178,7 @@ export default function BookUpdatePage() {
 
     const updatedDetails = {
       ...propertyDetails,
-     
+
       image: imagesData, // Include images in the submission
     };
 
@@ -224,36 +216,32 @@ export default function BookUpdatePage() {
                 />
               </Grid>
 
-        
-              <Grid  item xs={12} md={12}>
-           
-English Description
-
-<ReactQuill
-
-
-                                    value={propertyDetails.story}
-                                    onChange={(value) => setPropertyDetails(prevState => ({
-                                      ...prevState,
-                                      story: value
-                                  }))}
-                                    className="mt-1"
-                                />
+              <Grid item xs={12} md={12}>
+                English Description
+                <ReactQuill
+                  value={propertyDetails.story}
+                  onChange={(value) =>
+                    setPropertyDetails((prevState) => ({
+                      ...prevState,
+                      story: value,
+                    }))
+                  }
+                  className="mt-1"
+                />
               </Grid>
 
               <Grid item xs={12} md={12}>
                 French Description
-              
-<ReactQuill
-                                    value={propertyDetails.storyfr}
-                                    onChange={(value) => setPropertyDetails(prevState => ({
-                                      ...prevState,
-                                      storyfr: value
-                                  }))}
-                                    className="mt-1"
-                                />
-
-
+                <ReactQuill
+                  value={propertyDetails.storyfr}
+                  onChange={(value) =>
+                    setPropertyDetails((prevState) => ({
+                      ...prevState,
+                      storyfr: value,
+                    }))
+                  }
+                  className="mt-1"
+                />
               </Grid>
 
               <Grid item xs={12} md={12}>
@@ -267,8 +255,6 @@ English Description
                   onChange={(value) => handleInputChange("storyfr", value)}
                 />
               </Grid>
-
-              
 
               <Grid item xs={12} md={12}>
                 <div>

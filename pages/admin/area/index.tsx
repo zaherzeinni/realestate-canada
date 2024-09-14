@@ -28,7 +28,7 @@ import { DeleteIcon, EditIcon } from "@/components/icons";
 import { uploadImages, deleteImage } from "@/utils/getData";
 
 
-import useCountries from "@/hooks/useCountries";
+import useAreas from "@/hooks/useAreas";
 import useCities from "@/hooks/useCities";
 import {
   Form,
@@ -56,7 +56,7 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AdminAllCities() {
+export default function AdminAllAreas() {
   const { user } = useAuth({
     redirectTo: "/auth/login",
     redirectIfFound: false,
@@ -64,7 +64,7 @@ export default function AdminAllCities() {
 
   const [selectedCountry ,setSelectedCountry] = useState({})
 
-  const { data, isLoading, error, mutate  ,country=""} = useCities();
+  const { data, isLoading, error, mutate  } = useAreas();
 
   const [categories, setCategories] = useState<Category[]>(data ? data : []);
   const [auxCategories, setAuxCategories] = useState<Category[]>();
@@ -78,12 +78,12 @@ export default function AdminAllCities() {
     React.useState<Category>() as any;
 
 
-    const { data:countriesData, isLoading:loadingCities, error:errorCities } = useCountries();
+    const { data:citiesData, isLoading:loadingCities, error:errorCities } = useCities();
 
 
-    const countries = countriesData?.map(country => ({
-      label: country.title,
-      value: country.title,
+    const countries = citiesData?.map(city => ({
+      label: city?.title,
+      value: city?.title,
   }));
   
   
@@ -94,7 +94,7 @@ export default function AdminAllCities() {
     setOpen(true);
   
     setSelectedCategory(category);
-    setSelectedCountry({label:category?.country , value:category?.country})
+    setSelectedCountry({label:category?.city , value:category?.city})
     // setImage(category?.cover)
   };
 
@@ -114,9 +114,9 @@ export default function AdminAllCities() {
   const handleDelete = async (id: string | number) => {
     if (!confirm("Are you sure you want to delete this")) return;
     try {
-      await axios.delete(`/api/city/handler/${id}`);
+      await axios.delete(`/api/area/handler/${id}`);
       setFetching(!fetching);
-      message.success("City deleted successfully")
+      message.success("Area deleted successfully")
       
       mutate();
     } catch (err) {
@@ -130,11 +130,11 @@ export default function AdminAllCities() {
 
 
       await axios.put(
-        `/api/city/handler/${selectedCategory._id}`,
+        `/api/area/handler/${selectedCategory._id}`,
         {
           title: selectedCategory.title,
           titlefr: selectedCategory.titlefr,
-          country:selectedCountry?.value
+          city:selectedCountry?.value
         },
         {
           headers: {
@@ -142,7 +142,7 @@ export default function AdminAllCities() {
           },
         }
       );
-      message.success("City updated successfully")
+      message.success("Area updated successfully")
       handleClose();
 
       setFetching(!fetching);
@@ -182,7 +182,7 @@ export default function AdminAllCities() {
                 />
               </Grid>
               <Grid item xs={12} md={3}>
-                <Link href="/admin/city/create">
+                <Link href="/admin/area/create">
                   <Button
                     style={{
                       height: 55,
@@ -191,7 +191,7 @@ export default function AdminAllCities() {
                     color="primary"
                     fullWidth
                   >
-                    Add city
+                    Add area
                   </Button>
                 </Link>
               </Grid>
@@ -208,7 +208,7 @@ export default function AdminAllCities() {
                             {category?.title}
                           </Link>
                         }
-                        subheader={category?.country}
+                        subheader={category?.city}
                         action={
                           <React.Fragment>
                             <IconButton
@@ -242,11 +242,11 @@ export default function AdminAllCities() {
           keepMounted
           onClose={handleClose}
         >
-          <DialogTitle>{"Update City"}</DialogTitle>
+          <DialogTitle>{"Update Area"}</DialogTitle>
           <form onSubmit={handleUpdate}>
             <DialogContent>
               <TextInput
-                label="City title"
+                label="Area title"
                 value={selectedCategory?.title}
                 // focused
                 onChange={(e) => {
@@ -258,7 +258,7 @@ export default function AdminAllCities() {
               />
 
               <TextInput
-                label="City french title"
+                label="Area french title"
                 value={selectedCategory?.titlefr}
                 // focused
                 onChange={(e) => {
@@ -270,7 +270,7 @@ export default function AdminAllCities() {
               />
 
 <SelectInput
-                  placeholder="Select Country"
+                  placeholder="Select City"
                   options={countries}
                   selected={selectedCountry}
                   setSelected={setSelectedCountry}

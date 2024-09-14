@@ -23,23 +23,15 @@ import useBlogs from "@/hooks/useBlogs";
 import { Form, Upload, Input, Select, Switch, InputNumber } from "antd";
 import { useTranslation } from "@/context/useTranslation";
 
-
 // import TextList from "@/components/SiteComponents/form/textList";
 // import MultiTextList from "@/components/SiteComponents/form/MultiTextList";
-
 
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-
-
-
 const uploadApi = "https://file-uploader-red.vercel.app";
-
-
-
 
 export default function BookCreatePage() {
   const { user } = useAuth({
@@ -56,14 +48,12 @@ export default function BookCreatePage() {
 
   const [files, setFiles] = useState([]);
 
-
-
   const [propertyDetails, setPropertyDetails] = useState({
     title: "",
     titlefr: "",
     story: "",
     storyfr: "",
-    category:"",
+    category: "",
 
     image: [],
 
@@ -112,8 +102,6 @@ export default function BookCreatePage() {
     }
   };
 
-
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
@@ -123,7 +111,6 @@ export default function BookCreatePage() {
 
       let image: string | any = "";
 
-   
       let images: any = [];
 
       if (files?.length > 0) {
@@ -141,8 +128,8 @@ export default function BookCreatePage() {
 
       const updatedDetails = {
         ...propertyDetails,
-      
-        image:images
+
+        image: images,
       };
 
       await axios
@@ -193,8 +180,6 @@ export default function BookCreatePage() {
                 />
               </Grid>
 
-
-              
               <Grid item xs={12} md={6}>
                 <TextInput
                   name="category"
@@ -205,68 +190,60 @@ export default function BookCreatePage() {
                 />
               </Grid>
 
-              <Grid  item xs={12} md={12}>
-           
-English Description
-
-<ReactQuill
-
-
-                                    value={propertyDetails.story}
-                                    onChange={(value) => setPropertyDetails(prevState => ({
-                                      ...prevState,
-                                      story: value
-                                  }))}
-                                    className="mt-1"
-                                />
+              <Grid item xs={12} md={12}>
+                English Description
+                <ReactQuill
+                  value={propertyDetails.story}
+                  onChange={(value) =>
+                    setPropertyDetails((prevState) => ({
+                      ...prevState,
+                      story: value,
+                    }))
+                  }
+                  className="mt-1"
+                />
               </Grid>
 
               <Grid item xs={12} md={12}>
                 French Description
-              
-<ReactQuill
-                                    value={propertyDetails.storyfr}
-                                    onChange={(value) => setPropertyDetails(prevState => ({
-                                      ...prevState,
-                                      storyfr: value
-                                  }))}
-                                    className="mt-1"
-                                />
-
-
+                <ReactQuill
+                  value={propertyDetails.storyfr}
+                  onChange={(value) =>
+                    setPropertyDetails((prevState) => ({
+                      ...prevState,
+                      storyfr: value,
+                    }))
+                  }
+                  className="mt-1"
+                />
               </Grid>
 
-
-
               <div className=" my-6">
-                  <Upload
-                    className=" !font-estedad"
-                    accept="image/*"
-                    multiple
-                    // files is data of images will be uploaded to firebase/storage
-                    beforeUpload={(file) => {
-                      setFiles((prev) => [...prev, file]);
-                      return false;
-                    }}
-                    listType="picture-card"
-                    onRemove={(file) => {
-                      console.log("fileDATA", file);
-                      setFiles((prev) => {
-                        const index = prev.indexOf(file);
-                        const newFileList = prev.slice();
-                        newFileList.splice(index, 1);
-                        return newFileList;
-                      });
+                <Upload
+                  className=" !font-estedad"
+                  accept="image/*"
+                  multiple
+                  // files is data of images will be uploaded to firebase/storage
+                  beforeUpload={(file) => {
+                    setFiles((prev) => [...prev, file]);
+                    return false;
+                  }}
+                  listType="picture-card"
+                  onRemove={(file) => {
+                    console.log("fileDATA", file);
+                    setFiles((prev) => {
+                      const index = prev.indexOf(file);
+                      const newFileList = prev.slice();
+                      newFileList.splice(index, 1);
+                      return newFileList;
+                    });
 
-                      console.log("files", files);
-                    }}
-                  >
-                    Add images
-                  </Upload>
-                </div>
-
-
-
+                    console.log("files", files);
+                  }}
+                >
+                  Add images
+                </Upload>
+              </div>
 
               <Grid item xs={12} md={12}>
                 <Button type="submit" variant="contained" color="primary">

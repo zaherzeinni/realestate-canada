@@ -10,10 +10,10 @@ import axios from "axios";
 import { message, Upload } from "antd";
 import { uploadImages, deleteImage } from "@/utils/getData";
 import AdminMainLayout from "@/components/Site/dashboardLayout";
-import useCountries from "@/hooks/useCountries";
 import useCities from "@/hooks/useCities";
+import useAreas from "@/hooks/useAreas";
 
-export default function CreateCountry() {
+export default function CreateArea() {
   const { user } = useAuth({
     redirectTo: "/auth/login",
     redirectIfFound: false,
@@ -23,12 +23,12 @@ export default function CreateCountry() {
   const [selectedCountry, setSelectedCountry] = useState({});
 
 
-  const { data, isLoading, error} = useCountries();
-  const { mutate } = useCities();
+  const { data, isLoading, error} = useCities();
+  const { mutate } = useAreas();
 
-  const Countries = data?.map(country => ({
-    label: country.title,
-    value: country.title,
+  const Cities = data?.map(city => ({
+    label: city?.title,
+    value: city?.title,
 }));
 
 
@@ -36,12 +36,11 @@ export default function CreateCountry() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-
     await axios
-      .post("/api/city", {
+      .post("/api/area", {
         title,
         titlefr,
-        country :selectedCountry?.value
+        city :selectedCountry?.value
       })
       .then((res) => {
         mutate()
@@ -74,7 +73,7 @@ export default function CreateCountry() {
               <Grid item xs={12} md={12}>
                 <TextInput
                   name="name"
-                  label="Country title"
+                  label="Area title"
                   required
                   value={title}
                   onChange={handleTitle}
@@ -84,7 +83,7 @@ export default function CreateCountry() {
               <Grid item xs={12} md={12}>
                 <TextInput
                   name="name"
-                  label="Country title french"
+                  label="Area title french"
                   required
                   value={titlefr}
                   onChange={handleTitleFr}
@@ -92,8 +91,8 @@ export default function CreateCountry() {
 
 <Grid item xs={12} md={12}>
                 <SelectInput
-                  placeholder="Select Country"
-                  options={Countries}
+                  placeholder="Select City"
+                  options={Cities}
                   selected={selectedCountry}
                   setSelected={setSelectedCountry}
                 />
@@ -106,7 +105,7 @@ export default function CreateCountry() {
 
               <Grid item xs={12} md={12}>
                 <Button type="submit" variant="contained" color="primary">
-                Add City
+                Add Area
                 </Button>
               </Grid>
             </Grid>

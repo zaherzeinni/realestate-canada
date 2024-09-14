@@ -4,56 +4,42 @@ import { PageLayout } from "@/layouts";
 import { Grid } from "@mui/material";
 import { TextInput, SelectInput } from "@/components/inputs";
 import { Button } from "@material-ui/core";
-import { DropDownCategories } from "@/components/category";
-import { ImageInput } from "@/components/inputs/ImageInput";
+
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import AdminMainLayout from "@/components/Site/dashboardLayout";
 
-import { MdDeleteForever } from "react-icons/md";
+
 import useAuth from "@/hooks/useAuth";
 import axios from "axios";
 import { message } from "antd";
 import { useRouter } from "next/router";
-import { db } from "@/utils/firebaseConfig";
+
 import { useMemo } from "react";
-import { uploadImages, deleteImages, deleteImage } from "@/utils/getData";
+
 import useProducts from "@/hooks/useProducts";
 
-import { Form, Upload, Input, Select, Switch, InputNumber } from "antd";
+import { Upload } from "antd";
 import { useTranslation } from "@/context/useTranslation";
 
 import useCountries from "@/hooks/useCountries";
 
 import useCities from "@/hooks/useCities";
-// import TextList from "@/components/SiteComponents/form/textList";
-// import MultiTextList from "@/components/SiteComponents/form/MultiTextList";
+import useAreas from "@/hooks/useAreas";
 
-import { Rating as ReactRating } from "@smastrom/react-rating";
 
-import { Star } from "@smastrom/react-rating";
 
 const uploadApi = "https://file-uploader-red.vercel.app";
 
-const customeStyles = {
-  itemShapes: Star,
-  itemStrokeWidth: 1.3,
-  activeFillColor: "#ffb23f",
-  activeStrokeColor: "#F4B740",
-  inactiveStrokeColor: "#F4B740",
-};
+const types = [
+  { id: 1, label: "Villa", value: "villa" },
+  { id: 2, label: "House", value: "house" },
+];
 
-// const countries = [
-//   { label: "House", value: "House" },
-//   { label: "Town House", value: "Town House" },
-//   { label: "Condo", value: "Condo" },
-//   { label: "Land", value: "Land" },
-// ];
-
-// const cities = [
-//   { label: "Sale", value: "Sale" },
-//   { label: "Rent", value: "Rent" },
-// ];
+const conditions = [
+  { id: 1, label: "Ready", value: "ready" },
+  { id: 2, label: "Construction", value: "construction" },
+];
 
 export default function BookCreatePage() {
   const { user } = useAuth({
@@ -65,32 +51,27 @@ export default function BookCreatePage() {
 
   const { data, isLoading, error } = useCountries();
 
+  const countries = data?.map((country) => ({
+    label: country?.title,
+    value: country?.title,
+  }));
 
-  const countries = data?.map(country => ({
-    label: country.title,
-    value: country.title,
-}));
+  const {
+    data: CitiesData,
+    isLoading: loadCities,
+    error: errorCities,
+  } = useCities();
 
-
-
-
-const { data:CitiesData, isLoading:loadCities, error:errorCities } = useCities();
-  
-
-const cities = CitiesData?.map(city => ({
-  label: city.title,
-  value: city.title,
-}));
-
-
-
-
+  const {
+    data: areasData,
+    isLoading: loadAreas,
+    error: errorAreas,
+  } = useAreas();
 
   const router = useRouter();
   const { translation } = useTranslation();
 
   const t = useMemo(() => translation ?? {}, [translation]);
-
 
   const [file, setFile] = useState("");
   const [files, setFiles] = useState([]);
@@ -108,8 +89,15 @@ const cities = CitiesData?.map(city => ({
     storyfr: "",
     country: "",
     city: "",
+    area: "",
+    type: "",
     price: "",
     rating: 0,
+    reference: 0,
+    constructionYear: "",
+    condition: "",
+    category: "",
+
     cover: "",
     image: [],
     sizes: [],
@@ -119,6 +107,8 @@ const cities = CitiesData?.map(city => ({
       areaSqM: 0,
       beds: 0,
       baths: 0,
+      rooms: 0,
+      parkings: 0,
     },
     features: {
       ac: false,
@@ -136,6 +126,18 @@ const cities = CitiesData?.map(city => ({
       gym: false,
       parking: false,
       garden: false,
+      Furnished: false,
+      airBn: false,
+      balcon: false,
+      golf: false,
+      malls: false,
+      roomservice: false,
+      gezepo: false,
+      animalsallow: false,
+      aircondition: false,
+      beachaccess: false,
+      cock: false,
+      electric: false,
     },
     coordinate: {
       lat: "",
@@ -147,15 +149,31 @@ const cities = CitiesData?.map(city => ({
 
   const [selectedCountry, setSelectedCountry] = useState({});
   const [selectedCity, setSelectedCity] = useState({});
+  const [selectedArea, setSelectedArea] = useState({});
+  const [selectedType, setSelectedType] = useState({});
+  const [selectedCondition, setSelectedCondition] = useState({});
+
+  // console.log("CITIES" , CitiesData)
+  const cities = CitiesData?.filter(
+    (city) => city?.country === selectedCountry.value
+  ).map((city) => ({
+    label: city?.title,
+    value: city?.title,
+  }));
+
+  // console.log("CITIES" , CitiesData)
+  const areas = areasData
+    ?.filter((area) => area.city === selectedCity.value)
+    .map((area) => ({
+      label: area?.title,
+      value: area?.title,
+    }));
 
   // Handle input changes for the form
   const handleInputChange = (name, value) => {
     // Handle nested properties
-    const parsedValue = name.includes('details.') ? parseInt(value, 10) : value;
+    const parsedValue = name.includes("details.") ? parseInt(value, 10) : value;
     if (name.includes(".")) {
-
-     
-
       const [parent, child] = name.split(".");
       setPropertyDetails((prev) => ({
         ...prev,
@@ -173,12 +191,12 @@ const cities = CitiesData?.map(city => ({
   };
 
   const handleCheckboxChange = (name) => {
-    const [parent, child] = name.split('.');
+    const [parent, child] = name.split(".");
 
     // Log the checkbox name and current state
-    console.log('Checkbox name:', name);
-    console.log('Current parent state:', propertyDetails[parent]);
-    
+    console.log("Checkbox name:", name);
+    console.log("Current parent state:", propertyDetails[parent]);
+
     // Update the state
     setPropertyDetails((prev) => ({
       ...prev,
@@ -188,18 +206,35 @@ const cities = CitiesData?.map(city => ({
       },
     }));
   };
+
   useEffect(() => {
     if (selectedCountry.value) {
       setPropertyDetails((prev) => ({
         ...prev,
         country: selectedCountry.value,
         city: selectedCity.value,
+        area: selectedArea?.value,
       }));
     }
-  }, [selectedCountry, selectedCity]);
+  }, [selectedCountry, selectedCity, selectedArea]);
 
+  useEffect(() => {
+    if (selectedType.value) {
+      setPropertyDetails((prev) => ({
+        ...prev,
+        type: selectedType.value,
+      }));
+    }
+  }, [selectedType]);
 
-
+  useEffect(() => {
+    if (selectedCondition.value) {
+      setPropertyDetails((prev) => ({
+        ...prev,
+        condition: selectedCondition.value,
+      }));
+    }
+  }, [selectedCondition]);
 
   const handleUploadImages = async (filesarray: any) => {
     try {
@@ -264,7 +299,7 @@ const cities = CitiesData?.map(city => ({
     event.preventDefault();
     try {
       message.loading("جاري إضافة المنتج");
-    
+
       const uuid = uuidv4();
 
       let image: string | any = "";
@@ -296,7 +331,7 @@ const cities = CitiesData?.map(city => ({
 
       const updatedDetails = {
         ...propertyDetails,
-        cover:image,
+        cover: image,
         image, // Include images in the submission
       };
 
@@ -320,7 +355,7 @@ const cities = CitiesData?.map(city => ({
 
   if (user && user.role !== "admin") return <NotFound />;
   return (
-    <div className="cart-are !bg-[#ffff]  product-area">
+    <div dir="ltr" className="cart-are !bg-[#ffff]  product-area">
       <Head>
         <title>إضافة منتج جديد - Outlet Turkey</title>
       </Head>
@@ -359,20 +394,23 @@ const cities = CitiesData?.map(city => ({
               </Grid>
 
               <Grid item xs={12} md={6}>
-                <SelectInput
-                  placeholder="Select Country"
-                  options={countries}
-                  selected={selectedCountry}
-                  setSelected={setSelectedCountry}
+                <TextInput
+                  name="reference"
+                  label="Reference"
+                  // required
+                  type="number"
+                  value={propertyDetails.reference}
+                  onChange={(value) => handleInputChange("reference", value)}
                 />
               </Grid>
 
-              <Grid item xs={12} md={6}>
-                <SelectInput
-                  placeholder="Select City"
-                  options={cities}
-                  selected={selectedCity}
-                  setSelected={setSelectedCity}
+              <Grid item xs={12} md={12}>
+                <TextInput
+                  name="rating"
+                  label="Rating"
+                  type="number"
+                  value={propertyDetails.rating}
+                  onChange={(value) => handleInputChange("rating", value)}
                 />
               </Grid>
 
@@ -387,13 +425,13 @@ const cities = CitiesData?.map(city => ({
                 />
               </Grid>
 
-              <Grid item xs={12} md={12}>
+              <Grid item xs={12} md={4}>
                 <TextInput
-                  name="rating"
-                  label="Rating"
-                  type="number"
-                  value={propertyDetails.rating}
-                  onChange={(value) => handleInputChange("rating", value)}
+                  name="area"
+                  label="Area"
+                  required
+                  value={propertyDetails.area}
+                  onChange={(value) => handleInputChange("area", value)}
                 />
               </Grid>
 
@@ -420,6 +458,19 @@ const cities = CitiesData?.map(city => ({
 
               <Grid item xs={12} md={4}>
                 <TextInput
+                  name="details.rooms"
+                  label="Number of Rooms"
+                  required
+                  type="number"
+                  value={propertyDetails.details.beds}
+                  onChange={(value) =>
+                    handleInputChange("details.rooms", value)
+                  }
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextInput
                   name="details.baths"
                   label="Number of Baths"
                   required
@@ -439,14 +490,14 @@ const cities = CitiesData?.map(city => ({
                       className="flex gap-2 hover:cursor-pointer select-none text-sm md:text-base"
                       key={feature}
                     >
-                      {feature === 'true' ? 'checked' : 'NOOT'}
+                      {/* {feature === 'true' ? 'checked' : 'NOOT'} */}
                       <input
                         className="p-2 block rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm text-sm md:text-base hover:cursor-pointer"
                         type="checkbox"
-                      
                         checked={propertyDetails.features[feature]}
-                        onChange={(e) => handleCheckboxChange(`features.${feature}`)}
-                        
+                        onChange={(e) =>
+                          handleCheckboxChange(`features.${feature}`)
+                        }
                       />
                       {feature.charAt(0).toUpperCase() + feature.slice(1)}
                     </label>
@@ -500,7 +551,53 @@ const cities = CitiesData?.map(city => ({
                 />
               </Grid>
 
-              <Grid item xs={6} md={6}>
+              <Grid item xs={12} md={6}>
+                <SelectInput
+                  placeholder="Select Country"
+                  options={countries}
+                  selected={selectedCountry}
+                  setSelected={setSelectedCountry}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                
+                <SelectInput
+                  placeholder="Select City"
+                  options={cities}
+                  selected={selectedCity}
+                  setSelected={setSelectedCity}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <SelectInput
+                  placeholder="Select Area"
+                  options={areas}
+                  selected={selectedArea}
+                  setSelected={setSelectedArea}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <SelectInput
+                  placeholder="Select Type"
+                  options={types}
+                  selected={selectedType}
+                  setSelected={setSelectedType}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <SelectInput
+                  placeholder="Select Condition"
+                  options={conditions}
+                  selected={selectedCondition}
+                  setSelected={setSelectedCondition}
+                />
+              </Grid>
+
+              <Grid item xs={6} md={12}>
                 <div>
                   <Upload
                     className=" !font-estedad"
@@ -548,7 +645,7 @@ const cities = CitiesData?.map(city => ({
               </Grid>
               <Grid item xs={12} md={12}>
                 <Button type="submit" variant="contained" color="primary">
-                 Add
+                  Add
                 </Button>
               </Grid>
             </Grid>
