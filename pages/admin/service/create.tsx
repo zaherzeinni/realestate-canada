@@ -35,6 +35,9 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 
 
+import { Rating as ReactRating } from "@smastrom/react-rating";
+
+import { Star } from "@smastrom/react-rating";
 
 const uploadApi = "https://file-uploader-red.vercel.app";
 
@@ -152,7 +155,7 @@ export default function BookCreatePage() {
       };
 
       await axios
-        .post("/api/blog", updatedDetails)
+        .post("/api/service", updatedDetails)
 
         .then((res) => {
           console.log(res);

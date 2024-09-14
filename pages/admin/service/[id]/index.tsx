@@ -16,6 +16,11 @@ import { db } from "@/utils/firebaseConfig";
 import { uploadImages, deleteImages, deleteImage } from "@/utils/getData";
 
 import { MdDeleteForever } from "react-icons/md";
+
+import dynamic from "next/dynamic";
+import "react-quill/dist/quill.snow.css";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import {
   addDoc,
   collection,
@@ -31,11 +36,6 @@ import useProductDetails from "@/hooks/useProductDetails";
 
 import { ImageEndpoint, defaultImage, uploadApi } from "@/utils/global";
 import AdminMainLayout from "@/components/Site/dashboardLayout";
-
-import dynamic from "next/dynamic";
-import "react-quill/dist/quill.snow.css";
-
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 
 // const countries = [
@@ -86,7 +86,7 @@ export default function BookUpdatePage() {
 
   useEffect(() => {
     if (!id) return;
-    axios.get(`/api/blog/${id}`).then((res) => {
+    axios.get(`/api/service/${id}`).then((res) => {
       const {
         data: { book },
       } = res;
@@ -191,7 +191,7 @@ export default function BookUpdatePage() {
     };
 
     await axios
-      .put(`/api/blog/${id}/handler`, updatedDetails)
+      .put(`/api/service/${id}/handler`, updatedDetails)
 
       //   await mutate()
       // Revalidate the products data
@@ -224,7 +224,16 @@ export default function BookUpdatePage() {
                 />
               </Grid>
 
-        
+              <Grid item xs={12} md={6}>
+                <TextInput
+                  name="titlefr"
+                  label="Titlefr"
+                  required
+                  value={propertyDetails?.titlefr}
+                  onChange={(value) => handleInputChange("titlefr", value)}
+                />
+              </Grid>
+
               <Grid  item xs={12} md={12}>
            
 English Description
@@ -255,19 +264,6 @@ English Description
 
 
               </Grid>
-
-              <Grid item xs={12} md={12}>
-                <TextInput
-                  name="storyfr"
-                  label="Storyfr"
-                  required
-                  multiline
-                  rows={4}
-                  value={propertyDetails?.storyfr}
-                  onChange={(value) => handleInputChange("storyfr", value)}
-                />
-              </Grid>
-
               
 
               <Grid item xs={12} md={12}>
