@@ -37,17 +37,9 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 import { Rating as ReactRating } from "@smastrom/react-rating";
 
-import { Star } from "@smastrom/react-rating";
 
 const uploadApi = "https://file-uploader-red.vercel.app";
 
-const customeStyles = {
-  itemShapes: Star,
-  itemStrokeWidth: 1.3,
-  activeFillColor: "#ffb23f",
-  activeStrokeColor: "#F4B740",
-  inactiveStrokeColor: "#F4B740",
-};
 
 
 export default function BookCreatePage() {
