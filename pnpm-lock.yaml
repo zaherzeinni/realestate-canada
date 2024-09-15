@@ -67,6 +67,7 @@ specifiers:
   react-intl: ^6.4.6
   react-modal-video: ^2.0.1
   react-quill: ^2.0.0
+  react-select: ^5.8.0
   react-share: ^5.1.0
   sass: ^1.77.8
   semantic-ui-react: ^2.1.4
@@ -136,6 +137,7 @@ dependencies:
   react-intl: 6.6.8_met4wgzfujk7j64aelglgsjh3q
   react-modal-video: 2.0.2_biqbaboplfbrettd7655fr4n2y
   react-quill: 2.0.0_biqbaboplfbrettd7655fr4n2y
+  react-select: 5.8.0_vnxzf5c44dqo4vncfl2mrh2gwm
   react-share: 5.1.0_react@18.2.0
   sass: 1.77.8
   semantic-ui-react: 2.1.5_biqbaboplfbrettd7655fr4n2y
@@ -7952,6 +7954,10 @@ packages:
     resolution: {integrity: sha512-dn6wd0uw5GsdswPFfsgMp5NSB0/aDe6fK94YJV/AJDYXL6HVLWBsxeq7js7Ad+mU2K9LAlwpk6kN2D5mwCPVow==}
     dev: false
 
+  /memoize-one/6.0.0:
+    resolution: {integrity: sha512-rkpe71W0N0c0Xz6QD0eJETuWAJGnJ9afsl1srmwPrI+yBCkge5EycXXbYRyvL29zZVUWQCY7InPRCv3GDXuZNw==}
+    dev: false
+
   /memory-pager/1.5.0:
     resolution: {integrity: sha512-ZS4Bp4r/Zoeq6+NLJpP+0Zzm0pR8whtGPf1XExKLJBAczGMnSi3It14OiNCStjQjM6NU1okjQGSxgEZN8eBYKg==}
     dev: false
@@ -9678,6 +9684,28 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
+  /react-select/5.8.0_vnxzf5c44dqo4vncfl2mrh2gwm:
+    resolution: {integrity: sha512-TfjLDo58XrhP6VG5M/Mi56Us0Yt8X7xD6cDybC7yoRMUNm7BGO7qk8J0TLQOua/prb8vUOtsfnXZwfm30HGsAA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@babel/runtime': 7.24.7
+      '@emotion/cache': 11.11.0
+      '@emotion/react': 11.11.4_gq4reeurwxuj4hvyerswzzqthy
+      '@floating-ui/dom': 1.6.5
+      '@types/react-transition-group': 4.4.10
+      memoize-one: 6.0.0
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-transition-group: 4.4.5_biqbaboplfbrettd7655fr4n2y
+      use-isomorphic-layout-effect: 1.1.2_gq4reeurwxuj4hvyerswzzqthy
+    transitivePeerDependencies:
+      - '@types/react'
+      - supports-color
+    dev: false
+
   /react-share/5.1.0_react@18.2.0:
     resolution: {integrity: sha512-OvyfMtj/0UzH1wi90OdHhZVJ6WUC/+IeWvBwppeZozwIGyAjQgyR0QXlHOrxVHVECqnGvcpBaFTXVrqouTieaw==}
     peerDependencies:
@@ -11006,6 +11034,19 @@ packages:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
       punycode: 2.3.1
+    dev: false
+
+  /use-isomorphic-layout-effect/1.1.2_gq4reeurwxuj4hvyerswzzqthy:
+    resolution: {integrity: sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 18.2.21
+      react: 18.2.0
     dev: false
 
   /use-sync-external-store/1.2.2_react@18.2.0:

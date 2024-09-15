@@ -61,7 +61,7 @@ export default function BookUpdatePage() {
   const [files, setFiles] = useState([]);
   const [images, setImages] = useState([]);
   const [rootImages, setRootImages] = useState([]);
-  const { mutate, data } = useProducts();
+  const { mutate, data } = useProducts({page:1});
   const { mutate: mutatesingle } = useProductDetails({ id });
   const [form, setForm] = useState({
     sizes: [],

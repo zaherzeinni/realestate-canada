@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import Book from "@/models/book";
 import dbConnect from "@/utils/dbConnect";
+import { query } from "firebase/firestore";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
@@ -12,14 +13,57 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const {
           page = 1,
           sort,
-          country = "",
+         country = "",
           city="",
           limit = 4,
           search = "",
+          rooms,
+          baths,
+          beds,
+          type,
+          minPrice,
+          maxPrice
+          
+        
         } = req.query;
         const where = {};
 
-        
+
+
+       
+
+if (parseInt(rooms) !== 0) {
+  where['details.rooms'] =  { $gte: parseInt(rooms) } //rooms
+}
+
+if (parseInt(baths) !== 0) {
+  where['details.baths'] = { $gte: parseInt(baths) }  // baths
+}
+
+
+if (parseInt(beds) !== 0) {
+  where['details.beds'] = { $gte: parseInt(baths) }  // baths
+}
+
+
+
+if ([type] && type !== "") {
+  where["type"] = type;
+}
+
+
+
+
+
+  where["price"] = {$gte: parseInt(minPrice), $lte: parseInt(maxPrice)}
+
+
+// if (maxPrice) {
+//   where["price"] = {  $lte: parseInt(maxPrice) }
+// }
+   
+
+
 
         if (search && search !== "") {
           where["title"] = { $regex: search, $options: "i" };
@@ -32,6 +76,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         if (city && city !== "") {
           where["city"] = city;
         }
+
+        if (country && country !== "") {
+          where["country"] = country;
+        }
+
+       
+
+
+          console.log("here" ,where ,req.query)
 
         const { books, pages } = await Book.paginate({
           page,

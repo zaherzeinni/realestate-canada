@@ -50,7 +50,7 @@ const DestinationSearch = ({ destination, style, }) => {
       className={`searchbox-input ${isActive ? "active" : ""}`}
       onClick={handleToggleActive}
     >
-      <label>{destination}</label>
+      <label>{destination} </label>
       <div className={`${style} custom-select-dropdown`}>
         <div className="select-input">
           <input
