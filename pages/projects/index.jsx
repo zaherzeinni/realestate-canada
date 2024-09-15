@@ -10,6 +10,10 @@ import React from "react";
 import { useRouter } from "next/router";
 import useProducts from "@/hooks/useProducts";
 import FilterForm from "../../components/Site/dashboardLayout/FilterForm";
+import {ImageEndpoint} from '../../utils/global'
+import { useState } from "react";
+import {  Pagination } from "@material-ui/lab";
+
 
 const Projects = ({
   country,
@@ -53,48 +57,69 @@ console.log(query, "Query data")
              
               <div className="list-grid-product-wrap mb-70">
                 <div className="row gy-4">
+
+
+                {data?.books?.map((blog) => {
+              const {
+                _id,
+                
+                createdAt,
+                
+                cover,
+                image,
+                title,
+                story,
+                storyfr,
+                category,
+                country,
+                city,
+                area,
+                features,
+                price,
+
+                // read_time,
+              } = blog;
+              return (
+
+
                   <div className="col-md-4 item">
                     <div className="package-card">
                       <div className="package-card-img-wrap">
                         <Link
-                          href="/package/package-details"
+                         href={`/projects/${_id}`}
                           className="card-img"
                         >
-                          <img
-                            src="/assets/img/home1/package-card-img1.png"
+                        <img src={`${ImageEndpoint}/${image[0]}`} alt="" />
+
+                          {/* <img
+                             src="/assets/img/home1/package-card-img1.png"
                             alt=""
-                          />
+                          /> */}
                         </Link>
                       
                       </div>
                       <div className="package-card-content">
                         <div className="card-content-top">
                           <h5>
-                            <Link href="/package/package-details">
-                              the Allure Italy's Rich Culture, History, and
-                              Cuisine.
+                            <Link href={`/projects/${_id}`}>
+                         {title}
                             </Link>
                           </h5>
                           <div className="location-area">
                             <ul className="location-list scrollTextAni">
                               <li>
-                                <Link href="/package">Alexandria</Link>
+                                <Link href="/package">{country}</Link>
                               </li>
                               <li>
-                                <Link href="/package">Sharm El Sheikh</Link>
+                                <Link href="/package">{city}</Link>
                               </li>
                               <li>
-                                <Link href="/package">Mansoura</Link>
+                                <Link href="/package">{area}</Link>
                               </li>
                               <li>
                                 <Link href="/package">Karachi</Link>
                               </li>
-                              <li>
-                                <Link href="/package">Lahore</Link>
-                              </li>
-                              <li>
-                                <Link href="/package">Islamabad</Link>
-                              </li>
+                           
                             </ul>
                           </div>
                         </div>
@@ -102,12 +127,13 @@ console.log(query, "Query data")
                           <div className="price-area">
                             {/* <h6>Starting Form:</h6> */}
                             <span>
-                              $2,898 <del>$3000</del>
+                              ${price} 
+                              {/* <del>$3000</del> */}
                             </span>
-                            <p>TAXES INCL/PERS</p>
+                            {/* <p>TAXES INCL/PERS</p> */}
                           </div>
                           <Link
-                            href="/package/package-details"
+                            href={`/projects/${_id}`}
                             className="primary-btn2"
                           >
                            Project Details
@@ -118,6 +144,7 @@ console.log(query, "Query data")
                     </div>
                   </div>
 
+              )})}
                 
                
                 </div>
