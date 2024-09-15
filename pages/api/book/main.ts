@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import Book from "@/models/book";
 import dbConnect from "@/utils/dbConnect";
+import { query } from "firebase/firestore";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
@@ -12,13 +13,46 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const {
           page = 1,
           sort,
-          country = "",
+         country = "",
           city="",
           limit = 4,
           search = "",
+          rooms,
+          baths,
+          minPrice,
+          maxPrice
+          
+        
         } = req.query;
         const where = {};
 
+
+
+       
+
+if (rooms !== "-1") {
+  where['details.rooms'] =  { $gte: parseInt(rooms) } //rooms
+}
+
+if (baths !== "-1") {
+  where['details.baths'] = { $gte: parseInt(baths) }  // baths
+}
+
+
+
+if ([type] && type !== "") {
+  where["type"] = type;
+}
+
+
+
+if (minPrice) {
+  where["price"] = { $gte: parseInt(minPrice) }
+}
+
+if (maxPrice) {
+  where["price"]= { $lte: parseInt(maxPrice) }
+}
         
 
         if (search && search !== "") {
@@ -32,6 +66,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         if (city && city !== "") {
           where["city"] = city;
         }
+
+
+       
+
+
+          console.log("here" ,where)
 
         const { books, pages } = await Book.paginate({
           page,

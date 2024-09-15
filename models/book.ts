@@ -61,27 +61,20 @@ const schema = new mongoose.Schema(
     category: {
       type: String,
       required: false,
-      default:'',
+      default: "",
     },
-
 
     constructionYear: {
       type: String,
-      
     },
 
-
-    condition:{
-      type:String
+    condition: {
+      type: String,
     },
 
-    reference:{
-      type:Number
-    }
-,
-
-
-
+    reference: {
+      type: Number,
+    },
     price: {
       type: Number,
       required: true,
@@ -126,10 +119,8 @@ const schema = new mongoose.Schema(
       parkings: {
         type: Number,
         required: true,
-        default: 0
+        default: 0,
       },
-
-
     },
 
     features: {
@@ -148,22 +139,18 @@ const schema = new mongoose.Schema(
       gym: { type: Boolean, default: false },
       parking: { type: Boolean, default: false },
       garden: { type: Boolean, default: false },
-      Furnished:{ type: Boolean, default: false },
-      airBn:{ type: Boolean, default: false },
-      balcon:{ type: Boolean, default: false },
-      golf:{ type: Boolean, default: false },
-      malls:{ type: Boolean, default: false },
-      roomservice:{ type: Boolean, default: false },
-      gezepo:{ type: Boolean, default: false },
-      animalsallow:{ type: Boolean, default: false },
-      aircondition:{ type: Boolean, default: false },
-      beachaccess:{ type: Boolean, default: false },
-      cock:{ type: Boolean, default: false },
-      electric:{ type: Boolean, default: false },
-
-
-
-
+      Furnished: { type: Boolean, default: false },
+      airBn: { type: Boolean, default: false },
+      balcon: { type: Boolean, default: false },
+      golf: { type: Boolean, default: false },
+      malls: { type: Boolean, default: false },
+      roomservice: { type: Boolean, default: false },
+      gezepo: { type: Boolean, default: false },
+      animalsallow: { type: Boolean, default: false },
+      aircondition: { type: Boolean, default: false },
+      beachaccess: { type: Boolean, default: false },
+      cock: { type: Boolean, default: false },
+      electric: { type: Boolean, default: false },
     },
 
     coordinate: {
@@ -196,7 +183,12 @@ schema.statics.paginate = async function ({
   sort = -1,
   where = {},
 }) {
+
+
+
+
   const skip = limit * (page - 1);
+  // const books = await this.find({ ...where })
   const books = await this.find({ ...where })
     .limit(limit)
     .skip(skip)
@@ -208,7 +200,8 @@ schema.statics.paginate = async function ({
     // })
     .exec();
 
-  const pages = Math.ceil((await this.count({ ...where }).exec()) / limit);
+  // const pages = Math.ceil((await this.count({ ...where }).exec()) / limit);
+  const pages = Math.ceil((await this.countDocuments({ ...where}).exec()) / limit);
   const total = await this.count({}).exec();
   return {
     books,
