@@ -162,7 +162,7 @@ export default function AllBooks() {
               }}
               gutterBottom
             >
-              All Blogs
+              All Services
             </AnimatedTypography>
 
             <Grid container spacing={4}>

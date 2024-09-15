@@ -81,19 +81,19 @@ const BlogsMainpage = () => {
                     <div className="blog-card-content">
                       <div className="blog-card-content-top">
                         <ul>
-                          <li>
+                          {/* <li>
                             By <Link href="/blog">Admin</Link>
-                          </li>
+                          </li> */}
                           <li>
                             <Link href="/blog">{category}</Link>
                           </li>
                         </ul>
                       </div>
                       <h5>
-                        <Link href="/blog/blog-details">{title}</Link>
+                        <Link href={`/blogs/${_id}`}>{title}</Link>
                       </h5>
                       <div className="bottom-area">
-                        <Link href="/blog/blog-details">
+                        <Link href={`/blogs/${_id}`}>
                           View Post
                           <span>
                             <svg

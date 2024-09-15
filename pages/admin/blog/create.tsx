@@ -158,6 +158,7 @@ export default function BookCreatePage() {
       </Head>
       <AdminMainLayout>
         <PageLayout title="header.addBook">
+        <div className="text-center md:text-2xl"> Add Blog</div>
           <form className=" p-20" onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
@@ -184,7 +185,7 @@ export default function BookCreatePage() {
                 <TextInput
                   name="category"
                   label="Category"
-                  required
+                  // required
                   value={propertyDetails.category}
                   onChange={(value) => handleInputChange("category", value)}
                 />
