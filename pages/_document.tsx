@@ -18,13 +18,13 @@ export default class MyDocument extends Document {
           />
 
           <link rel="manifest" href="/manifest.json" />
-          <link
+          {/* <link
             rel="apple-touch-icon"
               
             href="https://firebasestorage.googleapis.com/v0/b/test-2221c.appspot.com/o/logo-2.jfif?alt=media&token=8b51a5e3-9500-41ae-806e-10db8d17e38e"
              sizes="256x256"
             // "/favicon.ico"
-          ></link>
+          ></link> */}
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
