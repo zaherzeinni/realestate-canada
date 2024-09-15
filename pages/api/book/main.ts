@@ -19,6 +19,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           search = "",
           rooms,
           baths,
+          beds,
+          type,
           minPrice,
           maxPrice
           
@@ -30,12 +32,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
        
 
-if (rooms !== "-1") {
+if (parseInt(rooms) !== 0) {
   where['details.rooms'] =  { $gte: parseInt(rooms) } //rooms
 }
 
-if (baths !== "-1") {
+if (parseInt(baths) !== 0) {
   where['details.baths'] = { $gte: parseInt(baths) }  // baths
+}
+
+
+if (parseInt(beds) !== 0) {
+  where['details.beds'] = { $gte: parseInt(baths) }  // baths
 }
 
 
@@ -46,14 +53,17 @@ if ([type] && type !== "") {
 
 
 
-if (minPrice) {
-  where["price"] = { $gte: parseInt(minPrice) }
-}
 
-if (maxPrice) {
-  where["price"]= { $lte: parseInt(maxPrice) }
-}
-        
+
+  where["price"] = {$gte: parseInt(minPrice), $lte: parseInt(maxPrice)}
+
+
+// if (maxPrice) {
+//   where["price"] = {  $lte: parseInt(maxPrice) }
+// }
+   
+
+
 
         if (search && search !== "") {
           where["title"] = { $regex: search, $options: "i" };
@@ -67,11 +77,14 @@ if (maxPrice) {
           where["city"] = city;
         }
 
+        if (country && country !== "") {
+          where["country"] = country;
+        }
 
        
 
 
-          console.log("here" ,where)
+          console.log("here" ,where ,req.query)
 
         const { books, pages } = await Book.paginate({
           page,

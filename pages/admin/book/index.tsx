@@ -97,7 +97,7 @@ export default function AllBooks() {
     country: country.value,
     city: city.value,
     search,
-   baths:3,
+ 
     // rooms:5
   });
 

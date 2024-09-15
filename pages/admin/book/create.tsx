@@ -53,7 +53,7 @@ export default function BookCreatePage() {
     redirectIfFound: false,
   });
 
-  const { mutate } = useProducts();
+  const { mutate } = useProducts({});
 
   const { data, isLoading, error } = useCountries();
 
@@ -443,7 +443,7 @@ export default function BookCreatePage() {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              {/* <Grid item xs={12} md={4}>
                 <TextInput
                   name="area"
                   label="Area"
@@ -451,7 +451,7 @@ export default function BookCreatePage() {
                   value={propertyDetails.area}
                   onChange={(value) => handleInputChange("area", value)}
                 />
-              </Grid>
+              </Grid> */}
 
               <Grid item xs={12} md={4}>
                 <TextInput
@@ -480,7 +480,7 @@ export default function BookCreatePage() {
                   label="Number of Rooms"
                   required
                   type="number"
-                  value={propertyDetails.details.beds}
+                  value={propertyDetails.details.rooms}
                   onChange={(value) =>
                     handleInputChange("details.rooms", value)
                   }

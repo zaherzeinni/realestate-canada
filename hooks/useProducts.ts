@@ -5,12 +5,15 @@ import useSWRImmutable from "swr/immutable";
 import Router from "next/router";
 
 interface Query {
-  page?: string | number;
+  page?: number;
   city?: string;
   country?: string;
   search?: string;
   rooms?: any;
-  baths?:any
+  baths?: any;
+  type?: string;
+  maxPrice?: any;
+  minPrice?: any;
 }
 
 interface BookDetails {
@@ -26,14 +29,17 @@ const fetcher = (url: string) => axios.get(url).then(({ data }: any) => data);
 
 export default function useProducts({
   page = 1,
+  minPrice = 0,
   country = "",
   city = "",
   search = "",
-  rooms=-1,
-  baths=-1
-}: Query = {}) {
+  rooms = 0,
+  baths = 0,
+  type = "",
+  maxPrice = 10000000,
+}) {
   const { data, isLoading, error, mutate } = useSWR(
-    `/api/book/main/?page=${page}&country=${country}&city=${city}&search=${search}&rooms=${rooms}&baths=${baths}`,
+    `/api/book/main/?page=${page}&country=${country}&city=${city}&search=${search}&rooms=${rooms}&baths=${baths}&type=${type}&maxPrice=${maxPrice}&minPrice=${minPrice}`,
     fetcher,
 
     {

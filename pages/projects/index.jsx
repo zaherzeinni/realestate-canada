@@ -1,0 +1,207 @@
+
+import Breadcrumb from "@/components/components/common/Breadcrumb";
+import Newslatter from "@/components/components/common/Newslatter";
+import Footer from "@/components/components/footer/Footer";
+import Header from "@/components/components/header/Header";
+import Topbar from "@/components/components/topbar/Topbar";
+
+import Link from "next/link";
+import React from "react";
+import { useRouter } from "next/router";
+import useProducts from "@/hooks/useProducts";
+import FilterForm from "../../components/Site/dashboardLayout/FilterForm";
+
+const Projects = ({
+  country,
+  baths ,
+  rooms,
+  minPrice,
+  maxPrice,
+  type,
+  city,
+  beds
+
+
+}) => {
+const router =useRouter
+const {query} = router
+console.log(query, "Query data")
+
+  const { mutate, data } = useProducts({country ,baths ,rooms ,minPrice ,maxPrice ,type ,city ,beds});
+
+
+
+  return (
+    <div dir="ltr" className="">
+      <Topbar />
+      <Header />
+
+
+      <Breadcrumb pagename="Package Grid" pagetitle="Package Grid" />
+    PRODUCTS : {country}:  {data?.books?.length}
+
+<FilterForm/>
+
+
+
+
+
+      <div className="package-grid-with-sidebar-section pt-120 mb-120">
+        <div className="container">
+          <div className="row g-lg-4 gy-5">
+            <div className="col-lg-12">
+             
+              <div className="list-grid-product-wrap mb-70">
+                <div className="row gy-4">
+                  <div className="col-md-4 item">
+                    <div className="package-card">
+                      <div className="package-card-img-wrap">
+                        <Link
+                          href="/package/package-details"
+                          className="card-img"
+                        >
+                          <img
+                            src="/assets/img/home1/package-card-img1.png"
+                            alt=""
+                          />
+                        </Link>
+                      
+                      </div>
+                      <div className="package-card-content">
+                        <div className="card-content-top">
+                          <h5>
+                            <Link href="/package/package-details">
+                              the Allure Italy's Rich Culture, History, and
+                              Cuisine.
+                            </Link>
+                          </h5>
+                          <div className="location-area">
+                            <ul className="location-list scrollTextAni">
+                              <li>
+                                <Link href="/package">Alexandria</Link>
+                              </li>
+                              <li>
+                                <Link href="/package">Sharm El Sheikh</Link>
+                              </li>
+                              <li>
+                                <Link href="/package">Mansoura</Link>
+                              </li>
+                              <li>
+                                <Link href="/package">Karachi</Link>
+                              </li>
+                              <li>
+                                <Link href="/package">Lahore</Link>
+                              </li>
+                              <li>
+                                <Link href="/package">Islamabad</Link>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div className="card-content-bottom">
+                          <div className="price-area">
+                            {/* <h6>Starting Form:</h6> */}
+                            <span>
+                              $2,898 <del>$3000</del>
+                            </span>
+                            <p>TAXES INCL/PERS</p>
+                          </div>
+                          <Link
+                            href="/package/package-details"
+                            className="primary-btn2"
+                          >
+                           Project Details
+                        
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                
+               
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-lg-12">
+                  <nav className="inner-pagination-area">
+                    <ul className="pagination-list">
+                      <li>
+                        <a href="#" className="shop-pagi-btn">
+                          <i className="bi bi-chevron-left" />
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">1</a>
+                      </li>
+                      <li>
+                        <a href="#" className="active">
+                          2
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">3</a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i className="bi bi-three-dots" />
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">6</a>
+                      </li>
+                      <li>
+                        <a href="#" className="shop-pagi-btn">
+                          <i className="bi bi-chevron-right" />
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+      <Newslatter />
+      <Footer />
+    </div>
+  );
+};
+
+export default Projects;
+
+
+export const getServerSideProps = async (context) => {
+  
+  const {baths ,rooms ,beds ,minPrice ,maxPrice ,country ,type ,city} = context.query
+
+
+
+  // const searchTerm = context?.query?.country ? context?.query?.country : "";
+  // const baths = context?.query?. ? context?.query?.baths :0;
+
+  // const searchTerm = context?.query?.country ? context?.query?.country : 0;
+
+  // const searchTerm = context?.query?.country ? context?.query?.country : "";
+
+  // const searchTerm = context?.query?.country ? context?.query?.country : "";
+
+  // const searchTerm = context?.query?.country ? context?.query?.country : "";
+
+
+  return {
+    props: {
+    
+      country: country,
+      city:city,
+      baths:baths ,
+      rooms:rooms,
+      minPrice:minPrice,
+      maxPrice:maxPrice,
+      type:type,
+      beds:beds
+    },
+  };
+};
