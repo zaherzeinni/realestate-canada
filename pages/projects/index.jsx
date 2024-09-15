@@ -116,9 +116,7 @@ console.log(query, "Query data")
                               <li>
                                 <Link href="/package">{area}</Link>
                               </li>
-                              <li>
-                                <Link href="/package">Karachi</Link>
-                              </li>
+                         
                            
                             </ul>
                           </div>
