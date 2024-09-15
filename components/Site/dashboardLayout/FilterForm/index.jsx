@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState ,useCallback } from "react";
 import { useRouter } from "next/router";
 
 // import { Empty, Select, Slider } from 'antd';
@@ -6,7 +6,7 @@ import Select from "react-select";
 import useCountries from "@/hooks/useCountries";
 import useCities from "@/hooks/useCities";
 
-export default function FilterForm() {
+export default function FilterForm({home=false}) {
   const router = useRouter();
   const { data, isLoading, error } = useCountries();
 
@@ -79,13 +79,13 @@ export default function FilterForm() {
   
   const [formData, setFormData] = useState(initialState);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setFormData(initialState);
     router.push(
-        `/projects/?country=${formData?.country?.value}&city=${formData.city.value}&baths=${formData.baths?.value}&beds=${formData.beds?.value}&minPrice=${formData.minPrice?.value}&maxPrice=${formData.maxPrice?.value}&type=${formData.type?.value}&rooms=${formData.rooms.value}&beds=${formData.beds.value}`
-      );
-  };
-
+      `/projects/?country=${initialState.country.value}&city=${initialState.city.value}&baths=${initialState.baths.value}&beds=${initialState.beds.value}&minPrice=${initialState.minPrice.value}&maxPrice=${initialState.maxPrice.value}&type=${initialState.type.value}&rooms=${initialState.rooms.value}&beds=${initialState.beds.value}`
+    );
+    console.log("Form" , formData)
+  }, [initialState, router]);
 
   const cities = citiesData
     ?.filter((city) => city.country === formData.country.value)
@@ -102,7 +102,7 @@ export default function FilterForm() {
   };
 
   return (
-    <div>
+    <div className=" mb-24 md:mb-4">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-12 mt-sm-0 pt-sm-0">
@@ -122,29 +122,7 @@ export default function FilterForm() {
                   </div>
                 </li>
 
-                {/* <li className="nav-item m-1">
-                                      <div
-                                        className={`${
-                                          activeIndex === 1 ? "active" : ""
-                                        } nav-link py-2 px-4  rounded-3 fw-medium`}
-                                        to="#"
-                                        onClick={() => setActiveIndex(1)}
-                                      >
-                                        Sell
-                                      </div>
-                                    </li>
-
-                                    <li className="nav-item m-1">
-                                      <div
-                                        className={`${
-                                          activeIndex === 2 ? "active" : ""
-                                        } nav-link py-2 px-4  rounded-3 fw-medium`}
-                                        to="#"
-                                        onClick={() => setActiveIndex(2)}
-                                      >
-                                        Rent {formData?.capacity?.value}
-                                      </div>
-                                    </li> */}
+           
               </ul>
 
               <div className="tab-content bg-white rounded-bottom-3 rounded-end-3 sm-rounded-0 shadow">
@@ -155,11 +133,12 @@ export default function FilterForm() {
                   >
                     <div className="registration-form text-dark text-start">
                       <div className="row g-lg-0">
+                      {home !== true &&
                         <div className="col-lg-3 col-md-6 col-12">
                           <div className="mb-3">
                             <label className="form-label fs-6">Search :</label>
                             <div className="filter-search-form position-relative filter-border">
-                              {/* <FiSearch className="fea icon-ex-md icons"/> */}
+                              
                               <input
                                 name="name"
                                 type="text"
@@ -170,6 +149,7 @@ export default function FilterForm() {
                             </div>
                           </div>
                         </div>
+}
 
                         <div className="col-lg-3 col-md-6 col-12">
                           <div className="mb-3">
@@ -177,7 +157,7 @@ export default function FilterForm() {
                               Select Country :
                             </label>
                             <div className="filter-search-form position-relative filter-border bg-light">
-                              {/* <FiHome className="fea icon-ex-md icons"/> */}
+                              
                               <Select
                                 onChange={(newValue) => {
                                   setFormData((prev) => ({
@@ -192,13 +172,15 @@ export default function FilterForm() {
                           </div>
                         </div>
 
+
+{home !== true &&
                         <div className="col-lg-3 col-md-6 col-12">
                           <div className="mb-3">
                             <label className="form-label fs-6">
                               Select City :
                             </label>
                             <div className="filter-search-form position-relative filter-border bg-light">
-                              {/* <FiHome className="fea icon-ex-md icons"/> */}
+                              
                               <Select
                                 onChange={(newValue) => {
                                   setFormData((prev) => ({
@@ -212,6 +194,7 @@ export default function FilterForm() {
                             </div>
                           </div>
                         </div>
+}
 
                         <div className="col-lg-3 col-md-6 col-12">
                           <div className="mb-3">
@@ -219,7 +202,7 @@ export default function FilterForm() {
                               Select Type :
                             </label>
                             <div className="filter-search-form position-relative filter-border bg-light">
-                              {/* <FiHome className="fea icon-ex-md icons"/> */}
+                            
                               <Select
                                 onChange={(newValue) => {
                                   setFormData((prev) => ({
@@ -240,7 +223,7 @@ export default function FilterForm() {
                               Min Price :
                             </label>
                             <div className="filter-search-form position-relative filter-border bg-light">
-                              {/* <FiDollarSign className="fea icon-ex-md icons"/> */}
+                              
                               <Select
                                 onChange={(newValue) => {
                                   setFormData((prev) => ({
@@ -261,7 +244,7 @@ export default function FilterForm() {
                               Max Price :
                             </label>
                             <div className="filter-search-form position-relative filter-border bg-light">
-                              {/* <FiDollarSign className="fea icon-ex-md icons"/> */}
+                           
                               <Select
                                 onChange={(newValue) => {
                                   setFormData((prev) => ({
@@ -276,11 +259,12 @@ export default function FilterForm() {
                           </div>
                         </div>
 
+                        {home !== true &&
                         <div className="col-lg-3 col-md-6 col-12">
                           <div className="mb-3">
                             <label className="form-label fs-6">Rooms :</label>
                             <div className="filter-search-form position-relative filter-border bg-light">
-                              {/* <FiHome className="fea icon-ex-md icons"/> */}
+                              
                               <Select
                                 onChange={(newValue) => {
                                   setFormData((prev) => ({
@@ -294,13 +278,15 @@ export default function FilterForm() {
                             </div>
                           </div>
                         </div>
+}
+
                         <div className="col-lg-3 col-md-6 col-12">
                           <div className="mb-3">
                             <label className="form-label fs-6">
                               Bathrooms :
                             </label>
                             <div className="filter-search-form position-relative filter-border bg-light">
-                              {/* <FiHome className="fea icon-ex-md icons"/> */}
+                              
                               <Select
                                 onChange={(newValue) => {
                                   setFormData((prev) => ({
@@ -319,7 +305,7 @@ export default function FilterForm() {
                           <div className="mb-3">
                             <label className="form-label fs-6">Beds :</label>
                             <div className="filter-search-form position-relative filter-border bg-light">
-                              {/* <FiHome className="fea icon-ex-md icons"/> */}
+                              
                               <Select
                                 onChange={(newValue) => {
                                   setFormData((prev) => ({
@@ -333,6 +319,8 @@ export default function FilterForm() {
                             </div>
                           </div>
                         </div>
+
+
 
                         <div className="col-lg-12 col-md-6 col-12 flex gap-2">
                           <input

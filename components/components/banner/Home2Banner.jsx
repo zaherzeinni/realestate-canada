@@ -144,7 +144,7 @@ const Home2Banner = () => {
                         role="tabpanel"
                       >
                         <div className="home2-banner-content-wrapper">
-                     <FilterForm/>
+                     <FilterForm home={true}/>
                         </div>
                       </div>
                     </div>
