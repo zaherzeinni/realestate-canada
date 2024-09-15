@@ -42,8 +42,8 @@ console.log("data-->" , data?.book)
               <div className="post-title mb-40">
                 <h1>{data?.book?.title} </h1>
               </div>
-              <div className="blog-meta two mb-50">
-                <div className="author-area">
+              <div className="blog-meta1 two mb-50">
+                {/* <div className="author-area">
                   <div className="author-img">
                     <img src={`${ImageEndpoint}/${data?.book?.image[0]}`}
                     // "/assets/img/innerpage/blog-meta-author-img.png"
@@ -52,7 +52,7 @@ console.log("data-->" , data?.book)
                   <div className="author-content">
                     <h6>By, <Link href="/blog">Admin</Link></h6>
                   </div>
-                </div>
+                </div> */}
                 {/* <ul>
                   <li>
                     <svg xmlns="http://www.w3.org/2000/svg" width={12} height={16} viewBox="0 0 12 16">

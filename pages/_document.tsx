@@ -8,12 +8,12 @@ export default class MyDocument extends Document {
     return (
       <Html lang="ar">
         <Head>
-          <title>Outlet Turkey</title>
-          <meta name="title" content=" Outlet Turkey" />
-          <meta name="description" content="Outlet Turkey Store" />
+          <title>TripRex</title>
+          <meta name="title" content=" TripRex" />
+          <meta name="description" content="TripRex" />
         <meta
             name="keywords"
-            content="Outlet Turkey"
+            content="TripRex"
    
           />
 
