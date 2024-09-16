@@ -9,7 +9,7 @@ import useBlogs from "@/hooks/useBlogs";
 import { ImageEndpoint } from "../../utils/global";
 import { useState } from "react";
 import { Pagination } from "@material-ui/lab";
-
+import { useLanguageContext } from "@/context/languageContext";
 export const metadata = {
   title: "TripRex - Tour & Travel Agency  NextJs Template",
   description:
@@ -19,9 +19,10 @@ export const metadata = {
   },
 };
 
-const BlogsMainpage = ({search}) => {
+const BlogsMainpage = ({ search }) => {
   const [page, setPage] = useState(1);
-
+  
+  const { language } = useLanguageContext();
 
 
   const { data, isLoading, error, mutate } = useBlogs({
@@ -51,6 +52,7 @@ const BlogsMainpage = ({search}) => {
 
                 image,
                 title,
+                titlefr,
                 story,
                 storyfr,
                 category,
@@ -81,7 +83,7 @@ const BlogsMainpage = ({search}) => {
                         </ul>
                       </div>
                       <h5>
-                        <Link href={`/blogs/${_id}`}>{title}</Link>
+                        <Link href={`/blogs/${_id}`}>{language === 'en' ? title : titlefr}</Link>
                       </h5>
                       <div className="bottom-area">
                         <Link href={`/blogs/${_id}`}>
@@ -153,20 +155,14 @@ const BlogsMainpage = ({search}) => {
   );
 };
 
-
 export const getServerSideProps = async (context) => {
-  const  search  =context.query.search ? context?.query?.search : '';
-
+  const search = context.query.search ? context?.query?.search : "";
 
   return {
     props: {
       search: search,
- 
     },
   };
 };
-
-
-
 
 export default BlogsMainpage;
