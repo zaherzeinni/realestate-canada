@@ -14,6 +14,18 @@ const schema = new mongoose.Schema(
       trim: true,
       default: "",
     },
+    subtitle: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    subtitlefr: {
+      type: String,
+      required: true,
+      trim: true,
+      default: "",
+    },
 
     story: {
       type: String,
