@@ -1,5 +1,3 @@
-
-
 // ------------
 
 import Head from "next/head";
@@ -7,13 +5,12 @@ import useAuth from "@/hooks/useAuth";
 import NotFound from "@/pages/404";
 import { PageLayout } from "@/layouts";
 import { Grid } from "@mui/material";
-import { TextInput ,SelectInput } from "@/components/inputs";
+import { TextInput, SelectInput } from "@/components/inputs";
 import { Button } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { message } from "antd";
-
 
 import { MdDeleteForever } from "react-icons/md";
 
@@ -38,17 +35,12 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 const types = [
   { id: 1, label: "Villa", value: "villa" },
   { id: 2, label: "House", value: "house" },
-
 ];
 
 const conditions = [
   { id: 1, label: "Ready", value: "ready" },
   { id: 2, label: "Construction", value: "construction" },
-]
-
-
-
-
+];
 
 export default function BookUpdatePage() {
   const { user } = useAuth({
@@ -57,7 +49,6 @@ export default function BookUpdatePage() {
   });
   const router = useRouter();
   const { id } = router.query;
-
 
   const [file, setFile] = useState("");
   const [image, setImage] = useState("");
@@ -88,7 +79,6 @@ export default function BookUpdatePage() {
     constructionYear: "",
     condition: "",
     category: "",
-    
 
     cover: "",
     image: [],
@@ -145,157 +135,127 @@ export default function BookUpdatePage() {
   const [selectedType, setSelectedType] = useState({});
   const [selectedCondition, setSelectedCondition] = useState({});
 
-
-
   useEffect(() => {
     if (!id) return;
     axios.get(`/api/book/${id}`).then((res) => {
       const {
-        data:{book}
+        data: { book },
       } = res;
-      console.log("??>>" , book)
-   setPropertyDetails(book)
-setImage(book?.cover)
+      console.log("??>>", book);
+      setPropertyDetails(book);
+      setImage(book?.cover);
       setImages(book?.image);
       setRootImages(book?.image);
-      
-    setSelectedCountry({label:book?.country , value:book?.country})
-    setSelectedCity({label:book?.city , value:book?.city})
-    setSelectedArea({label:book?.area , value:book?.area})
 
-    setSelectedType({label:book?.type , value:book?.type})
-    setSelectedCondition({label:book?.condition , value:book?.condition})
+      setSelectedCountry({ label: book?.country, value: book?.country });
+      setSelectedCity({ label: book?.city, value: book?.city });
+      setSelectedArea({ label: book?.area, value: book?.area });
 
-
+      setSelectedType({ label: book?.type, value: book?.type });
+      setSelectedCondition({ label: book?.condition, value: book?.condition });
     });
-
-
-
   }, [id]);
 
+  const { data: CountriesData, isLoading, error } = useCountries();
 
-
-
-
-
-
-  const { data:CountriesData, isLoading, error } = useCountries();
-
-
-  const countries = CountriesData?.map(country => ({
+  const countries = CountriesData?.map((country) => ({
     label: country.title,
     value: country.title,
-}));
-
-const {
-  data: CitiesData,
-  isLoading: loadCities,
-  error: errorCities,
-} = useCities();
-
-const {
-  data: areasData,
-  isLoading: loadAreas,
-  error: errorAreas,
-} = useAreas();
-
-
-
-const cities = CitiesData?.filter(
-  (city) => city?.country === selectedCountry.value
-).map((city) => ({
-  label: city?.title,
-  value: city?.title,
-}));
-
-// console.log("CITIES" , CitiesData)
-const areas = areasData?.filter((area) => area.city === selectedCity.value).map((area) => ({
-    label: area?.title,
-    value: area?.title,
   }));
 
+  const {
+    data: CitiesData,
+    isLoading: loadCities,
+    error: errorCities,
+  } = useCities();
 
+  const {
+    data: areasData,
+    isLoading: loadAreas,
+    error: errorAreas,
+  } = useAreas();
 
+  const cities = CitiesData?.filter(
+    (city) => city?.country === selectedCountry.value
+  ).map((city) => ({
+    label: city?.title,
+    value: city?.title,
+  }));
 
+  // console.log("CITIES" , CitiesData)
+  const areas = areasData
+    ?.filter((area) => area.city === selectedCity.value)
+    .map((area) => ({
+      label: area?.title,
+      value: area?.title,
+    }));
 
-    // Handle input changes for the form
-    const handleInputChange = (name, value) => {
-      // Handle nested properties
-      const parsedValue = name.includes('details.') ? parseInt(value, 10) : value;
-      if (name.includes(".")) {
-  
-       
-  
-        const [parent, child] = name.split(".");
-        setPropertyDetails((prev) => ({
-          ...prev,
-          [parent]: {
-            ...prev[parent],
-            [child]: parsedValue,
-          },
-        }));
-      } else {
-        setPropertyDetails((prev) => ({
-          ...prev,
-          [name]: value,
-        }));
-      }
-    };
-  
-    const handleCheckboxChange = (name) => {
-      const [parent, child] = name.split('.');
-  
-      // Log the checkbox name and current state
-      console.log('Checkbox name:', name);
-      console.log('Current parent state:', propertyDetails[parent]);
-      
-      // Update the state
+  // Handle input changes for the form
+  const handleInputChange = (name, value) => {
+    // Handle nested properties
+    const parsedValue = name.includes("details.") ? parseInt(value, 10) : value;
+    if (name.includes(".")) {
+      const [parent, child] = name.split(".");
       setPropertyDetails((prev) => ({
         ...prev,
         [parent]: {
           ...prev[parent],
-          [child]: !prev[parent]?.[child], // Use optional chaining to avoid errors
+          [child]: parsedValue,
         },
       }));
-    };
- 
-        useEffect(() => {
-      if (selectedCountry.value) {
-        setPropertyDetails((prev) => ({
-          ...prev,
-          country: selectedCountry.value,
-          city: selectedCity.value,
-          area:selectedArea?.value,
-        }));
-      }
-    }, [selectedCountry, selectedCity ,selectedArea]);
-  
-    useEffect(() => {
-      if (selectedType.value) {
-        setPropertyDetails((prev) => ({
-          ...prev,
-          type: selectedType.value,
-        }));
-      }
-    }, [selectedType]);
-  
-    useEffect(() => {
-      if (selectedCondition.value) {
-        setPropertyDetails((prev) => ({
-          ...prev,
-          condition: selectedCondition.value,
-        }));
-      }
-    }, [selectedCondition]);
-  
+    } else {
+      setPropertyDetails((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
 
+  const handleCheckboxChange = (name) => {
+    const [parent, child] = name.split(".");
 
-  
-  
+    // Log the checkbox name and current state
+    console.log("Checkbox name:", name);
+    console.log("Current parent state:", propertyDetails[parent]);
 
+    // Update the state
+    setPropertyDetails((prev) => ({
+      ...prev,
+      [parent]: {
+        ...prev[parent],
+        [child]: !prev[parent]?.[child], // Use optional chaining to avoid errors
+      },
+    }));
+  };
 
+  useEffect(() => {
+    if (selectedCountry.value) {
+      setPropertyDetails((prev) => ({
+        ...prev,
+        country: selectedCountry.value,
+        city: selectedCity.value,
+        area: selectedArea?.value,
+      }));
+    }
+  }, [selectedCountry, selectedCity, selectedArea]);
 
+  useEffect(() => {
+    if (selectedType.value) {
+      setPropertyDetails((prev) => ({
+        ...prev,
+        type: selectedType.value,
+      }));
+    }
+  }, [selectedType]);
 
+  useEffect(() => {
+    if (selectedCondition.value) {
+      setPropertyDetails((prev) => ({
+        ...prev,
+        condition: selectedCondition.value,
+      }));
+    }
+  }, [selectedCondition]);
 
   const handleUploadImages = async (filesarray: any) => {
     try {
@@ -325,27 +285,26 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
         filesToDelete,
       });
       console.log("Files deleted successfully", res);
-      message.success("image deleted success")
+      message.success("image deleted success");
     } catch (error) {
       console.error("Error deleting files:", error);
     }
   };
 
+  // ------------ SINGLE IMAGE ADD DELETE
 
-    // ------------ SINGLE IMAGE ADD DELETE
-
-    const handleDelete2 = async (fileToDelete) => {
-      try {
-        console.log("FILE TO DLEETe-->", fileToDelete);
-        const res = await axios.delete(
-          `${uploadApi}/file/delete?fileName=${fileToDelete}`
-        );
-        console.log("File deleted successfully", res);
-        message.success("single image deleted success")
-      } catch (error) {
-        console.error("Error deleting files:", error);
-      }
-    };
+  const handleDelete2 = async (fileToDelete) => {
+    try {
+      console.log("FILE TO DLEETe-->", fileToDelete);
+      const res = await axios.delete(
+        `${uploadApi}/file/delete?fileName=${fileToDelete}`
+      );
+      console.log("File deleted successfully", res);
+      message.success("single image deleted success");
+    } catch (error) {
+      console.error("Error deleting files:", error);
+    }
+  };
 
   const handleUploadImage2 = async (file: any, logo: any) => {
     try {
@@ -356,7 +315,7 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
       console.log("File Data", file);
 
       const endpoint = logo
-      ? `${uploadApi}/file/upload?size=450&&hieghtsize=450`
+        ? `${uploadApi}/file/upload?size=450&&hieghtsize=450`
         : `${uploadApi}/file/upload`;
       //?size=${(size = 1200)}&&hieghtsize=${(hieghtSize = 1000)}
       const response = await axios.post(endpoint, formData, {
@@ -365,7 +324,7 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
         },
       });
       console.log("File Uplaoded successfully", response.data);
-      message.success("single cover image uploaded success")
+      message.success("single cover image uploaded success");
       return response?.data?.file;
     } catch (error) {
       console.error("Error deleting files:", error);
@@ -379,23 +338,21 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
     let newimage: string | any = "";
 
     if (file && image) {
-     // await deleteImage(image);
-     await handleDelete2(image);
+      // await deleteImage(image);
+      await handleDelete2(image);
       message.success("file && image ");
-     // newimage = await uploadImages(file, true, "book");
+      // newimage = await uploadImages(file, true, "book");
 
-      newimage =  await handleUploadImage2(file ,false);
-
+      newimage = await handleUploadImage2(file, false);
     }
 
     if (!file && image) {
       newimage = image;
     } else if (file && !image) {
-   //   newimage = await uploadImages(file, true, "book");
-      newimage =  await handleUploadImage2(file ,false);
+      //   newimage = await uploadImages(file, true, "book");
+      newimage = await handleUploadImage2(file, false);
       message.success("file && NOOOTTT image");
     }
-
 
     console.log("NEWIMAGE", newimage);
 
@@ -404,11 +361,14 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
       (image) => !images.includes(image)
     );
     imagesToDelete?.length > 0 && (await handleDelete(imagesToDelete));
-  //  const newImagesUploaded = await uploadImages(files);
-  let  newImagesUploaded : any = []
-  newImagesUploaded = files?.length > 0 &&  await handleUploadImages(files)
-  console.log("ITEREABLE" ,newImagesUploaded)
-    imagesData =newImagesUploaded?.length > 0 ?  [...images , ...newImagesUploaded]  : images;
+    //  const newImagesUploaded = await uploadImages(files);
+    let newImagesUploaded: any = [];
+    newImagesUploaded = files?.length > 0 && (await handleUploadImages(files));
+    console.log("ITEREABLE", newImagesUploaded);
+    imagesData =
+      newImagesUploaded?.length > 0
+        ? [...images, ...newImagesUploaded]
+        : images;
 
     // if (form?.sizes?.length < 1) {
     //   message.error("اضف مقاس واحد على الاقل");
@@ -416,13 +376,12 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
 
     const updatedDetails = {
       ...propertyDetails,
-      cover:newimage,
-      image:imagesData, // Include images in the submission
+      cover: newimage,
+      image: imagesData, // Include images in the submission
     };
 
     await axios
-      .put(`/api/book/${id}/handler`, updatedDetails
-       )
+      .put(`/api/book/${id}/handler`, updatedDetails)
 
       //   await mutate()
       // Revalidate the products data
@@ -430,7 +389,7 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
       .then((res) => {
         mutate();
         mutatesingle();
-        message.success("Propert updated success")
+        message.success("Propert updated success");
         //    router.push(`/~/product/${id}`);
       })
       .catch((err) => message.error(err?.message));
@@ -442,14 +401,10 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
         <title>تعديل المنتج - Outlet Turkey</title>
       </Head>
       <AdminMainLayout>
-
-    
-      <PageLayout title="تعديل المنتج">
-        <form className=" p-20 !bg-white" onSubmit={handleUpdate}>
-          <Grid container spacing={2}>
-        
-
-          <Grid item xs={12} md={6}>
+        <PageLayout title="تعديل المنتج">
+          <form className=" p-20 !bg-white" onSubmit={handleUpdate}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
                 <TextInput
                   name="propertyId"
                   label="Property ID"
@@ -479,8 +434,6 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
                 />
               </Grid>
 
-          
-
               <Grid item xs={12} md={6}>
                 <TextInput
                   name="price"
@@ -502,9 +455,8 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
                 />
               </Grid>
 
-
-                            <Grid item xs={12} md={6}>
-                 <TextInput
+              <Grid item xs={12} md={6}>
+                <TextInput
                   name="reference"
                   label="Reference"
                   // required
@@ -513,20 +465,19 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
                   onChange={(value) => handleInputChange("reference", value)}
                 />
               </Grid>
-              
+
               <Grid item xs={12} md={6}>
                 <TextInput
                   name="constructionYear"
                   label="ConstructionYear"
                   // required
-                  
+
                   value={propertyDetails.constructionYear}
-                  onChange={(value) => handleInputChange("constructionYear", value)}
+                  onChange={(value) =>
+                    handleInputChange("constructionYear", value)
+                  }
                 />
               </Grid>
-
-
-
 
               <Grid item xs={12} md={4}>
                 <TextInput
@@ -549,8 +500,8 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
                 />
               </Grid>
 
-                            <Grid item xs={12} md={4}>
-                 <TextInput
+              <Grid item xs={12} md={4}>
+                <TextInput
                   name="details.rooms"
                   label="Number of rooms"
                   required
@@ -559,10 +510,8 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
                   onChange={(value) =>
                     handleInputChange("details.rooms", value)
                   }
-
                 />
-
-                </Grid>
+              </Grid>
 
               <Grid item xs={12} md={4}>
                 <TextInput
@@ -577,8 +526,6 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
                 />
               </Grid>
 
-          
-           
               <Grid item xs={12} md={12}>
                 <h3>Features</h3>
                 <div className="flex gap-4 md:gap-12 w-full flex-wrap">
@@ -591,10 +538,10 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
                       <input
                         className="p-2 block rounded-md border focus:outline-none border-gray-300 focus:border-blue-600 shadow-sm text-sm md:text-base hover:cursor-pointer"
                         type="checkbox"
-                      
                         checked={propertyDetails.features[feature]}
-                        onChange={(e) => handleCheckboxChange(`features.${feature}`)}
-                        
+                        onChange={(e) =>
+                          handleCheckboxChange(`features.${feature}`)
+                        }
                       />
                       {feature.charAt(0).toUpperCase() + feature.slice(1)}
                     </label>
@@ -652,11 +599,9 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
                 />
               </Grid>
 
-       
-         
-         
-       
-              <Grid item xs={12} md={6}>                 <SelectInput
+              <Grid item xs={12} md={6}>
+                {" "}
+                <SelectInput
                   placeholder="Select Country"
                   options={countries}
                   selected={selectedCountry}
@@ -665,7 +610,6 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
               </Grid>
 
               <Grid item xs={12} md={6}>
-                
                 <SelectInput
                   placeholder="Select City"
                   options={cities}
@@ -701,114 +645,110 @@ const areas = areasData?.filter((area) => area.city === selectedCity.value).map(
                 />
               </Grid>
 
-
-
-            
-
-            <Grid item xs={12} md={12}>
-              <div>
-                <Upload
-                  className=" !font-estedad"
-                  accept="image/*"
-                  maxCount={1}
-                  // file is data of image will be uploaded to firebase/storage
-                  beforeUpload={(file: any) => {
-                    setFile(file);
-                    // setFiles((prev) => [...prev, file]);
-                    return false;
-                  }}
-                  listType="picture-card"
-                  onRemove={() => setFile("")}
-                >
-                  تحميل الصورة الرئيسية
-                </Upload>
-              </div>
-
-              {image && (
-                <div className="   w-28 h-28 rounded-full  relative">
-                  <img
-                    className=" w-28 h-28 rounded-lg  "
-                    // firebase
-                    // src={image}
-                    src={`${ImageEndpoint}/${image}`}
-                    alt=""
-                  />
-
-                  <p
-                    onClick={() => setImage("")}
-                    className="text-center -top-2 right-2 cursor-pointer absolute text-red-600"
+              <Grid item xs={12} md={12}>
+                <div>
+                  <Upload
+                    className=" !font-estedad"
+                    accept="image/*"
+                    maxCount={1}
+                    // file is data of image will be uploaded to firebase/storage
+                    beforeUpload={(file: any) => {
+                      setFile(file);
+                      // setFiles((prev) => [...prev, file]);
+                      return false;
+                    }}
+                    listType="picture-card"
+                    onRemove={() => setFile("")}
                   >
-                    <MdDeleteForever className=" w-8 h-8" />
-                  </p>
+                    تحميل الصورة الرئيسية
+                  </Upload>
                 </div>
-              )}
-            </Grid>
 
-            <Grid item xs={12} md={12}>
-              <div>
-                <Upload
-                  className=" !font-estedad"
-                  accept="image/*"
-                  multiple
-                  // files is data of images will be uploaded to firebase/storage
-                  beforeUpload={(file) => {
-                    setFiles((prev) => [...prev, file]);
-                    return false;
-                  }}
-                  listType="picture-card"
-                  onRemove={(file) => {
-                    console.log("fileDATA", file);
-                    setFiles((prev) => {
-                      const index = prev.indexOf(file);
-                      const newFileList = prev.slice();
-                      newFileList.splice(index, 1);
-                      return newFileList;
-                    });
-
-                    console.log("files", files);
-                  }}
-                >
-                  تحميل الصور الفرعية
-                </Upload>
-              </div>
-
-              <div className="flex flex-wrap gap-3 mt-2 ">
-                {images?.map((data, index) => (
-                  <div key={index} className=" relative">
+                {image && (
+                  <div className="   w-28 h-28 rounded-full  relative">
                     <img
-                      // src={data}
-                      src={`${ImageEndpoint}/${data}`}
-                      className="w-28 h-28 rounded-full "
+                      className=" w-28 h-28 rounded-lg  "
+                      // firebase
+                      // src={image}
+                      src={`${ImageEndpoint}/${image}`}
+                      alt=""
                     />
-                    <h1
-                      onClick={() => {
-                        // prev all previous images
-                        setImages((prev) => {
-                          // all images put into new array
-                          const temp = [...prev];
-                          // delete  image with clicked index
-                          temp.splice(index, 1);
-                          // return this new array after delete clicked image
-                          return temp;
-                        });
-                      }}
-                      className="text-center -top-10 right-2 cursor-pointer absolute text-red-600"
+
+                    <p
+                      onClick={() => setImage("")}
+                      className="text-center -top-2 right-2 cursor-pointer absolute text-red-600"
                     >
                       <MdDeleteForever className=" w-8 h-8" />
-                    </h1>
+                    </p>
                   </div>
-                ))}
-              </div>
-            </Grid>
+                )}
+              </Grid>
 
-            <Grid item xs={12} md={12}>
-              <Button type="submit" variant="contained" color="primary">
-                تعديل المنتج
-              </Button>
+              <Grid item xs={12} md={12}>
+                <div>
+                  <Upload
+                    className=" !font-estedad"
+                    accept="image/*"
+                    multiple
+                    // files is data of images will be uploaded to firebase/storage
+                    beforeUpload={(file) => {
+                      setFiles((prev) => [...prev, file]);
+                      return false;
+                    }}
+                    listType="picture-card"
+                    onRemove={(file) => {
+                      console.log("fileDATA", file);
+                      setFiles((prev) => {
+                        const index = prev.indexOf(file);
+                        const newFileList = prev.slice();
+                        newFileList.splice(index, 1);
+                        return newFileList;
+                      });
+
+                      console.log("files", files);
+                    }}
+                  >
+                    تحميل الصور الفرعية
+                  </Upload>
+                </div>
+
+                <div className="flex flex-wrap gap-3 mt-2 ">
+                  {images?.map((data, index) => (
+                    <div key={index} className=" relative">
+                      <img
+                        // src={data}
+                        src={`${ImageEndpoint}/${data}`}
+                        className="w-28 h-28 rounded-full "
+                      />
+                      <h1
+                        onClick={() => {
+                          // prev all previous images
+                          setImages((prev) => {
+                            // all images put into new array
+                            const temp = [...prev];
+                            // delete  image with clicked index
+                            temp.splice(index, 1);
+                            // return this new array after delete clicked image
+                            return temp;
+                          });
+                        }}
+                        className="text-center -top-10 right-2 cursor-pointer absolute text-red-600"
+                      >
+                        <MdDeleteForever className=" w-8 h-8" />
+                      </h1>
+                    </div>
+                  ))}
+                </div>
+              </Grid>
+
+              <Grid item xs={12} md={12}>
+                <Button type="submit" variant="contained" color="primary">
+                  تعديل المنتج
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </PageLayout>
+          </form>
+        </PageLayout>
       </AdminMainLayout>
     </div>
   );

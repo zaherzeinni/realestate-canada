@@ -15,7 +15,14 @@ const schema = new mongoose.Schema(
       default: "",
     },
 
-  
+
+    cover: {
+      type: String,
+      required: true,
+    
+      default: "",
+    },
+
 
     
   },

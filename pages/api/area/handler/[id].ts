@@ -17,7 +17,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       try {
         const { id } = req.query;
         await City.findByIdAndDelete(id);
-        //await Book.deleteMany({ City: id });
+     
         res.status(200).json({ success: true });
       } catch (error) {
         res.status(400).json({ success: false, error });

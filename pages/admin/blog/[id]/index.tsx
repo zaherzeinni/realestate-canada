@@ -261,7 +261,7 @@ export default function BookUpdatePage() {
                   <Upload
                     className=" !font-estedad"
                     accept="image/*"
-                    multiple
+                    // multiple
                     // files is data of images will be uploaded to firebase/storage
                     beforeUpload={(file) => {
                       setFiles((prev) => [...prev, file]);

@@ -14,6 +14,9 @@ import Home2ThrillingTour from "../components/components/tourPackage/Home2Thrill
 import Home2VideoSection from "../components/components/videoSection/Home2VideoSection";
 import Home2WhyChoose from "../components/components/whyChoose/Home2WhyChoose";
 
+import CountriesSlider from '@/components/Site/CountriesSlider'
+
+
 
 
 import React from "react";
@@ -30,7 +33,7 @@ const page = () => {
     <div dir="ltr">
     <Header2 />
       <Home2Banner />
-      <Home2Destinationslide />
+      <CountriesSlider/>
       <Home2ThrillingTour />
       <Home2About />
       <Home2Activities />
