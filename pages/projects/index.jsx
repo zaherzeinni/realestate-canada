@@ -1,4 +1,3 @@
-
 import Breadcrumb from "@/components/components/common/Breadcrumb";
 import Newslatter from "@/components/components/common/Newslatter";
 import Footer from "@/components/components/footer/Footer";
@@ -10,141 +9,130 @@ import React from "react";
 import { useRouter } from "next/router";
 import useProducts from "@/hooks/useProducts";
 import FilterForm from "../../components/Site/dashboardLayout/FilterForm";
-import {ImageEndpoint} from '../../utils/global'
+import { ImageEndpoint } from "../../utils/global";
 import { useState } from "react";
-import {  Pagination } from "@material-ui/lab";
-
+import { Pagination } from "@material-ui/lab";
 
 const Projects = ({
   country,
-  baths ,
+  baths,
   rooms,
   minPrice,
   maxPrice,
   type,
   city,
-  beds
-
-
+  beds,
 }) => {
-const router =useRouter
-const {query} = router
-console.log(query, "Query data")
+  const router = useRouter;
+  const { query } = router;
 
-  const { mutate, data } = useProducts({country ,baths ,rooms ,minPrice ,maxPrice ,type ,city ,beds});
+  console.log(query, "Query data");
 
+  const [page, setPage] = useState(1);
 
+  const { mutate, data } = useProducts({
+    country,
+    baths,
+    rooms,
+    minPrice,
+    maxPrice,
+    type,
+    city,
+    beds,
+  });
 
   return (
     <div dir="ltr" className="">
       <Topbar />
       <Header />
-
-
       <Breadcrumb pagename="Package Grid" pagetitle="Package Grid" />
-    PRODUCTS : {country}:  {data?.books?.length}
-
-<FilterForm/>
-
-
-
-
-
+      PRODUCTS : {country}: {data?.books?.length}
+      <FilterForm />
       <div className="package-grid-with-sidebar-section pt-120 mb-120">
         <div className="container">
           <div className="row g-lg-4 gy-5">
             <div className="col-lg-12">
-             
               <div className="list-grid-product-wrap mb-70">
                 <div className="row gy-4">
+                  {data?.books?.map((blog) => {
+                    const {
+                      _id,
 
+                      createdAt,
 
-                {data?.books?.map((blog) => {
-              const {
-                _id,
-                
-                createdAt,
-                
-                cover,
-                image,
-                title,
-                story,
-                storyfr,
-                category,
-                country,
-                city,
-                area,
-                features,
-                price,
+                      cover,
+                      image,
+                      title,
+                      story,
+                      storyfr,
+                      category,
+                      country,
+                      city,
+                      area,
+                      features,
+                      price,
 
-                // read_time,
-              } = blog;
-              return (
+                      // read_time,
+                    } = blog;
+                    return (
+                      <div className="col-md-4 item">
+                        <div className="package-card">
+                          <div className="package-card-img-wrap">
+                            <Link
+                              href={`/projects/${_id}`}
+                              className="card-img"
+                            >
+                              <img
+                                src={`${ImageEndpoint}/${image[0]}`}
+                                alt=""
+                              />
 
-
-                  <div className="col-md-4 item">
-                    <div className="package-card">
-                      <div className="package-card-img-wrap">
-                        <Link
-                         href={`/projects/${_id}`}
-                          className="card-img"
-                        >
-                        <img src={`${ImageEndpoint}/${image[0]}`} alt="" />
-
-                          {/* <img
+                              {/* <img
                              src="/assets/img/home1/package-card-img1.png"
                             alt=""
                           /> */}
-                        </Link>
-                      
-                      </div>
-                      <div className="package-card-content">
-                        <div className="card-content-top">
-                          <h5>
-                            <Link href={`/projects/${_id}`}>
-                         {title}
                             </Link>
-                          </h5>
-                          <div className="location-area">
-                            <ul className="location-list scrollTextAni">
-                              <li>
-                                <Link href="/package">{country}</Link>
-                              </li>
-                              <li>
-                                <Link href="/package">{city}</Link>
-                              </li>
-                              <li>
-                                <Link href="/package">{area}</Link>
-                              </li>
-                         
-                           
-                            </ul>
                           </div>
-                        </div>
-                        <div className="card-content-bottom">
-                          <div className="price-area">
-                            {/* <h6>Starting Form:</h6> */}
-                            <span>
-                              ${price} 
-                              {/* <del>$3000</del> */}
-                            </span>
-                            {/* <p>TAXES INCL/PERS</p> */}
+                          <div className="package-card-content">
+                            <div className="card-content-top">
+                              <h5>
+                                <Link href={`/projects/${_id}`}>{title}</Link>
+                              </h5>
+                              <div className="location-area">
+                                <ul className="location-list scrollTextAni">
+                                  <li>
+                                    <Link href="/package">{country}</Link>
+                                  </li>
+                                  <li>
+                                    <Link href="/package">{city}</Link>
+                                  </li>
+                                  <li>
+                                    <Link href="/package">{area}</Link>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div className="card-content-bottom">
+                              <div className="price-area">
+                                {/* <h6>Starting Form:</h6> */}
+                                <span>
+                                  ${price}
+                                  {/* <del>$3000</del> */}
+                                </span>
+                                {/* <p>TAXES INCL/PERS</p> */}
+                              </div>
+                              <Link
+                                href={`/projects/${_id}`}
+                                className="primary-btn2"
+                              >
+                                Project Details
+                              </Link>
+                            </div>
                           </div>
-                          <Link
-                            href={`/projects/${_id}`}
-                            className="primary-btn2"
-                          >
-                           Project Details
-                        
-                          </Link>
                         </div>
                       </div>
-                    </div>
-                  </div>
-
-              )})}
-                
-               
+                    );
+                  })}
                 </div>
               </div>
               <div className="row">
@@ -185,7 +173,6 @@ console.log(query, "Query data")
                 </div>
               </div>
             </div>
-          
           </div>
         </div>
       </div>
@@ -197,12 +184,9 @@ console.log(query, "Query data")
 
 export default Projects;
 
-
 export const getServerSideProps = async (context) => {
-  
-  const {baths ,rooms ,beds ,minPrice ,maxPrice ,country ,type ,city} = context.query
-
-
+  const { baths, rooms, beds, minPrice, maxPrice, country, type, city } =
+    context.query;
 
   // const searchTerm = context?.query?.country ? context?.query?.country : "";
   // const baths = context?.query?. ? context?.query?.baths :0;
@@ -215,18 +199,16 @@ export const getServerSideProps = async (context) => {
 
   // const searchTerm = context?.query?.country ? context?.query?.country : "";
 
-
   return {
     props: {
-    
       country: country,
-      city:city,
-      baths:baths ,
-      rooms:rooms,
-      minPrice:minPrice,
-      maxPrice:maxPrice,
-      type:type,
-      beds:beds
+      city: city,
+      baths: baths,
+      rooms: rooms,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
+      type: type,
+      beds: beds,
     },
   };
 };

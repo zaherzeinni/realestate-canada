@@ -16,6 +16,7 @@ import NotFound from "@/pages/404";
 import useAuth from "@/hooks/useAuth";
 import { CircularLoading as Loading } from "@/components/loading";
 import Link from "next/link";
+import { MdDeleteForever } from "react-icons/md";
 import {
   Button,
   DialogTitle,
@@ -39,6 +40,8 @@ import {
   message,
 } from "antd";
 import AdminMainLayout from "@/components/Site/dashboardLayout";
+const uploadApi = "https://file-uploader-red.vercel.app";
+import { ImageEndpoint } from "@/utils/global";
 
 interface Category {
   _id: string | number;
@@ -77,15 +80,57 @@ export default function AdminAllCountries() {
   const handleClickOpen = (category: Category) => {
     setOpen(true);
     console.log("category", category);
+    setImage(category?.cover);
     setSelectedCategory(category);
+
     // setImage(category?.cover)
   };
 
   const handleClose = () => {
     setOpen(false);
     setSelectedCategory(undefined);
-    // setFile('')
-    // setImage('')
+    setFile("");
+    setImage("");
+  };
+
+  const handleUploadImage2 = async (file: any, logo: any) => {
+    try {
+      const formData = new FormData();
+
+      formData.append("image", file);
+
+      console.log("File Data", file);
+
+      const endpoint = logo
+        ? `${uploadApi}/file/upload?size=450&hieghtsize=450`
+        : `${uploadApi}/file/upload?size=600&hieghtsize=800`;
+      //?size=${(size = 1200)}&&hieghtsize=${(hieghtSize = 1000)}
+      const response = await axios.post(endpoint, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("File Uplaoded successfully", response.data);
+
+      return response?.data?.file;
+    } catch (error) {
+      console.error("Error deleting files:", error);
+      return;
+    }
+  };
+
+  const handleDelete2 = async (fileToDelete) => {
+    try {
+      console.log("FILE TO DLEETe-->", fileToDelete);
+      const res = await axios.delete(
+        `${uploadApi}/file/delete?fileName=${fileToDelete}`
+      );
+      message.success("File Deleted successfully")
+      console.log("File deleted successfully", res);
+    } catch (error) {
+    message.error("error deleting image file")
+      console.error("Error deleting files:", error);
+    }
   };
 
   useEffect(() => {
@@ -98,8 +143,8 @@ export default function AdminAllCountries() {
     if (!confirm("هل انت متأكد من حذف هذا التصنيف؟")) return;
     try {
       await axios.delete(`/api/city/handler/${id}`);
-      // setFetching(!fetching);
-      message.success("Country deleted successfully")
+    //  await handleDelete2(image);
+      message.success("Country deleted successfully");
       mutate();
     } catch (err) {
       console.error(err);
@@ -109,26 +154,32 @@ export default function AdminAllCountries() {
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // let newimage: string | any = "";
+      let newimage: string | any = "";
 
-      // if (file && image) {
-      //   await deleteImage(image);
-      //   message.success("file && image Deleted upload new image ");
-      //   newimage = await uploadImages(file, true, "category");
-      // }
+      if (file && image) {
+        // await deleteImage(image);
+        await handleDelete2(image);
+        message.success("file && image delete old ");
+        // newimage = await uploadImages(file, true, "book");
 
-      // if (!file && image) {
-      //   newimage = image;
-      // } else if (file && !image) {
-      //   newimage = await uploadImages(file, true, "category");
-      //   message.success("file && NOOOTTT image");
-      // }
+        newimage = await handleUploadImage2(file, false);
+      }
+
+      if (file && !image) {
+        message.success("file ONLYYYY ");
+        // newimage = await uploadImages(file, true, "book");
+
+        newimage = await handleUploadImage2(file, false);
+      }
+
+      console.log("NEWW image", newimage, file);
 
       await axios.put(
         `/api/country/handler/${selectedCategory._id}`,
         {
           title: selectedCategory.title,
           titlefr: selectedCategory.titlefr,
+          cover: newimage ? newimage : selectedCategory?.cover,
         },
         {
           headers: {
@@ -138,8 +189,8 @@ export default function AdminAllCountries() {
       );
       handleClose();
 
-      message.success("City updated successfully")
-     
+      message.success("City updated successfully");
+
       mutate();
     } catch (err) {
       console.error(err);
@@ -262,6 +313,47 @@ export default function AdminAllCountries() {
                   });
                 }}
               />
+
+              <Grid item xs={12} md={12}>
+                <div>
+                  <Upload
+                    className=" !font-estedad"
+                    accept="image/*"
+                    maxCount={1}
+                    // file is data of image will be uploaded to firebase/storage
+                    beforeUpload={(file: any) => {
+                      setFile(file);
+                      // setFiles((prev) => [...prev, file]);
+                      return false;
+                    }}
+                    listType="picture-card"
+                    onRemove={() => setFile("")}
+                  >
+                    تحميل الصورة الرئيسية
+                  </Upload>
+                </div>
+
+                {image}
+
+                {image && (
+                  <div className="   w-28 h-28 rounded-full  relative">
+                    <img
+                      className=" w-28 h-28 rounded-lg  "
+                      // firebase
+                      // src={image}
+                      src={`${ImageEndpoint}/${image}`}
+                      alt=""
+                    />
+
+                    <p
+                      onClick={() => setImage("")}
+                      className="text-center -top-2 right-2 cursor-pointer absolute text-red-600"
+                    >
+                      <MdDeleteForever className=" w-8 h-8" />
+                    </p>
+                  </div>
+                )}
+              </Grid>
             </DialogContent>
             <DialogActions>
               <Button

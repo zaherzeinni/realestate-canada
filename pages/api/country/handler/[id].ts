@@ -17,7 +17,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       try {
         const { id } = req.query;
         await Country.findByIdAndDelete(id);
-        await Book.deleteMany({ Country: id });
+        
         res.status(200).json({ success: true });
       } catch (error) {
         res.status(400).json({ success: false, error });
@@ -26,8 +26,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     case "PUT":
       try {
         const { id } = req.query;
-        const { title , titlefr} = req.body;
-        await Country.updateOne({ _id: id }, { title , titlefr });
+        const { title , titlefr , cover} = req.body;
+        await Country.updateOne({ _id: id }, { title , titlefr ,cover });
         res.status(200).json({ success: true, message: "Country updated !" });
       } catch (error) {
         res.status(400).json({ success: false, error });

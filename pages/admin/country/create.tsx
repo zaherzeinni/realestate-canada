@@ -11,6 +11,9 @@ import { message, Upload } from "antd";
 import { uploadImages, deleteImage } from "@/utils/getData";
 import AdminMainLayout from "@/components/Site/dashboardLayout";
 import useCountries from "@/hooks/useCountries";
+const uploadApi = "https://file-uploader-red.vercel.app";
+
+
 
 export default function CreateCountry() {
   const { user } = useAuth({
@@ -21,29 +24,64 @@ export default function CreateCountry() {
   const [titlefr, setTitlefr] = useState("");
   const [description, setDescription] = useState("");
 
-  const [image, setImage] = useState("");
+  
   const [file, setFile] = useState("");
+
+  const handleUploadImage2 = async (file: any, logo: any) => {
+    try {
+      const formData = new FormData();
+
+      formData.append("image", file);
+
+      console.log("File Data", file);
+
+      const endpoint = logo
+        ? `${uploadApi}/file/upload?size=650&&hieghtsize=800`
+        : `${uploadApi}/file/upload`;
+      //?size=${(size = 1200)}&&hieghtsize=${(hieghtSize = 1000)}
+      const response = await axios.post(endpoint, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("File Uplaoded successfully", response.data);
+
+      return response?.data?.file;
+    } catch (error) {
+      console.error("Error deleting files:", error);
+      return;
+    }
+  };
+
+
+
+
   const {mutate} = useCountries()
+
+
+
+
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
 
-    // let image: string | any = "";
+    let image: string | any = "";
 
-    // if (!file) {
-    //   return message.error("يجب اختيار الصورة ");
-    // }
+    if (!file) {
+      return message.error("يجب اختيار الصورة ");
+    }
 
-    // if (file) {
-    //   image = await uploadImages(file, true, "category");
-    //   message.success("تم تحميل الصورة بنجاح");
-    // }
-
+    if (file) {
+      //  image = await uploadImages(file, true, "book");
+      image = await handleUploadImage2(file, false);
+      message.success("تم تحميل الصورة بنجاح");
+    }
     await axios
       .post("/api/country", {
         title,
         titlefr,
+        cover:image
       })
       .then((res) => {
         mutate()
@@ -93,6 +131,33 @@ export default function CreateCountry() {
                 />
                 
               </Grid>
+
+
+             
+                <div>
+                  <Upload
+                    className=" !font-estedad"
+                    accept="image/*"
+                    maxCount={1}
+                    // file is data of image will be uploaded to firebase/storage
+                    beforeUpload={(file: any) => {
+                      setFile(file);
+                      // setFiles((prev) => [...prev, file]);
+                      return false;
+                    }}
+                    listType="picture-card"
+                    onRemove={() => setFile("")}
+                  >
+                    Add cover image
+                  </Upload>
+                </div>
+
+            
+
+
+
+
+
 
               <Grid item xs={12} md={12}>
                 <Button type="submit" variant="contained" color="primary">

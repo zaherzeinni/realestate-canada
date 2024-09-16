@@ -41,6 +41,25 @@ import { Rating as ReactRating } from "@smastrom/react-rating";
 const uploadApi = "https://file-uploader-red.vercel.app";
 
 
+const modules = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    [{ size: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [{ direction: "rtl" }],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+};
+
+
+
 
 export default function BookCreatePage() {
   const { user } = useAuth({
@@ -237,6 +256,7 @@ export default function BookCreatePage() {
 English Description
 
 <ReactQuill
+   modules={modules}
 
 
                                     value={propertyDetails.story}
@@ -252,6 +272,7 @@ English Description
                 French Description
               
 <ReactQuill
+   modules={modules}
                                     value={propertyDetails.storyfr}
                                     onChange={(value) => setPropertyDetails(prevState => ({
                                       ...prevState,
@@ -269,7 +290,7 @@ English Description
                   <Upload
                     className=" !font-estedad"
                     accept="image/*"
-                    multiple
+                    // multiple
                     // files is data of images will be uploaded to firebase/storage
                     beforeUpload={(file) => {
                       setFiles((prev) => [...prev, file]);

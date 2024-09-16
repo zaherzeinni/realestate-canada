@@ -35,17 +35,24 @@ import "react-quill/dist/quill.snow.css";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-// const countries = [
-//   { label: "House", value: "House" },
-//   { label: "Town House", value: "Town House" },
-//   { label: "Condo", value: "Condo" },
-//   { label: "Land", value: "Land" },
-// ];
 
-// const cities = [
-//   { label: "Sale", value: "Sale" },
-//   { label: "Rent", value: "Rent" },
-// ];
+const modules = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    [{ size: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [{ direction: "rtl" }],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+};
+
 
 export default function BookUpdatePage() {
   const { user } = useAuth({
@@ -219,6 +226,7 @@ export default function BookUpdatePage() {
               <Grid item xs={12} md={12}>
                 English Description
                 <ReactQuill
+                   modules={modules}
                   value={propertyDetails.story}
                   onChange={(value) =>
                     setPropertyDetails((prevState) => ({
@@ -233,6 +241,7 @@ export default function BookUpdatePage() {
               <Grid item xs={12} md={12}>
                 French Description
                 <ReactQuill
+                   modules={modules}
                   value={propertyDetails.storyfr}
                   onChange={(value) =>
                     setPropertyDetails((prevState) => ({
@@ -261,7 +270,7 @@ export default function BookUpdatePage() {
                   <Upload
                     className=" !font-estedad"
                     accept="image/*"
-                    multiple
+                    // multiple
                     // files is data of images will be uploaded to firebase/storage
                     beforeUpload={(file) => {
                       setFiles((prev) => [...prev, file]);
