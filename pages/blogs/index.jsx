@@ -10,6 +10,7 @@ import { ImageEndpoint } from "../../utils/global";
 import { useState } from "react";
 import { Pagination } from "@material-ui/lab";
 import { useLanguageContext } from "@/context/languageContext";
+
 export const metadata = {
   title: "TripRex - Tour & Travel Agency  NextJs Template",
   description:

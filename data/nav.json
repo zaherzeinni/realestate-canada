@@ -2,6 +2,8 @@
     {
         "id": "1",
         "label": "Home",
+        "labelfr": "Home",
+
         "link": "/",
         "icon": false
        
@@ -9,6 +11,7 @@
     {
         "id": "2",
         "label": "About",
+        "labelfr": "Home",
         "link": "/about",
         "icon": false
     },
@@ -16,6 +19,7 @@
     {
         "id": "3",
         "label": "Blogs",
+        "labelfr": "Home",
         "link": "/blogs",
         "icon": false
     },
@@ -23,6 +27,7 @@
     {
         "id": "4",
         "label": "Services",
+        "labelfr": "Home",
         "link": "/services",
         "icon": false
     },
@@ -32,6 +37,7 @@
     {
         "id": "6",
         "label": "Contact",
+        "labelfr": "Home",
         "link": "/contact",
         "icon": false
     }

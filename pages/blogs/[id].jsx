@@ -9,6 +9,7 @@ import useBlogs from "../../hooks/useBlogs";
 import { useRouter } from "next/router";
 import { ImageEndpoint } from "../../utils/global";
 import { useState } from "react";
+import { useLanguageContext } from "@/context/languageContext";
 import { format  ,formatDistanceToNow ,parseISO} from 'date-fns';
 import moment from "moment/moment";
 export const metadata = {
@@ -22,6 +23,7 @@ export const metadata = {
 
 const page = () => {
   const router = useRouter();
+  const { language } = useLanguageContext();
   const { id } = router.query;
   const { data } = useBlog({ id });
   const { data: blogs } = useBlogs({ page: 1 });
@@ -57,7 +59,7 @@ const page = () => {
                 />
               </div>
               <div className="post-title mb-40">
-                <h1>{data?.book?.title} </h1>
+                <h1>{language === 'en' ? data?.book?.title : data?.book?.titlefr} </h1>
               </div>
               <div className="blog-meta two mb-50">
                 <div className="author-area">
@@ -115,14 +117,14 @@ const page = () => {
 
               </div> 
               <p className="first-para1 !text-[#63ab45]">
-              <div className='bg-whit !text-[#100c08]' dangerouslySetInnerHTML={{ __html: data?.book?.story}} />
+              <div className='bg-whit !text-[#100c08]' dangerouslySetInnerHTML={{ __html: language === 'en' ?  data?.book?.story : data?.book?.storyfr}} />
               </p>
             </div>
 
             <div className="col-lg-4">
               <div className="sidebar-area">
                 <div className="single-widget mb-30">
-                  <h5 className="widget-title">Search Here</h5>
+                  <h5 className="widget-title">{language === 'en' ? 'Search Here' : 'Rechercher ici'} </h5>
                   <form onSubmit={handleSearch}>
                     <div className="search-box">
                       <input
@@ -139,7 +141,7 @@ const page = () => {
                 </div>
 
                 <div className="single-widget mb-30">
-                  <h5 className="widget-title">Recent Post</h5>
+                  <h5 className="widget-title">{language === 'en' ? 'Recent Post' : 'Article récent'}</h5>
 
                   {blogs?.books?.map((blog) => {
                     const {
@@ -149,6 +151,7 @@ const page = () => {
 
                       image,
                       title,
+                      titlefr,
                       story,
                       storyfr,
                       category,
@@ -169,7 +172,7 @@ const page = () => {
                         <div className="recent-post-content">
                           <Link  href={`/blogs/${_id}`} >20 July, 2023</Link>
                           <h6>
-                            <Link  href={`/blogs/${_id}`} >{title}</Link>
+                            <Link  href={`/blogs/${_id}`} >{language === 'en' ? title : titlefr}</Link>
                           </h6>
                         </div>
                       </div>

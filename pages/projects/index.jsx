@@ -12,6 +12,7 @@ import FilterForm from "../../components/Site/dashboardLayout/FilterForm";
 import { ImageEndpoint } from "../../utils/global";
 import { useState } from "react";
 import { Pagination } from "@material-ui/lab";
+import { useLanguageContext } from "@/context/languageContext";
 
 const Projects = ({
   country,
@@ -26,9 +27,13 @@ const Projects = ({
   const router = useRouter;
   const { query } = router;
 
+  const { language } = useLanguageContext();
+
   console.log(query, "Query data");
 
   const [page, setPage] = useState(1);
+
+
 
   const { mutate, data } = useProducts({
     country,
