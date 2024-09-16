@@ -41,7 +41,7 @@ const BlogsMainpage = () => {
     <div dir="ltr" className="">
       <Topbar />
       <Header />
-      <Breadcrumb pagename="Blog Grid" pagetitle="Blog Grid" />
+      <Breadcrumb pagename="Service Grid" pagetitle="Service Grid" />
       <div className="blod-grid-section pt-120 mb-120">
         <div className="container">
 
@@ -67,30 +67,31 @@ const BlogsMainpage = () => {
                       <Link href={`/services/${_id}`} className="card-img">
                         <img src={`${ImageEndpoint}/${image[0]}`} alt="" />
                       </Link>
-                      <Link href="/blog" className="date">
+                      {/* <Link href="/services" className="date">
                         <span>
                           <strong>2024</strong> <br />
                          
                         </span>
-                      </Link>
+                      </Link> */}
                     </div>
                     <div className="blog-card-content">
                       <div className="blog-card-content-top">
-                        <ul>
+                        {/* <ul>
                           <li>
                             By <Link href="/blog">Admin</Link>
                           </li>
                           <li>
-                            <Link href="/blog">{category}</Link>
+                            <Link href={`/services/${_id}`}>{category}</Link>
                           </li>
-                        </ul>
+                        </ul> */}
                       </div>
                       <h5>
                         <Link  href={`/services/${_id}`} >{title}</Link>
                       </h5>
                       <div className="bottom-area">
-                        <Link href="/blog/blog-details">
-                          View Post
+                        <Link href={`/services/${_id}`}>
+                        Learn More
+                        {/* Découvrir davantage */}
                           <span>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
