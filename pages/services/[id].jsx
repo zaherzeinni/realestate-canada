@@ -109,7 +109,7 @@ console.log("data-->" , data?.book)
          
             
               <p className="first-para ">
-              <div dangerouslySetInnerHTML={{ __html: data?.book?.storyfr}} />
+              <div dangerouslySetInnerHTML={{ __html: data?.book?.story }} />
               
               
 
