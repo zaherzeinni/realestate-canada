@@ -250,7 +250,7 @@ export default function BookCreatePage() {
       });
 
       //?size=${(size = 1200)}&&hieghtsize=${(hieghtSize = 1000)}
-      const response = await axios.post(`${uploadApi}/file/uploads`, formData, {
+      const response = await axios.post(`${uploadApi}/file/uploads?size=600&hieghtsize=800`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -285,7 +285,7 @@ export default function BookCreatePage() {
 
       const endpoint = logo
         ? `${uploadApi}/file/upload?size=450&&hieghtsize=450`
-        : `${uploadApi}/file/upload`;
+        : `${uploadApi}/file/upload?size=600&hieghtsize=800`;
       //?size=${(size = 1200)}&&hieghtsize=${(hieghtSize = 1000)}
       const response = await axios.post(endpoint, formData, {
         headers: {
