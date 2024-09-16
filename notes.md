@@ -1,6 +1,9 @@
 Qatar --> Bahrain
 Oman --> Kuwait
 
+color triprex
+#63ab45
+
 https://www.dumangurme.com/haberdetay/zeytincilik-sektorunde-rekor-ustune-rekor
                 
 

@@ -83,7 +83,7 @@ console.log("data-->" , data?.book)
 
 
               </div> 
-              <p className="first-para1 !text-[#63ab45]">
+              <p className="first-para !text-[#63ab45]">
               <div className='bg-whit !text-[#100c08]' dangerouslySetInnerHTML={{ __html: data?.book?.story}} />
               </p>
             

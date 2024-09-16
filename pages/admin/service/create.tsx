@@ -203,7 +203,7 @@ export default function BookCreatePage() {
                 <TextInput
                   name="subtitle"
                   label="subTitle"
-                  required
+                  //required
                   value={propertyDetails.subtitle}
                   onChange={(value) => handleInputChange("subtitle", value)}
                 />
@@ -213,7 +213,7 @@ export default function BookCreatePage() {
                 <TextInput
                   name="subtitlefr"
                   label="subTitlefr"
-                  required
+                  //required
                   value={propertyDetails.subtitlefr}
                   onChange={(value) => handleInputChange("subtitlefr", value)}
                 />
