@@ -67,11 +67,11 @@ const BlogsMainpage = ({ search }) => {
                       <Link href={`/blogs/${_id}`} className="card-img">
                         <img src={`${ImageEndpoint}/${image[0]}`} alt="" />
                       </Link>
-                      <Link href="/blog" className="date">
+                      {/* <Link href="/blog" className="date">
                         <span>
                           <strong>2024</strong> <br />
                         </span>
-                      </Link>
+                      </Link> */}
                     </div>
                     <div className="blog-card-content">
                       <div className="blog-card-content-top">
