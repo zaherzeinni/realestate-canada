@@ -107,6 +107,8 @@ const Header = () => {
   }));
 
 
+  
+
 
   const projectslink =`/projects/?city=${""}&country=${""}&baths=${0}=&beds=${0}&minPrice=${0}&maxPrice=${10000000000000}&type=${""}&rooms=${0}&beds=${0}`
 
