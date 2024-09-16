@@ -2,7 +2,7 @@
     {
         "id": "1",
         "label": "Home",
-        "labelfr": "Home",
+        "labelfr": "Maison",
 
         "link": "/",
         "icon": false
@@ -11,7 +11,7 @@
     {
         "id": "2",
         "label": "About",
-        "labelfr": "Home",
+        "labelfr": "À propos",
         "link": "/about",
         "icon": false
     },
@@ -19,7 +19,7 @@
     {
         "id": "3",
         "label": "Blogs",
-        "labelfr": "Home",
+        "labelfr": "Blogs",
         "link": "/blogs",
         "icon": false
     },
@@ -27,7 +27,7 @@
     {
         "id": "4",
         "label": "Services",
-        "labelfr": "Home",
+        "labelfr": "Services",
         "link": "/services",
         "icon": false
     },
@@ -37,7 +37,7 @@
     {
         "id": "6",
         "label": "Contact",
-        "labelfr": "Home",
+        "labelfr": "Contactez",
         "link": "/contact",
         "icon": false
     }
