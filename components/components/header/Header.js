@@ -108,6 +108,7 @@ const Header = () => {
 
 
 
+  const projectslink =`/projects/?city=${""}&country=${""}&baths=${0}=&beds=${0}&minPrice=${0}&maxPrice=${10000000000000}&type=${""}&rooms=${0}&beds=${0}`
 
 
   const handleScroll = () => {
@@ -323,7 +324,7 @@ const Header = () => {
    key={3}
    className={`${true ? "menu-item-has-children" : ""}`}
  >
-   <Link href={'/projects'} className="drop-down">
+   <Link href={projectslink} className="drop-down">
      Countries  
    </Link>
    {groupedData?.length >0 && (

@@ -35,6 +35,7 @@ const BlogsMainpage = ({ search }) => {
   const handlePageChange = (event, value) => {
     if (value === page) return;
     setPage(value);
+    window.scrollTo(0, 0);
   };
 
   return (

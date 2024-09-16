@@ -35,6 +35,7 @@ const BlogsMainpage = () => {
       const handlePageChange = (event, value) => {
         if (value === page) return;
         setPage(value);
+        window.scrollTo(0, 0);
       };
 
 
@@ -137,7 +138,7 @@ const BlogsMainpage = () => {
 
 
           <div className="row">
-            <div className="col-lg-12">
+            <div   className="col-lg-12">
               <nav className="inner-pagination-area">
               <nav className="inner-pagination-area !text-center  !flex !justify-center">
               <Pagination

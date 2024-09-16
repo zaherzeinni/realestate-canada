@@ -33,8 +33,6 @@ const Projects = ({
 
   const [page, setPage] = useState(1);
 
-
-
   const { mutate, data } = useProducts({
     country,
     baths,
@@ -45,6 +43,18 @@ const Projects = ({
     city,
     beds,
   });
+
+
+
+
+  
+  const handlePageChange = (event, value) => {
+    if (value === page) return;
+    setPage(value);
+    window.scrollTo(0, 0);
+  };
+
+
 
   return (
     <div dir="ltr" className="">
@@ -140,7 +150,32 @@ const Projects = ({
                   })}
                 </div>
               </div>
+
               <div className="row">
+            <div className="col-lg-12">
+              <nav className="inner-pagination-area !text-center  !flex !justify-center">
+                <Pagination
+                  dir="rtl"
+                  className=""
+                  onChange={(e, i) => {
+                    handlePageChange(e, i);
+                  }}
+                  count={data?.pages}
+                  defaultPage={page}
+                  page={page}
+                  siblingCount={0}
+                  shape="rounded"
+                  color="primary"
+                  showFirstButton
+                  showLastButton
+                />
+              </nav>
+            </div>
+          </div>
+
+
+
+              {/* <div className="row">
                 <div className="col-lg-12">
                   <nav className="inner-pagination-area">
                     <ul className="pagination-list">
@@ -176,7 +211,9 @@ const Projects = ({
                     </ul>
                   </nav>
                 </div>
-              </div>
+              </div> */}
+
+
             </div>
           </div>
         </div>
