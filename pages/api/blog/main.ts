@@ -12,19 +12,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const {
           page = 1,
           sort,
-        
+
           limit = 4,
           search = "",
         } = req.query;
         const where = {};
 
-        
-
         if (search && search !== "") {
           where["title"] = { $regex: search, $options: "i" };
         }
-
-      
 
         const { books, pages } = await Blog.paginate({
           page,
@@ -32,6 +28,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           sort,
           where,
         });
+
+        console.log('where' , where ,req.query)
+
+
+
         res.status(200).json({ books, pages });
       } catch (error) {
         console.error(error?.message);

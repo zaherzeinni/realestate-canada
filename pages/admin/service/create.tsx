@@ -23,23 +23,17 @@ import useBlogs from "@/hooks/useBlogs";
 import { Form, Upload, Input, Select, Switch, InputNumber } from "antd";
 import { useTranslation } from "@/context/useTranslation";
 
-
 // import TextList from "@/components/SiteComponents/form/textList";
 // import MultiTextList from "@/components/SiteComponents/form/MultiTextList";
-
 
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-
-
 import { Rating as ReactRating } from "@smastrom/react-rating";
 
-
 const uploadApi = "https://file-uploader-red.vercel.app";
-
 
 const modules = {
   toolbar: [
@@ -58,9 +52,6 @@ const modules = {
   ],
 };
 
-
-
-
 export default function BookCreatePage() {
   const { user } = useAuth({
     redirectTo: "/auth/login",
@@ -76,8 +67,6 @@ export default function BookCreatePage() {
 
   const [files, setFiles] = useState([]);
 
-
-
   const [propertyDetails, setPropertyDetails] = useState({
     title: "",
     titlefr: "",
@@ -85,7 +74,7 @@ export default function BookCreatePage() {
     subtitlefr: "",
     story: "",
     storyfr: "",
-    category:"",
+    category: "",
 
     image: [],
 
@@ -134,8 +123,6 @@ export default function BookCreatePage() {
     }
   };
 
-
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
@@ -145,7 +132,6 @@ export default function BookCreatePage() {
 
       let image: string | any = "";
 
-   
       let images: any = [];
 
       if (files?.length > 0) {
@@ -163,8 +149,8 @@ export default function BookCreatePage() {
 
       const updatedDetails = {
         ...propertyDetails,
-      
-        image:images
+
+        image: images,
       };
 
       await axios
@@ -193,7 +179,7 @@ export default function BookCreatePage() {
       </Head>
       <AdminMainLayout>
         <PageLayout title="header.addBook">
-         <div className="text-center md:text-2xl"> Add Service</div>
+          <div className="text-center md:text-2xl"> Add Service</div>
           <form className=" p-20" onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
@@ -216,8 +202,6 @@ export default function BookCreatePage() {
                 />
               </Grid>
 
-
-
               <Grid item xs={12} md={6}>
                 <TextInput
                   name="subtitle"
@@ -238,9 +222,7 @@ export default function BookCreatePage() {
                 />
               </Grid>
 
-
-
-{/*               
+              {/*               
               <Grid item xs={12} md={6}>
                 <TextInput
                   name="category"
@@ -251,70 +233,62 @@ export default function BookCreatePage() {
                 />
               </Grid> */}
 
-              <Grid  item xs={12} md={12}>
-           
-English Description
-
-<ReactQuill
-   modules={modules}
-
-
-                                    value={propertyDetails.story}
-                                    onChange={(value) => setPropertyDetails(prevState => ({
-                                      ...prevState,
-                                      story: value
-                                  }))}
-                                    className="mt-1"
-                                />
+              <Grid item xs={12} md={12}>
+                English Description
+                <ReactQuill
+                  modules={modules}
+                  value={propertyDetails.story}
+                  onChange={(value) =>
+                    setPropertyDetails((prevState) => ({
+                      ...prevState,
+                      story: value,
+                    }))
+                  }
+                  className="mt-1"
+                />
               </Grid>
 
               <Grid item xs={12} md={12}>
                 French Description
-              
-<ReactQuill
-   modules={modules}
-                                    value={propertyDetails.storyfr}
-                                    onChange={(value) => setPropertyDetails(prevState => ({
-                                      ...prevState,
-                                      storyfr: value
-                                  }))}
-                                    className="mt-1"
-                                />
-
-
+                <ReactQuill
+                  modules={modules}
+                  value={propertyDetails.storyfr}
+                  onChange={(value) =>
+                    setPropertyDetails((prevState) => ({
+                      ...prevState,
+                      storyfr: value,
+                    }))
+                  }
+                  className="mt-1"
+                />
               </Grid>
 
-
-
               <div className=" my-6">
-                  <Upload
-                    className=" !font-estedad"
-                    accept="image/*"
-                    // multiple
-                    // files is data of images will be uploaded to firebase/storage
-                    beforeUpload={(file) => {
-                      setFiles((prev) => [...prev, file]);
-                      return false;
-                    }}
-                    listType="picture-card"
-                    onRemove={(file) => {
-                      console.log("fileDATA", file);
-                      setFiles((prev) => {
-                        const index = prev.indexOf(file);
-                        const newFileList = prev.slice();
-                        newFileList.splice(index, 1);
-                        return newFileList;
-                      });
+                <Upload
+                  className=" !font-estedad"
+                  accept="image/*"
+                  // multiple
+                  // files is data of images will be uploaded to firebase/storage
+                  beforeUpload={(file) => {
+                    setFiles((prev) => [...prev, file]);
+                    return false;
+                  }}
+                  listType="picture-card"
+                  onRemove={(file) => {
+                    console.log("fileDATA", file);
+                    setFiles((prev) => {
+                      const index = prev.indexOf(file);
+                      const newFileList = prev.slice();
+                      newFileList.splice(index, 1);
+                      return newFileList;
+                    });
 
-                      console.log("files", files);
-                    }}
-                  >
-                    Add images
-                  </Upload>
-                </div>
-
-
-
+                    console.log("files", files);
+                  }}
+                >
+                  Add images
+                </Upload>
+              </div>
 
               <Grid item xs={12} md={12}>
                 <Button type="submit" variant="contained" color="primary">

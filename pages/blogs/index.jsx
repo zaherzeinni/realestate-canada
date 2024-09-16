@@ -6,11 +6,9 @@ import Footer from "@/components/components/footer/Footer";
 import Topbar from "@/components/components/topbar/Topbar";
 import Header from "@/components/components/header/Header";
 import useBlogs from "@/hooks/useBlogs";
-import {ImageEndpoint} from '../../utils/global'
+import { ImageEndpoint } from "../../utils/global";
 import { useState } from "react";
-import {  Pagination } from "@material-ui/lab";
-
-
+import { Pagination } from "@material-ui/lab";
 
 export const metadata = {
   title: "TripRex - Tour & Travel Agency  NextJs Template",
@@ -21,25 +19,21 @@ export const metadata = {
   },
 };
 
-const BlogsMainpage = () => {
-
-
+const BlogsMainpage = ({search}) => {
   const [page, setPage] = useState(1);
 
 
 
-    const { data, isLoading, error, mutate } = useBlogs({
-        page,
-    
-        search:"",
-      });
+  const { data, isLoading, error, mutate } = useBlogs({
+    page,
 
+    search: search,
+  });
 
-
-      const handlePageChange = (event, value) => {
-        if (value === page) return;
-        setPage(value);
-      };
+  const handlePageChange = (event, value) => {
+    if (value === page) return;
+    setPage(value);
+  };
 
   return (
     <div dir="ltr" className="">
@@ -48,15 +42,13 @@ const BlogsMainpage = () => {
       <Breadcrumb pagename="Blog Grid" pagetitle="Blog Grid" />
       <div className="blod-grid-section pt-120 mb-120">
         <div className="container">
-
           <div className="row g-md-4 gy-5 mb-70">
             {data?.books?.map((blog) => {
               const {
                 _id,
-                
+
                 createdAt,
-                
-                
+
                 image,
                 title,
                 story,
@@ -74,7 +66,6 @@ const BlogsMainpage = () => {
                       <Link href="/blog" className="date">
                         <span>
                           <strong>2024</strong> <br />
-                         
                         </span>
                       </Link>
                     </div>
@@ -85,7 +76,7 @@ const BlogsMainpage = () => {
                             By <Link href="/blog">Admin</Link>
                           </li> */}
                           <li>
-                            <Link href="/blog">{category}</Link>
+                            <Link href="/blogs">{category}</Link>
                           </li>
                         </ul>
                       </div>
@@ -133,26 +124,24 @@ const BlogsMainpage = () => {
             })}
           </div>
 
-
-
           <div className="row">
             <div className="col-lg-12">
               <nav className="inner-pagination-area !text-center  !flex !justify-center">
-              <Pagination
-              dir="rtl"
-              className=""
-                          onChange={(e, i) => {
-                            handlePageChange(e, i);
-                          }}
-                          count={data?.pages}
-                          defaultPage={page}
-                          page={page}
-                          siblingCount={0}
-                          shape="rounded"
-                          color="primary"
-                          showFirstButton
-                          showLastButton
-                        />
+                <Pagination
+                  dir="rtl"
+                  className=""
+                  onChange={(e, i) => {
+                    handlePageChange(e, i);
+                  }}
+                  count={data?.pages}
+                  defaultPage={page}
+                  page={page}
+                  siblingCount={0}
+                  shape="rounded"
+                  color="primary"
+                  showFirstButton
+                  showLastButton
+                />
               </nav>
             </div>
           </div>
@@ -163,5 +152,21 @@ const BlogsMainpage = () => {
     </div>
   );
 };
+
+
+export const getServerSideProps = async (context) => {
+  const  search  =context.query.search ? context?.query?.search : '';
+
+
+  return {
+    props: {
+      search: search,
+ 
+    },
+  };
+};
+
+
+
 
 export default BlogsMainpage;
