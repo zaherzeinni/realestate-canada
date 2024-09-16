@@ -9,6 +9,7 @@ import useBlogs from "@/hooks/useServices";
 import {ImageEndpoint} from '../../utils/global'
 import { useState } from "react";
 import {  Pagination } from "@material-ui/lab";
+import { useLanguageContext } from "@/context/languageContext";
 
 export const metadata = {
   title: "TripRex - Tour & Travel Agency  NextJs Template",
@@ -21,7 +22,7 @@ export const metadata = {
 
 const BlogsMainpage = () => {
 
-
+  const { language } = useLanguageContext();
   const [page, setPage] = useState(1);
 
     const { data, isLoading, error, mutate } = useBlogs({
@@ -34,6 +35,7 @@ const BlogsMainpage = () => {
       const handlePageChange = (event, value) => {
         if (value === page) return;
         setPage(value);
+        window.scrollTo(0, 0);
       };
 
 
@@ -55,6 +57,7 @@ const BlogsMainpage = () => {
                 
                 image,
                 title,
+                titlefr,
                 subtitle,
                 story,
                 storyfr,
@@ -87,11 +90,12 @@ const BlogsMainpage = () => {
                         </ul> */}
                       </div>
                       <h5>
-                        <Link  href={`/services/${_id}`} >{title}</Link>
+                        <Link  href={`/services/${_id}`} >{language === 'en' ?  title : titlefr}</Link>
                       </h5>
                       <div className="bottom-area">
                         <Link href={`/services/${_id}`}>
-                        Learn More
+                        
+                        {language === 'en' ? "Learn More" : "Apprendre encore plus"}
                         {/* Découvrir davantage */}
                           <span>
                             <svg
@@ -134,7 +138,7 @@ const BlogsMainpage = () => {
 
 
           <div className="row">
-            <div className="col-lg-12">
+            <div   className="col-lg-12">
               <nav className="inner-pagination-area">
               <nav className="inner-pagination-area !text-center  !flex !justify-center">
               <Pagination

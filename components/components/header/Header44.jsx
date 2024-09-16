@@ -79,6 +79,7 @@ const Header = () => {
   const headerRef = useRef(null);
 
 
+
   const { data:countries, isLoading, error } = useCountries();
 
 
@@ -94,23 +95,19 @@ const Header = () => {
     id: 1,
     label: country?.title,
     labelfr:country?.titlefr,
-    link:`/projects/?country=${country?.title}&city=${""}&baths=${0}=&beds=${0}&minPrice=${0}&maxPrice=${10000000000000}&type=${""}&rooms=${0}&beds=${0}`,
-  
+    link: `/projects?country=${country?.title}`,
+  //  cities: cities?.filter(city => city?.country === country?.title) ,
     
     subMenu: cities?.filter(city => city?.country === country?.title).map((city, index) => ({
         id: index,
-        label: city?.title,
-        labelfr:city?.labelfr,
-    link:`/projects/?city=${city?.title}&country=${""}&baths=${0}=&beds=${0}&minPrice=${0}&maxPrice=${10000000000000}&type=${""}&rooms=${0}&beds=${0}`,
-  })),
+        label: city.title,
+         link: "/cities/new-york"
+      })),
    icon:cities?.filter(city => city?.country === country?.title)?.length > 0 ? true : false
   }));
 
 
-  
 
-
-  const projectslink =`/projects/?city=${""}&country=${""}&baths=${0}=&beds=${0}&minPrice=${0}&maxPrice=${10000000000000}&type=${""}&rooms=${0}&beds=${0}`
 
 
   const handleScroll = () => {
@@ -223,6 +220,7 @@ const Header = () => {
         <div className="header-logo d-lg-none d-flex">
           <Link href="/">
             <img alt="image" className="img-fluid" src="/assets/img/logo.svg" />
+           
           </Link>
         </div>
         <div className="company-logo d-lg-flex d-none">
@@ -242,15 +240,15 @@ const Header = () => {
             </div>
           </div>
           <ul className="menu-list">
-            {navData.map((data) => {
-              const { id, label, link, icon, subMenu , labelfr } = data;
+            {groupedData?.map((data) => {
+              const { id, label, link, icon, subMenu } = data;
               return (
                 <li
                   key={id}
                   className={`${icon === true ? "menu-item-has-children" : ""}`}
                 >
                   <Link href={link} className="drop-down">
-                    {language === 'en' ? label : labelfr} 
+                    {label}  
                   </Link>
                   {icon && (
                     <i
@@ -270,7 +268,7 @@ const Header = () => {
                       {subMenu.map((subItem, subIndex) => (
                         <li key={subIndex}>
                           <Link legacyBehavior href={subItem.link}>
-                            <a>{language === 'en' ? subItem?.label : subItem?.labelfr}    </a>
+                            <a>{subItem.label}</a>
                           </Link>
                           {subItem.icon && subItem.icon ? (
                             <>
@@ -298,12 +296,7 @@ const Header = () => {
                               {subItem.subMenu.map((subItem, subIndex) => (
                                 <li key={subItem.id}>
                                   <Link legacyBehavior href={subItem.link}>
-                                    <a>
-                                    {language === 'en' ? subItem?.label : subItem?.labelfr} 
-                                      
-                                     
-
-                                    </a>
+                                    <a>{subItem.label}</a>
                                   </Link>
                                 </li>
                               ))}
@@ -316,85 +309,85 @@ const Header = () => {
                 </li>
               );
             })}
-
-
-
-{/* COUNTRIES HERE  */}
-
- 
- <li
-   key={3}
-   className={`${true ? "menu-item-has-children" : ""}`}
- >
-   <Link href={projectslink} className="drop-down">
-     Countries  
-   </Link>
-   {groupedData?.length >0 && (
-     <i
-     // state.activeMenu === label ? "dash" : "plus"
-
-        onClick={() => toggleMenu("projects")}
-       className={`bi bi-${
-       "plus"
-       } dropdown-icon`}
-     />
-   )}
-
-   {groupedData?.length > 0 && (
-     <ul
-       className={`sub-menu ${
-        
-          state.activeMenu === "projects" ? "d-block" : ""
-       }`}
-     >
-       {groupedData?.map((subItem, subIndex) => (
-         <li key={subIndex}>
-           <Link legacyBehavior href={subItem.link}>
-             <a>{subItem.label}</a>
-           </Link>
-           {subItem?.icon && subItem?.icon ? (
-             <>
-               <i className="d-lg-flex d-none bi bi-chevron-right dropdown-icon" />
-               <i
-                 onClick={() => toggleSubMenu(subItem?.label)}
-                 className={`d-lg-none d-flex bi bi-${
-                   state.activeSubMenu === subItem?.label
-                     ? "dash"
-                     : "plus"
-                 } dropdown-icon `}
-               />
-             </>
-           ) : (
-             ""
-           )}
-           {subItem?.subMenu && (
-             <ul
-               className={`sub-menu ${
-                 state.activeSubMenu === subItem.label
-                   ? "d-block"
-                   : ""
-               }`}
-             >
-               {subItem?.subMenu.map((subItem, subIndex) => (
-                 <li key={subItem?.id}>
-                   <Link legacyBehavior href={subItem?.link}>
-                     <a>{subItem?.label}</a>
-                   </Link>
-                 </li>
-               ))}
-             </ul>
-           )}
-         </li>
-       ))}
-     </ul>
-   )}
- </li>
-
-
-
-
-
           </ul>
+
+
+          <ul className="menu-list">
+ 
+                <li
+                  key={3}
+                  className={`${true ? "menu-item-has-children" : ""}`}
+                >
+                  <Link href={'/projects'} className="drop-down">
+                    Countries  
+                  </Link>
+                  {groupedData?.length >0 && (
+                    <i
+                    // state.activeMenu === label ? "dash" : "plus"
+
+                    //   onClick={() => toggleMenu(label)}
+                      className={`bi bi-${
+                      "plus"
+                      } dropdown-icon`}
+                    />
+                  )}
+
+                  {groupedData?.length > 0 && (
+                    <ul
+                      className={`sub-menu ${
+                        state.activeMenu === "projects" ? "d-block" : ""
+                      }`}
+                    >
+                      {groupedData?.map((subItem, subIndex) => (
+                        <li key={subIndex}>
+                          <Link legacyBehavior href={subItem.link}>
+                            <a>{subItem.label}</a>
+                          </Link>
+                          {subItem?.icon && subItem?.icon ? (
+                            <>
+                              <i className="d-lg-flex d-none bi bi-chevron-right dropdown-icon" />
+                              <i
+                                onClick={() => toggleSubMenu(subItem?.label)}
+                                className={`d-lg-none d-flex bi bi-${
+                                  state.activeSubMenu === subItem?.label
+                                    ? "dash"
+                                    : "plus"
+                                } dropdown-icon `}
+                              />
+                            </>
+                          ) : (
+                            ""
+                          )}
+                          {subItem?.subMenu && (
+                            <ul
+                              className={`sub-menu ${
+                                state.activeSubMenu === subItem.label
+                                  ? "d-block"
+                                  : ""
+                              }`}
+                            >
+                              {subItem?.subMenu.map((subItem, subIndex) => (
+                                <li key={subItem?.id}>
+                                  <Link legacyBehavior href={subItem?.link}>
+                                    <a>{subItem?.label}</a>
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+         
+            
+          </ul>
+
+
+
+
+
           <div className="topbar-right d-lg-none d-block">
             <button
               type="button"
@@ -419,7 +412,7 @@ const Header = () => {
           </div>
           <div className="hotline-area d-lg-none d-flex">
             <div className="icon">
-              
+              ---0hghgh
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={28}
@@ -431,17 +424,17 @@ const Header = () => {
                 <path d="M15.865 10.267C17.1528 10.2686 18.1964 11.3122 18.198 12.6C18.198 12.7238 18.2472 12.8424 18.3347 12.9299C18.4222 13.0174 18.5409 13.0666 18.6646 13.0666C18.7883 13.0666 18.907 13.0174 18.9945 12.9299C19.082 12.8424 19.1312 12.7238 19.1312 12.6C19.1291 10.797 17.668 9.33589 15.865 9.33386C15.6073 9.33386 15.3984 9.54274 15.3984 9.80044C15.3984 10.0581 15.6073 10.267 15.865 10.267Z" />
               </svg>
             </div>
-            {/* <div className="content">
+            <div className="content">
               <span>To More Inquiry</span>
               <h6>
                 <a href="tel:+990737621432">+990-737 621 432</a>
               </h6>
-            </div> */}
+            </div>
           </div>
         </div>
         <div className="nav-right d-flex jsutify-content-end align-items-center">
           <ul className="icon-list">
-            {/* <li className="d-lg-flex d-none">
+            <li className="d-lg-flex d-none">
               <a href="#" data-bs-toggle="modal" data-bs-target="#user-login">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -470,7 +463,7 @@ const Header = () => {
                   />
                 </svg>
               </a>
-            </li> */}
+            </li>
 
             {/* LANGUAGE switch */}
 
@@ -515,12 +508,12 @@ const Header = () => {
                 <path d="M15.865 10.267C17.1528 10.2686 18.1964 11.3122 18.198 12.6C18.198 12.7238 18.2472 12.8424 18.3347 12.9299C18.4222 13.0174 18.5409 13.0666 18.6646 13.0666C18.7883 13.0666 18.907 13.0174 18.9945 12.9299C19.082 12.8424 19.1312 12.7238 19.1312 12.6C19.1291 10.797 17.668 9.33589 15.865 9.33386C15.6073 9.33386 15.3984 9.54274 15.3984 9.80044C15.3984 10.0581 15.6073 10.267 15.865 10.267Z" />
               </svg>
             </div>
-            {/* <div className="content">
+            <div className="content">
               <span>To More Inquiry</span>
               <h6>
                 <a href="tel:+990737621432">+990-737 621 432</a>
               </h6>
-            </div> */}
+            </div>
           </div>
           <div
             className="sidebar-button mobile-menu-btn"
@@ -773,12 +766,12 @@ const Header = () => {
                 <path d="M15.865 10.267C17.1528 10.2686 18.1964 11.3122 18.198 12.6C18.198 12.7238 18.2472 12.8424 18.3347 12.9299C18.4222 13.0174 18.5409 13.0666 18.6646 13.0666C18.7883 13.0666 18.907 13.0174 18.9945 12.9299C19.082 12.8424 19.1312 12.7238 19.1312 12.6C19.1291 10.797 17.668 9.33589 15.865 9.33386C15.6073 9.33386 15.3984 9.54274 15.3984 9.80044C15.3984 10.0581 15.6073 10.267 15.865 10.267Z" />
               </svg>
             </div>
-            {/* <div className="content">
+            <div className="content">
               <span>To More Inquiry</span>
               <h6>
                 <a href="tel:+990737621432">+990-737 621 432</a>
               </h6>
-            </div> */}
+            </div>
           </div>
           <div className="email-area">
             <div className="icon">

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLanguageContext } from "@/context/languageContext";
+import Header from "../components/components/header/Header44";
 
 
 
@@ -10,6 +11,11 @@ import { useLanguageContext } from "@/context/languageContext";
 export default function Test() {
   const { isOpen } = useLanguageContext();
   return (
-    <div>Test</div>
+    <div dir='ltr'>
+<Header/>
+
+
+
+    </div>
   )
 }

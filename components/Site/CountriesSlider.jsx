@@ -10,6 +10,9 @@ import SwiperCore, {
 } from "swiper";
 import Link from "next/link";
 import { ImageEndpoint } from "@/utils/global";
+
+import { useLanguageContext } from "@/context/languageContext";
+
 SwiperCore.use([Autoplay, EffectFade, Navigation, Pagination]);
 
 const Countriesslide = () => {
@@ -52,6 +55,8 @@ const Countriesslide = () => {
       },
     };
   }, []);
+
+  const { language } = useLanguageContext();
 
   const { data, isLoading, error } = useCountries();
 
@@ -105,9 +110,9 @@ const Countriesslide = () => {
                             <Link
                               href={`/projects/?country=${
                                 country?.title
-                              }&city=${""}&baths${0}=&beds=${0}&minPrice=${0}&maxPrice=${10000000000000}&type=${""}&rooms=${0}&beds=${0}`}
+                              }&city=${""}&baths=${0}=&beds=${0}&minPrice=${0}&maxPrice=${10000000000000}&type=${""}&rooms=${0}&beds=${0}`}
                             >
-                              {country?.title}
+                              {language === 'en' ? country?.title : country?.titlefr}
                             </Link>
                           </h4>
                         </div>
@@ -120,10 +125,10 @@ const Countriesslide = () => {
                 <div className="slider-btn-grp3 two">
                   <div className="slider-btn destination-card2-prev">
                     <i className="bi bi-arrow-left" />
-                    <span>PREV</span>
+                    <span> {language === 'en' ?  'PREV' : 'Précédent'} </span>
                   </div>
                   <div className="slider-btn destination-card2-next">
-                    <span>NEXT</span>
+                    <span> {language === 'en' ?  'NEXT' : 'Suivante'}  </span>
                     <i className="bi bi-arrow-right" />
                   </div>
                 </div>

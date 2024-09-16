@@ -7,7 +7,7 @@ import Home2Banner2 from "../components/components/banner/Home2Banner2";
 import Home2Blog from "../components/components/blog/Home2Blog";
 import Home2Destinationslide from "../components/components/destinationSlider/Home2Destinationslide";
 import Footer from "../components/components/footer/Footer";
-import Header2 from "../components/components/header/Header2";
+import Header from "../components/components/header/Header";
 import Home2Team from "../components/components/team/Home2Team";
 import Home2Testimonial from "../components/components/testimonial/Home2Testimonial";
 import Home2ThrillingTour from "../components/components/tourPackage/Home2ThrillingTour";
@@ -31,7 +31,7 @@ export const metadata = {
 const page = () => {
   return (
     <div dir="ltr">
-    <Header2 />
+    <Header />
       <Home2Banner />
       <CountriesSlider/>
       <Home2ThrillingTour />
