@@ -41,6 +41,7 @@ console.log("data-->" , data?.book)
               </div>
               <div className="post-title mb-40">
                 <h1>{data?.book?.title} </h1>
+                <h2>{data?.book?.subtitle} </h2>
               </div>
               <div className="blog-meta two mb-50">
                 <div className="author-area">

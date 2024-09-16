@@ -55,6 +55,7 @@ const BlogsMainpage = () => {
                 
                 image,
                 title,
+                subtitle,
                 story,
                 storyfr,
                 category,
