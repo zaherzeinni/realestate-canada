@@ -29,7 +29,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { Form, Upload, Input, Select, Switch, InputNumber } from "antd";
-import useProducts from "@/hooks/useProducts";
+import useServices from "@/hooks/useServices";
 import useProductDetails from "@/hooks/useProductDetails";
 // import TextList from "@/components/SiteComponents/form/textList";
 // import MultiTextList from "@/components/SiteComponents/form/MultiTextList";
@@ -64,7 +64,7 @@ export default function BookUpdatePage() {
   const [files, setFiles] = useState([]);
   const [images, setImages] = useState([]);
   const [rootImages, setRootImages] = useState([]);
-  const { mutate, data } = useProducts();
+  const { mutate, data } = useServices();
   const { mutate: mutatesingle } = useProductDetails({ id  });
   const [form, setForm] = useState({
     sizes: [],
