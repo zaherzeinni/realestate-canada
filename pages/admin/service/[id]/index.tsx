@@ -69,15 +69,18 @@ export default function BookUpdatePage() {
   const [form, setForm] = useState({
     sizes: [],
     features: [],
+    
   });
 
   const [propertyDetails, setPropertyDetails] = useState({
     title: "",
     titlefr: "",
+    subtitle: "",
+    subtitlefr: "",
     story: "",
     storyfr: "",
 
-  
+   
     image: [],
     sizes: [],
     featuresPlus: [],
@@ -208,7 +211,7 @@ export default function BookUpdatePage() {
   return (
     <div dir="ltr" className="cart-area !bg-whit about-area">
       <Head>
-        <title>تعديل المنتج - Outlet Turkey</title>
+        <title>تعديل المنتج </title>
       </Head>
       <AdminMainLayout>
         <PageLayout title="تعديل المنتج">
@@ -231,6 +234,28 @@ export default function BookUpdatePage() {
                   required
                   value={propertyDetails?.titlefr}
                   onChange={(value) => handleInputChange("titlefr", value)}
+                />
+              </Grid>
+
+
+
+              <Grid item xs={12} md={6}>
+                <TextInput
+                  name="subtitle"
+                  label="subTitle"
+                  required
+                  value={propertyDetails.subtitle}
+                  onChange={(value) => handleInputChange("subtitle", value)}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <TextInput
+                  name="subtitlefr"
+                  label="subTitlefr"
+                  required
+                  value={propertyDetails.subtitlefr}
+                  onChange={(value) => handleInputChange("subtitlefr", value)}
                 />
               </Grid>
 

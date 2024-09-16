@@ -62,6 +62,8 @@ export default function BookCreatePage() {
   const [propertyDetails, setPropertyDetails] = useState({
     title: "",
     titlefr: "",
+    subtitle: "",
+    subtitlefr: "",
     story: "",
     storyfr: "",
     category:"",
@@ -152,7 +154,7 @@ export default function BookCreatePage() {
         .then((res) => {
           console.log(res);
           mutate();
-          message.success("Blog added successfully");
+          message.success("Service added successfully");
           const { data } = res;
           //     router.push(`/~/book/${data}`);
         })
@@ -168,7 +170,7 @@ export default function BookCreatePage() {
   return (
     <div dir="ltr" className="cart-are !bg-[#ffff]  product-area">
       <Head>
-        <title>إضافة منتج جديد - Outlet Turkey</title>
+        <title>إضافة منتج جديد </title>
       </Head>
       <AdminMainLayout>
         <PageLayout title="header.addBook">
@@ -196,7 +198,30 @@ export default function BookCreatePage() {
               </Grid>
 
 
-              
+
+              <Grid item xs={12} md={6}>
+                <TextInput
+                  name="subtitle"
+                  label="subTitle"
+                  required
+                  value={propertyDetails.subtitle}
+                  onChange={(value) => handleInputChange("subtitle", value)}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <TextInput
+                  name="subtitlefr"
+                  label="subTitlefr"
+                  required
+                  value={propertyDetails.subtitlefr}
+                  onChange={(value) => handleInputChange("subtitlefr", value)}
+                />
+              </Grid>
+
+
+
+{/*               
               <Grid item xs={12} md={6}>
                 <TextInput
                   name="category"
@@ -205,7 +230,7 @@ export default function BookCreatePage() {
                   value={propertyDetails.category}
                   onChange={(value) => handleInputChange("category", value)}
                 />
-              </Grid>
+              </Grid> */}
 
               <Grid  item xs={12} md={12}>
            

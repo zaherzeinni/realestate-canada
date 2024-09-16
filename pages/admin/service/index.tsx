@@ -43,12 +43,14 @@ import AdminMainLayout from "@/components/Site/dashboardLayout";
 interface Book {
   _id: string | number;
   title: string;
+  subtitle: string;
   story?: string;
   price: string | number;
   cover: string;
   author?: string;
   category?: string;
   forsell?: boolean;
+  
 }
 
 const SearchTimeOut = 0; // 0 ms
@@ -147,7 +149,7 @@ export default function AllBooks() {
   return (
     <>
       <Head>
-        <title>Outlet Turkey</title>
+        <title>triprex</title>
         <meta name="description" content="متجر لبيع كافة ماتحتاجه" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="" />
