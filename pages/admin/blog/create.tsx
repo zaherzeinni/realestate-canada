@@ -33,6 +33,27 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const uploadApi = "https://file-uploader-red.vercel.app";
 
+
+const modules = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    [{ size: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [{ direction: "rtl" }],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+};
+
+
+
+
 export default function BookCreatePage() {
   const { user } = useAuth({
     redirectTo: "/auth/login",
@@ -158,7 +179,7 @@ export default function BookCreatePage() {
       </Head>
       <AdminMainLayout>
         <PageLayout title="header.addBook">
-        <div className="text-center md:text-2xl"> Add Blog</div>
+          <div className="text-center md:text-2xl"> Add Blog</div>
           <form className=" p-20" onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
@@ -194,6 +215,7 @@ export default function BookCreatePage() {
               <Grid item xs={12} md={12}>
                 English Description
                 <ReactQuill
+                 modules={modules}
                   value={propertyDetails.story}
                   onChange={(value) =>
                     setPropertyDetails((prevState) => ({
@@ -208,6 +230,7 @@ export default function BookCreatePage() {
               <Grid item xs={12} md={12}>
                 French Description
                 <ReactQuill
+                 modules={modules}
                   value={propertyDetails.storyfr}
                   onChange={(value) =>
                     setPropertyDetails((prevState) => ({
