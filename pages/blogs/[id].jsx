@@ -59,7 +59,7 @@ const page = () => {
                 />
               </div>
               <div className="post-title mb-40">
-                <h1>{data?.book?.title} </h1>
+                <h1>{language === 'en' ?  data?.book?.title : data?.book?.titlefr} </h1>
               </div>
               <div className="blog-meta two mb-50">
                 <div className="author-area">

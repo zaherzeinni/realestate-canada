@@ -205,7 +205,7 @@ export default function BookCreatePage() {
                   onChange={(value) => handleInputChange("titlefr", value)}
                 />
               </Grid>
-
+{/* 
               <Grid item xs={12} md={6}>
                 <TextInput
                   name="category"
@@ -214,7 +214,7 @@ export default function BookCreatePage() {
                   value={propertyDetails.category}
                   onChange={(value) => handleInputChange("category", value)}
                 />
-              </Grid>
+              </Grid> */}
 
               <Grid item xs={12} md={12}>
                 English Description
